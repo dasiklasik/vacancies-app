@@ -1,0 +1,16 @@
+.wrapper {
+  display: flex;
+  align-items: center;
+  width: 1200px;
+  margin: 0 auto;
+}
+
+.navigation ul {
+  width: 275px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.navigation li {
+  list-style-type: none;
+}
