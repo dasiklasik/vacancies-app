@@ -2,7 +2,7 @@ import {Container, Flex} from "@mantine/core";
 import {StarIcon} from "../Icons/StarIcon";
 import styles from './Vacancy.module.css'
 import {LocationIcon} from "../Icons/LocationIcon";
-import {VacancyAppType} from "../../bll/vacanciesReducer";
+import {VacancyAppType} from "../../bll/vacancies-reducer";
 
 type VacancyPropsType = {
     vacancyData: VacancyAppType

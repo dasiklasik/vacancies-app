@@ -41,8 +41,8 @@ export type VacancyType = {
     experience: {id: number, title: string}
     maritalstatus: {id: number, title: string}
     children: {id: number, title: string}
-    languages: Array<[{id: number, title: string}, [{id: number, title: string}]]>
-    catalogues: Array<{id: number, key: number, title: string, positions: Array<{id: number, key: number, title: number}>}>
+    languages: [{id: number, title: string}, {id: number, title: string}][]
+    catalogues: Array<{id: number, key: number, title: string, positions: Array<{id: number, key: number, title: string}>}>
     is_archive: boolean
     is_storage: boolean
     contact: string
@@ -52,7 +52,7 @@ export type VacancyType = {
     fax: string
     already_sent_on_vacancy: boolean
     favorite: boolean
-    driving_licence: []
+    driving_licence: string[]
     metro: Array<{id: number, title: string, id_metro_line: number}>
     agreement: boolean
     payment_from: number

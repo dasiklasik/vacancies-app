@@ -2,7 +2,7 @@ import {combineReducers} from "redux";
 import {authReducer} from "./auth-reducer";
 import thunk from "redux-thunk";
 import {configureStore} from "@reduxjs/toolkit";
-import {vacanciesReducer} from "./vacanciesReducer";
+import {vacanciesReducer} from "./vacancies-reducer";
 
 const reducer = combineReducers({
     auth: authReducer,
