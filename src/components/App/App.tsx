@@ -1,14 +1,14 @@
 import React, {useEffect} from 'react';
 import './App.css';
 import {BrowserRouter, Navigate, Route, Routes} from "react-router-dom";
-import {HeaderContainer} from "./HeaderContainer";
+import {HeaderContainer} from "../HeaderContainer/HeaderContainer";
 import {useDispatch, useSelector} from "react-redux";
 import {ThunkDispatch} from "redux-thunk";
-import {StoreType} from "./bll/store";
+import {StoreType} from "../../bll/store";
 import {AnyAction} from "redux";
-import {getAccessToken} from "./bll/auth-reducer";
+import {getAccessToken} from "../../bll/auth-reducer";
 import { Loader } from '@mantine/core';
-import { VacanciesList } from './VacanciesList';
+import { VacanciesList } from '../VacanciesList/VacanciesList';
 
 function App() {
 

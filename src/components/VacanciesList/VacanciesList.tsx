@@ -1,10 +1,10 @@
-import {Vacancy} from "./components/Vacancy/Vacancy";
+import {Vacancy} from "../Vacancy/Vacancy";
 import {useDispatch, useSelector} from "react-redux";
-import {StoreType} from "./bll/store";
+import {StoreType} from "../../bll/store";
 import {useEffect} from "react";
 import {ThunkDispatch} from "redux-thunk";
 import {AnyAction} from "redux";
-import {getVacancies, VacancyAppType} from "./bll/vacancies-reducer";
+import {getVacancies, VacancyAppType} from "../../bll/vacancies-reducer";
 import {Flex} from "@mantine/core";
 
 export const VacanciesList = () => {
