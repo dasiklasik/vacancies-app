@@ -1,0 +1,32 @@
+.wrapper {
+  border: 1px solid #EAEBED;
+  border-radius: 12px;
+}
+
+.content {
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 20px;
+}
+
+.content h3 {
+  color: #5E96FC;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 24px;
+}
+
+.content .conditions {
+  margin: 12px 0;
+}
+
+.content .salary {
+  font-weight: 600;
+}
+
+.content .circle {
+  color: #7B7C88;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 21px;
+}
