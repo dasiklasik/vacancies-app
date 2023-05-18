@@ -2,15 +2,20 @@ import {Container, Flex} from "@mantine/core";
 import {StarIcon} from "../Icons/StarIcon";
 import styles from './Vacancy.module.css'
 import {LocationIcon} from "../Icons/LocationIcon";
+import {VacancyAppType} from "../../bll/vacanciesReducer";
 
-export const Vacancy = () => {
+type VacancyPropsType = {
+    vacancyData: VacancyAppType
+}
+
+export const Vacancy = ({vacancyData, ...props}: VacancyPropsType) => {
     return (
         <Container px='24px' pt='24px' pb='24px' className={styles.wrapper}>
             <Flex justify='space-between'>
                 <div className={styles.content}>
-                    <h3>Менеджер-дизайнер</h3>
+                    <h3>{vacancyData.profession}</h3>
                     <Flex className={styles.conditions} gap='12px' align='center'>
-                        <p className={styles.salary}>з/п от 70000 rub</p>
+                        <p className={styles.salary}>{`з/п от ${vacancyData.payment_from} ${vacancyData.currency}`}</p>
                         <p className={styles.circle}>•</p>
                         <p>Полный рабочий день</p>
                     </Flex>
