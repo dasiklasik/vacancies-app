@@ -21,7 +21,7 @@ export const VacanciesList = () => {
     return (
         <Flex direction="column" gap="16px" align={"stretch"} >
             {vacancies.map(item => {
-                return <Vacancy vacancyData={item}/>
+                return <Vacancy key={item.id} vacancyData={item}/>
             })}
         </Flex>
     )
