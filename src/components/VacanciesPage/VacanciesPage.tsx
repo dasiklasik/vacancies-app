@@ -10,10 +10,10 @@ export const VacanciesPage = () => {
     return (
         <Container size={'1200px'} p={0}>
             <Flex gap="28px">
-                <Container  p={0}>
+                <Container  p={0} w={315}>
                     <FilterBlock/>
                 </Container>
-                <Box>
+                <Box w={773}>
                     <SearchField/>
                     <VacanciesList/>
                 </Box>

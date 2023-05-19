@@ -36,18 +36,18 @@ export const FilterBlock = () => {
     }
 
     return (
-        <Paper withBorder p="20px">
-            <Flex>
+        <Paper withBorder radius={12} p="20px">
+            <Flex justify={"space-between"} mb={32}>
                 <Title order={3}>Фильтры</Title>
                 <Button variant="subtle" color="#acadb9">Сбросить все</Button>
             </Flex>
             <Container p={0}>
-                <Title order={4}>Отрасль</Title>
+                <Title mb={8} order={5}>Отрасль</Title>
                 <Select onChange={changeSelectValue} placeholder="Выберете отрасль" data={selectData}/>
             </Container>
-            <Container p={0}>
-                <Title order={4}>Оклад</Title>
-                <NumberInput value={minValue} onChange={changeMinValue} min={0} placeholder="От"/>
+            <Container p={0} my={20}>
+                <Title order={5}>Оклад</Title>
+                <NumberInput my={8} value={minValue} onChange={changeMinValue} min={0} placeholder="От"/>
                 <NumberInput value={maxValue} onChange={changeMaxValue} min={0} placeholder="До"/>
             </Container>
             <Center><Button onClick={filterVacancies}>Применить</Button></Center>
