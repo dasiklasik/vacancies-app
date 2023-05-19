@@ -1,14 +1,30 @@
 import {Container, Flex} from "@mantine/core";
-import {StarIcon} from "../Icons/StarIcon";
 import styles from './Vacancy.module.css'
 import {LocationIcon} from "../Icons/LocationIcon";
-import {VacancyAppType} from "../../bll/vacancies-reducer";
+import {addToFavorite, deleteFromFavorite, VacancyAppType} from "../../bll/vacancies-reducer";
+import {FavoriteButton} from "../FavoriteButton/FavoriteButton";
+import {useDispatch} from "react-redux";
+import {ThunkDispatch} from "redux-thunk";
+import {StoreType} from "../../bll/store";
+import {AnyAction} from "redux";
 
 type VacancyPropsType = {
     vacancyData: VacancyAppType
 }
 
 export const Vacancy = ({vacancyData, ...props}: VacancyPropsType) => {
+    
+    const dispatch = useDispatch<ThunkDispatch<StoreType, void, AnyAction>>()
+    
+    const addCallback = (id: number) => {
+        dispatch(addToFavorite(id))
+    }
+
+    const deleteCallback = (id: number) => {
+        dispatch(deleteFromFavorite(id))
+    }
+
+
     return (
         <Container px='24px' pt='24px' pb='24px' className={styles.wrapper}>
             <Flex justify='space-between'>
@@ -17,11 +33,16 @@ export const Vacancy = ({vacancyData, ...props}: VacancyPropsType) => {
                     <Flex className={styles.conditions} gap='12px' align='center'>
                         <p className={styles.salary}>{`з/п от ${vacancyData.payment_from} ${vacancyData.currency}`}</p>
                         <p className={styles.circle}>•</p>
-                        <p>Полный рабочий день</p>
+                        <p>{vacancyData.type_of_work.title}</p>
                     </Flex>
-                    <Flex align='center' gap='8px'><LocationIcon/><p>Новый Уренгой</p></Flex>
+                    <Flex align='center' gap='8px'><LocationIcon/><p>{vacancyData.town.title}</p></Flex>
                 </div>
-                <StarIcon filled={false}/>
+                <FavoriteButton 
+                    isFavorite={vacancyData.favoriteInApp} 
+                    id={vacancyData.id} 
+                    addCallback={addCallback}
+                    deleteCallback={deleteCallback}
+                />
             </Flex>
         </Container>
     )

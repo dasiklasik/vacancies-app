@@ -31,6 +31,12 @@ export const getCatalogues = createAppAsyncThunk('vacancies/getCatalogues',
 
 export const getVacancies = createAppAsyncThunk('vacancies/getVacancies',
     async (param = undefined, thunkAPI) => {
+
+        //проверяем наличие favorites в localstorage и создаем, если нет
+        if (!localStorage.getItem('favorites')) {
+            localStorage.setItem('favorites', JSON.stringify([]))
+        }
+
         const requestData = {
             page: thunkAPI.getState().vacancies.pageNumber,
             keyword: thunkAPI.getState().vacancies.keyword,
@@ -41,9 +47,47 @@ export const getVacancies = createAppAsyncThunk('vacancies/getVacancies',
         const token = thunkAPI.getState().auth.accessToken
         const vacanciesAmount = thunkAPI.getState().vacancies.vacanciesAmount
         const response = await API.fetchVacancies(token, requestData, vacanciesAmount)
-        return response.data
+
+        return {
+            //добавляем свойство favoriteInApp в объекты вакансий
+            ...response.data, objects: response.data.objects.map(item => {
+                debugger
+                const favorites = localStorage.getItem('favorites')
+                let favoritesArray: number[] = favorites ? JSON.parse(favorites) : []
+                const isFavorite = favoritesArray.includes(item.id)
+                return {...item, favoriteInApp: isFavorite}
+            })
+        }
     })
 
+export const addToFavorite = createAppAsyncThunk('vacancies/addToFavorite',
+     (id: number) => {
+    debugger
+        let favorites = localStorage.getItem('favorites')
+        if(favorites !== null) {
+            const favoritesArray: number[] = JSON.parse(favorites)
+            favoritesArray.push(id)
+            const favoritesArrayString = JSON.stringify(favoritesArray)
+            localStorage.setItem('favorites', favoritesArrayString)
+        } else {
+            localStorage.setItem('favorites', JSON.stringify([id]))
+        }
+        return id
+    })
+
+export const deleteFromFavorite = createAppAsyncThunk('vacancies/deleteFromFavorite',
+    (id: number) => {
+        let favorites = localStorage.getItem('favorites')
+        if(favorites !== null) {
+            let favoritesArray: number[] = JSON.parse(favorites)
+            favoritesArray = favoritesArray.filter(item => item !== id)
+            const favoritesArrayString = JSON.stringify(favoritesArray)
+            localStorage.setItem('favorites', favoritesArrayString)
+        } else {
+            localStorage.setItem('favorites', JSON.stringify([]))
+        }
+        return id
+    })
 
 //slice
 const slice = createSlice({
@@ -65,11 +109,19 @@ const slice = createSlice({
     extraReducers: builder => {
         builder
             .addCase(getVacancies.fulfilled, (state, action) => {
-            state.vacancies = action.payload.objects.map(item => ({...item, favoriteInApp: false}))
-            state.totalCount = action.payload.total
+                state.vacancies = action.payload.objects
+                state.totalCount = action.payload.total
         })
             .addCase(getCatalogues.fulfilled, (state, action) => {
                 state.catalogues = action.payload
+            })
+            .addCase(addToFavorite.fulfilled, (state, action) => {
+                const index = state.vacancies.findIndex(item => item.id === action.payload)
+                state.vacancies[index].favoriteInApp = true
+            })
+            .addCase(deleteFromFavorite.fulfilled, (state, action) => {
+                const index = state.vacancies.findIndex(item => item.id === action.payload)
+                state.vacancies[index].favoriteInApp = false
             })
     }
 })

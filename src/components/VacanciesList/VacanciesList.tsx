@@ -13,7 +13,6 @@ export const VacanciesList = () => {
     const dispatch = useDispatch<ThunkDispatch<StoreType, void, AnyAction>>()
 
     useEffect(() => {
-        debugger
         dispatch(getVacancies())
     }, [dispatch])
 
