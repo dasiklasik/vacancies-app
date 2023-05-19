@@ -11,11 +11,11 @@ import {useEffect} from "react";
 export const VacanciesList = () => {
 
     const dispatch = useDispatch<ThunkDispatch<StoreType, void, AnyAction>>()
-    const token = useSelector<StoreType, string | null>(state => state.auth.accessToken)
 
     useEffect(() => {
-        dispatch(getVacancies(token))
-    }, [])
+        debugger
+        dispatch(getVacancies())
+    }, [dispatch])
 
     const vacancies = useSelector<StoreType, VacancyAppType[]>(state => state.vacancies.vacancies)
     const totalCount = useSelector<StoreType, number>(state => state.vacancies.totalCount)
@@ -23,7 +23,7 @@ export const VacanciesList = () => {
 
     const changePageNumber = (value: number) => {
         dispatch(setPageNumber(value))
-        dispatch(getVacancies(token))
+        dispatch(getVacancies())
     }
 
     return (

@@ -1,17 +1,14 @@
-import {Button, Container, Input} from "@mantine/core";
+import {Container} from "@mantine/core";
 import {VacanciesList} from "../VacanciesList/VacanciesList";
-import {SearchIcon} from "../Icons/SearchIcon";
-import styles from './VacanciesPage.module.css'
+
+import {SearchField} from "../SearchField/SearchField";
 
 export const VacanciesPage = () => {
 
 
     return (
         <Container>
-            <Container className={styles.search}>
-                <Input icon={<SearchIcon/>} size={"lg"}/>
-                <Button className={styles.search__button}>Поиск</Button>
-            </Container>
+            <SearchField/>
             <VacanciesList/>
         </Container>
     )

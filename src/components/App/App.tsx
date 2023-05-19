@@ -17,7 +17,7 @@ function App() {
 
     useEffect(() => {
         dispatch(getAccessToken())
-    }, [])
+    }, [dispatch])
 
     if (!isAuth) return <Loader/>
 
@@ -25,7 +25,6 @@ function App() {
         <BrowserRouter>
             <div className='app'>
                 <HeaderContainer/>
-                {isAuth && <div>access token получен</div>}
                     <Routes>
                         {/*<Route path='/favorites' element={}/>*/}
                         <Route path='/vacancies' element={<VacanciesPage/>}/>

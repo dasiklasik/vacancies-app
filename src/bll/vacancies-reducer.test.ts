@@ -1,10 +1,20 @@
-import {getVacancies, vacanciesReducer} from "./vacancies-reducer";
+import {getVacancies, setKeyword, setPageNumber, vacanciesReducer} from "./vacancies-reducer";
 
 let initialState = {
     totalCount: 0,
     vacancies: [],
+    keyword: '',
     pageNumber: 1,
 }
+
+beforeEach(() => {
+    initialState = {
+        totalCount: 0,
+        vacancies: [],
+        keyword: '',
+        pageNumber: 1,
+    }
+})
 
 test('vacancies reducer should set list of vacancies', () => {
     const vacanciesArray = [
@@ -74,10 +84,25 @@ test('vacancies reducer should set list of vacancies', () => {
         total: 300,
     }
 
-    const action = getVacancies.fulfilled(response, '', '')
+    const action = getVacancies.fulfilled(response, '')
     const endState = vacanciesReducer(initialState, action)
 
     expect(endState.vacancies.length).toBe(1)
     expect(endState.vacancies[0].id).toBe(20)
     expect(endState.totalCount).toBe(300)
+})
+
+test('vacancies reducer should set total number', () => {
+    const action = setPageNumber(3)
+    const endState = vacanciesReducer(initialState, action)
+
+    expect(endState.pageNumber).toBe(3)
+})
+
+test('vacancies reducer should set keyword', () => {
+    const keyword = 'manager'
+    const action = setKeyword(keyword)
+    const endState = vacanciesReducer(initialState, action)
+
+    expect(endState.keyword).toBe(keyword)
 })

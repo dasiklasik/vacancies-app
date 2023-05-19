@@ -5,6 +5,7 @@ import {StoreType} from "./store";
 const initialState: InitialStateType = {
     totalCount: 0,
     pageNumber: 1,
+    keyword: '',
     vacancies: [],
 }
 
@@ -14,9 +15,11 @@ export const createAppAsyncThunk = createAsyncThunk.withTypes<{
 
 //thunk
 export const getVacancies = createAppAsyncThunk('vacancies/getVacancies',
-    async (token: string | null, thunkAPI) => {
+    async (undefined, thunkAPI) => {
+        const token = thunkAPI.getState().auth.accessToken
         const pageNumber = thunkAPI.getState().vacancies.pageNumber
-        const response = await API.fetchVacancies(token, pageNumber)
+        const keyword = thunkAPI.getState().vacancies.keyword
+        const response = await API.fetchVacancies(token, pageNumber, keyword)
         return response.data
     })
 
@@ -28,6 +31,9 @@ const slice = createSlice({
     reducers: {
         setPageNumber: (state, action: PayloadAction<number>) => {
             state.pageNumber = action.payload
+        },
+        setKeyword: (state, action: PayloadAction<string>) => {
+            state.keyword = action.payload
         }
     },
     extraReducers: builder => {
@@ -41,7 +47,7 @@ const slice = createSlice({
 export const vacanciesReducer = slice.reducer
 
 //actions
-export const {setPageNumber} = slice.actions
+export const {setPageNumber, setKeyword} = slice.actions
 
 //types
 export type VacancyAppType = VacancyType & {
@@ -51,5 +57,6 @@ export type VacancyAppType = VacancyType & {
 type InitialStateType = {
     totalCount: number
     pageNumber: number
+    keyword: string
     vacancies: Array<VacancyAppType>
 }
