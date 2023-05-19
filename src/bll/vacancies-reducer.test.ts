@@ -1,6 +1,10 @@
-import {getVacancies, vacanciesReducer, VacancyAppType} from "./vacancies-reducer";
+import {getVacancies, vacanciesReducer} from "./vacancies-reducer";
 
-let initialState: Array<VacancyAppType> = []
+let initialState = {
+    totalCount: 0,
+    vacancies: [],
+    pageNumber: 1,
+}
 
 test('vacancies reducer should set list of vacancies', () => {
     const vacanciesArray = [
@@ -73,6 +77,7 @@ test('vacancies reducer should set list of vacancies', () => {
     const action = getVacancies.fulfilled(response, '', '')
     const endState = vacanciesReducer(initialState, action)
 
-    expect(endState.length).toBe(1)
-    expect(endState[0].id).toBe(20)
+    expect(endState.vacancies.length).toBe(1)
+    expect(endState.vacancies[0].id).toBe(20)
+    expect(endState.totalCount).toBe(300)
 })

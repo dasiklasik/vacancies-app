@@ -1,0 +1,10 @@
+.search {
+  position: relative;
+  margin-bottom: 24px;
+}
+
+.search__button {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+}

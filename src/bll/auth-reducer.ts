@@ -19,7 +19,6 @@ const slice = createSlice({
     extraReducers: builder => {
         builder
             .addCase(getAccessToken.fulfilled, (state, action) => {
-                debugger
                 state.accessToken = action.payload.access_token
                 state.isAuth = true
             })
