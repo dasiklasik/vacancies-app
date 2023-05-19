@@ -1,10 +1,23 @@
-import {getVacancies, setKeyword, setPageNumber, vacanciesReducer} from "./vacancies-reducer";
+import {
+    getVacancies,
+    InitialStateType,
+    setFilterValues,
+    setKeyword,
+    setPageNumber,
+    vacanciesReducer
+} from "./vacancies-reducer";
 
-let initialState = {
+let initialState: InitialStateType = {
     totalCount: 0,
     vacancies: [],
     keyword: '',
     pageNumber: 1,
+    catalogues: [],
+    cataloguesItem: null as null | number,
+    salary: {
+        min: 0,
+        max: 0,
+    },
 }
 
 beforeEach(() => {
@@ -13,6 +26,12 @@ beforeEach(() => {
         vacancies: [],
         keyword: '',
         pageNumber: 1,
+        catalogues: [],
+        cataloguesItem: null,
+        salary: {
+            min: 0,
+            max: 0,
+        },
     }
 })
 
@@ -105,4 +124,17 @@ test('vacancies reducer should set keyword', () => {
     const endState = vacanciesReducer(initialState, action)
 
     expect(endState.keyword).toBe(keyword)
+})
+
+test('vacancies reducer should set filter values', () => {
+    const selectValue = 33
+    const min = 20
+    const max = 40
+
+    const action = setFilterValues({min, max, catalogues: selectValue})
+    const endState = vacanciesReducer(initialState, action)
+
+    expect(endState.salary.min).toBe(20)
+    expect(endState.salary.max).toBe(40)
+    expect(endState.cataloguesItem).toBe(33)
 })

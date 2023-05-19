@@ -9,6 +9,7 @@ import {AnyAction} from "redux";
 import {getAccessToken} from "../../bll/auth-reducer";
 import { Loader } from '@mantine/core';
 import {VacanciesPage} from "../VacanciesPage/VacanciesPage";
+import {getCatalogues} from "../../bll/vacancies-reducer";
 
 function App() {
 
@@ -17,6 +18,7 @@ function App() {
 
     useEffect(() => {
         dispatch(getAccessToken())
+        dispatch(getCatalogues())
     }, [dispatch])
 
     if (!isAuth) return <Loader/>

@@ -16,10 +16,33 @@ export const API = {
     getAccessToken: () => {
         return instance.get('oauth2/password/?login=sergei.stralenia@gmail.com&password=paralect123&client_id=2356&client_secret=v3.r.137440105.ffdbab114f92b821eac4e21f485343924a773131.06c3bdbb8446aeb91c35b80c42ff69eb9c457948&hr=0')
     },
-    fetchVacancies: (token: string | null, pageNumber: number = 1, keyword: string = '') => {
+    fetchVacancies: (token: string | null, requestData: FetchVacanciesRequestDataType) => {
         headers.Authorization = `Bearer ${token}`
-        return instance.get<ResponseType>(`vacancies/?page=${pageNumber}&keyword=${keyword}`, {headers})
+        let requestString = 'vacancies/?'
+        Object.entries(requestData).forEach((item, index) => {
+            if(!item[1]) return
+            if (index === 0) {
+                requestString += `${item[0]}=${item[1]}`
+            } else {
+                requestString += `&${item[0]}=${item[1]}`
+            }
+        })
+        return instance.get<ResponseType>(requestString)
+        // return instance.get<ResponseType>(`vacancies/?page=${requestData.pageNumber}&keyword=${requestData.keyword}
+        // &payment_from=${requestData.salary.min}&payment_to=${requestData.salary.max}&catalogues=${requestData.catalogueValue}`)
+    },
+    getCatalogues: (token: string | null) => {
+        headers.Authorization = `Bearer ${token}`
+        return instance.get<CatalogueType[]>('catalogues')
     }
+}
+
+type FetchVacanciesRequestDataType = {
+    page: number
+    keyword: string | null
+    payment_from: number | undefined
+    payment_to: number | undefined
+    catalogues: number | null
 }
 
 export type VacancyType = {
@@ -70,6 +93,15 @@ export type VacancyType = {
     resumes_all: number
     resumes_new: number
     canEdit: boolean
+}
+
+export type CatalogueType = {
+    title_rus: string
+    url_rus: string
+    title: string
+    title_trimmed: string
+    key: number
+    positions: Array<{title_rus: string, url_rus: string, title: string, id_parent: number, key: number}>
 }
 
 type ResponseType = {
