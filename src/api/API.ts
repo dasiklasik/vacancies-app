@@ -16,20 +16,15 @@ export const API = {
     getAccessToken: () => {
         return instance.get('oauth2/password/?login=sergei.stralenia@gmail.com&password=paralect123&client_id=2356&client_secret=v3.r.137440105.ffdbab114f92b821eac4e21f485343924a773131.06c3bdbb8446aeb91c35b80c42ff69eb9c457948&hr=0')
     },
-    fetchVacancies: (token: string | null, requestData: FetchVacanciesRequestDataType) => {
+    fetchVacancies: (token: string | null, requestData: FetchVacanciesRequestDataType, vacanciesAmount: number) => {
         headers.Authorization = `Bearer ${token}`
-        let requestString = 'vacancies/?'
+        let requestString = `vacancies/?count=${vacanciesAmount}`
         Object.entries(requestData).forEach((item, index) => {
-            if(!item[1]) return
-            if (index === 0) {
-                requestString += `${item[0]}=${item[1]}`
-            } else {
+            if(item[1]) {
                 requestString += `&${item[0]}=${item[1]}`
             }
         })
         return instance.get<ResponseType>(requestString)
-        // return instance.get<ResponseType>(`vacancies/?page=${requestData.pageNumber}&keyword=${requestData.keyword}
-        // &payment_from=${requestData.salary.min}&payment_to=${requestData.salary.max}&catalogues=${requestData.catalogueValue}`)
     },
     getCatalogues: (token: string | null) => {
         headers.Authorization = `Bearer ${token}`

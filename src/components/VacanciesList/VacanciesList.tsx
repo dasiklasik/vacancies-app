@@ -20,21 +20,28 @@ export const VacanciesList = () => {
     const vacancies = useSelector<StoreType, VacancyAppType[]>(state => state.vacancies.vacancies)
     const totalCount = useSelector<StoreType, number>(state => state.vacancies.totalCount)
     const pageNumber = useSelector<StoreType, number>(state => state.vacancies.pageNumber)
+    const vacanciesAmount = useSelector<StoreType, number>(state => state.vacancies.vacanciesAmount)
 
     const changePageNumber = (value: number) => {
         dispatch(setPageNumber(value))
         dispatch(getVacancies())
     }
 
+    let pageCount = totalCount / vacanciesAmount;
+
+    if (totalCount > 500) {
+        pageCount = 125
+    }
+
     return (
         <Container p={0}>
-            <Flex direction="column" gap="16px" align={"stretch"} >
+            <Flex direction="column" gap="16px" align={"stretch"}>
                 {vacancies.map(item => {
                     return <Vacancy key={item.id} vacancyData={item}/>
                 })}
             </Flex>
-            <Center>
-                <Pagination value={pageNumber} onChange={changePageNumber} total={totalCount}/>
+            <Center mt="40px">
+                <Pagination value={pageNumber} onChange={changePageNumber} total={pageCount}/>
             </Center>
         </Container>
     )

@@ -6,6 +6,7 @@ const initialState: InitialStateType = {
     totalCount: 0,
     pageNumber: 1,
     keyword: null,
+    vacanciesAmount: 4,
     salary: {
         min: 0,
         max: 0,
@@ -38,7 +39,8 @@ export const getVacancies = createAppAsyncThunk('vacancies/getVacancies',
             catalogues: thunkAPI.getState().vacancies.cataloguesItem,
         }
         const token = thunkAPI.getState().auth.accessToken
-        const response = await API.fetchVacancies(token, requestData)
+        const vacanciesAmount = thunkAPI.getState().vacancies.vacanciesAmount
+        const response = await API.fetchVacancies(token, requestData, vacanciesAmount)
         return response.data
     })
 
@@ -87,6 +89,7 @@ export type InitialStateType = {
     pageNumber: number
     keyword: string | null
     cataloguesItem: null | number
+    vacanciesAmount: number
     salary: {
         min: number | undefined,
         max: number | undefined,

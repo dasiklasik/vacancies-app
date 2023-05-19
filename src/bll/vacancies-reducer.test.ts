@@ -18,6 +18,7 @@ let initialState: InitialStateType = {
         min: 0,
         max: 0,
     },
+    vacanciesAmount: 0,
 }
 
 beforeEach(() => {
@@ -32,6 +33,7 @@ beforeEach(() => {
             min: 0,
             max: 0,
         },
+        vacanciesAmount: 0,
     }
 })
 
