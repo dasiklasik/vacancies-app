@@ -20,7 +20,7 @@ export const FilterBlock = () => {
 
     const [minValue, setMinValue] = useState<number | ''>('')
     const [maxValue, setMaxValue] = useState<number | ''>('')
-    let selectValue = 0;
+    const [selectValue, setSelectValue] = useState('')
 
 
     const catalogues = useSelector<StoreType, CatalogueType[]>(state => state.vacancies.catalogues)
@@ -36,19 +36,19 @@ export const FilterBlock = () => {
     }
 
     const changeSelectValue = (value: string) => {
-        selectValue = +value
+        setSelectValue(value)
     }
 
     const filterVacancies = () => {
         const min = typeof minValue !== 'string' ? minValue : undefined
         const max = typeof maxValue !== 'string' ? maxValue : undefined
-        dispatch(setFilterValues({min, max, catalogues: selectValue}))
+        dispatch(setFilterValues({min, max, catalogues: +selectValue}))
         dispatch(getVacancies())
     }
 
     const resetValues = () => {
         dispatch(setFilterValues({min: undefined, max: undefined, catalogues: 0}))
-        selectValue = 0
+        setSelectValue('')
         setMinValue('')
         setMaxValue('')
     }
@@ -61,7 +61,7 @@ export const FilterBlock = () => {
             </Flex>
             <Container p={0}>
                 <Title mb={8} order={5}>Отрасль</Title>
-                <Select data-elem="industry-select" onChange={changeSelectValue} placeholder="Выберете отрасль" data={selectData}/>
+                <Select value={selectValue} data-elem="industry-select" onChange={changeSelectValue} placeholder="Выберете отрасль" data={selectData}/>
             </Container>
             <Container p={0} my={20}>
                 <Title order={5}>Оклад</Title>
