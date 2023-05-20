@@ -1,4 +1,4 @@
-import {Component, useEffect} from "react";
+import {useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {ThunkDispatch} from "redux-thunk";
 import {StoreType} from "../../bll/store";
@@ -16,7 +16,7 @@ export const VacancyWithFetchingData = ({id, Component, ...props}: VacancyWithFe
 
     useEffect(() => {
         dispatch(getOneVacancy(id))
-    }, [])
+    }, [dispatch, id])
 
     const vacancyData = useSelector<StoreType, VacancyAppType>(state => state.vacancies.vacancies
         .filter(item => item.id === id)[0])

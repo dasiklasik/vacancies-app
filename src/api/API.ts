@@ -19,7 +19,7 @@ export const API = {
     fetchVacancies: (token: string | null, requestData: FetchVacanciesRequestDataType, vacanciesAmount: number) => {
         headers.Authorization = `Bearer ${token}`
         let requestString = `vacancies/?count=${vacanciesAmount}`
-        Object.entries(requestData).forEach((item, index) => {
+        Object.entries(requestData).forEach((item) => {
             if(item[1]) {
                 requestString += `&${item[0]}=${item[1]}`
             }

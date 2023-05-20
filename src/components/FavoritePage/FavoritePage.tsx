@@ -24,7 +24,7 @@ export const FavoritePage = () => {
         return () => {
             dispatch(clearState())
         }
-    }, [])
+    }, [dispatch])
 
     const onPaginationChangeCallback = useCallback(() => {
         dispatch(getVacanciesIdFromLS())
