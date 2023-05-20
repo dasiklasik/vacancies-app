@@ -22,6 +22,7 @@ let initialState: InitialStateType = {
     },
     vacanciesAmount: 0,
     vacanciesEntityStatus: 'idle',
+    no_agreement: 1
 }
 
 beforeEach(() => {
@@ -63,6 +64,7 @@ beforeEach(() => {
         },
         vacanciesAmount: 0,
         vacanciesEntityStatus: 'idle',
+        no_agreement: 1
     }
 })
 

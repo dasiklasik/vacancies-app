@@ -2,8 +2,6 @@ import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {API, CatalogueType} from "../api/API";
 import { setIsAppInitialized } from "./app-reducer";
 import {StoreType} from "./store";
-import {Simulate} from "react-dom/test-utils";
-import drag = Simulate.drag;
 
 const initialState: InitialStateType = {
     totalCount: 0,
@@ -18,6 +16,7 @@ const initialState: InitialStateType = {
     vacancies: [],
     catalogues: [],
     vacanciesEntityStatus: 'idle',
+    no_agreement: null
 }
 
 export const createAppAsyncThunk = createAsyncThunk.withTypes<{
@@ -50,6 +49,7 @@ export const getVacancies = createAppAsyncThunk('vacancies/getVacancies',
             payment_from: thunkAPI.getState().vacancies.salary.min,
             payment_to: thunkAPI.getState().vacancies.salary.max,
             catalogues: thunkAPI.getState().vacancies.cataloguesItem,
+            no_agreement: thunkAPI.getState().vacancies.no_agreement
         }
         const token = thunkAPI.getState().auth.accessToken
         const vacanciesAmount = thunkAPI.getState().vacancies.vacanciesAmount
@@ -143,6 +143,9 @@ const slice = createSlice({
             state.cataloguesItem = action.payload.catalogues
             state.salary.max = action.payload.max
             state.salary.min = action.payload.min
+            if (action.payload.max || action.payload.min) {
+                state.no_agreement = 1
+            }
         },
         clearState: (state) => {
             state.vacancies = []
@@ -210,6 +213,7 @@ export type InitialStateType = {
     keyword: string | null
     cataloguesItem: null | number
     vacanciesAmount: number
+    no_agreement: 1 | null
     salary: {
         min: number | undefined,
         max: number | undefined,

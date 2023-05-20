@@ -2,18 +2,27 @@ import {Button, Center, Container, Flex, NumberInput, Paper, Select, Title} from
 import {useDispatch, useSelector} from "react-redux";
 import {StoreType} from "../../bll/store";
 import {CatalogueType} from "../../api/API";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {ThunkDispatch} from "redux-thunk";
 import {AnyAction} from "redux";
 import {getVacancies, setFilterValues} from "../../bll/vacancies-reducer";
 
 export const FilterBlock = () => {
 
-    const [minValue, setMinValue] = useState<number | undefined>(undefined)
-    const [maxValue, setMaxValue] = useState<number | undefined>(undefined)
+    const dispatch = useDispatch<ThunkDispatch<StoreType, void, AnyAction>>()
+
+    useEffect(() => {
+        return () => {
+            //зачищаем фильтр в vacancies-reducer при размонтировании компоненты
+            dispatch(setFilterValues({min: undefined, max: undefined, catalogues: 0}))
+        }
+    }, [dispatch])
+
+    const [minValue, setMinValue] = useState<number | ''>('')
+    const [maxValue, setMaxValue] = useState<number | ''>('')
     let selectValue = 0;
 
-    const dispatch = useDispatch<ThunkDispatch<StoreType, void, AnyAction>>()
+
     const catalogues = useSelector<StoreType, CatalogueType[]>(state => state.vacancies.catalogues)
 
     const selectData = catalogues.map(item => ({value: item.key.toString(), label: item.title_trimmed}))
@@ -31,15 +40,24 @@ export const FilterBlock = () => {
     }
 
     const filterVacancies = () => {
-        dispatch(setFilterValues({min: minValue, max: maxValue, catalogues: selectValue}))
+        const min = typeof minValue !== 'string' ? minValue : undefined
+        const max = typeof maxValue !== 'string' ? maxValue : undefined
+        dispatch(setFilterValues({min, max, catalogues: selectValue}))
         dispatch(getVacancies())
+    }
+
+    const resetValues = () => {
+        dispatch(setFilterValues({min: undefined, max: undefined, catalogues: 0}))
+        selectValue = 0
+        setMinValue('')
+        setMaxValue('')
     }
 
     return (
         <Paper withBorder radius={12} p="20px">
             <Flex justify={"space-between"} mb={32}>
                 <Title order={3}>Фильтры</Title>
-                <Button variant="subtle" color="#acadb9">Сбросить все</Button>
+                <Button onClick={resetValues} variant="subtle" color="#acadb9">Сбросить все</Button>
             </Flex>
             <Container p={0}>
                 <Title mb={8} order={5}>Отрасль</Title>
