@@ -18,13 +18,15 @@ export const VacanciesList = (props: VacanciesListPropsType) => {
         changePageNumber
     } = props
 
+
+
     return (
         <Container p={0}>
-            <Flex direction="column" gap="16px" align={"stretch"}>
-                {vacancies.map(item => {
-                    return <Vacancy key={item.id} vacancyData={item}/>
-                })}
-            </Flex>
+            {/*<Flex direction="column" gap="16px" align={"stretch"}>*/}
+            {/*    {vacancies.map(item => {*/}
+            {/*        return <Vacancy key={item.id} vacancyData={item}/>*/}
+            {/*    })}*/}
+            {/*</Flex>*/}
             <Center mt="40px">
                 <Pagination value={pageNumber} onChange={changePageNumber} total={pageCount}/>
             </Center>

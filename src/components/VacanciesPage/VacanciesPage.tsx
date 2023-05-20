@@ -6,7 +6,14 @@ import {ThunkDispatch} from "redux-thunk";
 import {StoreType} from "../../bll/store";
 import {AnyAction} from "redux";
 import {useCallback, useEffect} from "react";
-import {clearState, getVacancies, StatusType, VacancyAppType} from "../../bll/vacancies-reducer";
+import {
+    addToFavorite,
+    clearState, deleteFromFavorite,
+    getVacancies,
+    getVacanciesIdFromLS,
+    StatusType,
+    VacancyAppType
+} from "../../bll/vacancies-reducer";
 import {VacancyPagination} from "../VacancyPagination/VacancyPagination";
 import {Vacancy} from "../Vacancy/Vacancy";
 import { DotsLoader } from "../Loaders/DotsLoader";
@@ -32,6 +39,14 @@ export const VacanciesPage = () => {
         dispatch(getVacancies())
     }, [dispatch])
 
+    const addCallback = (id: number) => {
+        dispatch(addToFavorite(id))
+    }
+
+    const deleteCallback = (id: number) => {
+        dispatch(deleteFromFavorite(id))
+    }
+
 
     return (
         <Container size={'1200px'} p={0}>
@@ -46,7 +61,7 @@ export const VacanciesPage = () => {
                          :<Box>
                                 <Flex direction="column" gap="16px" align={"stretch"}>
                                     {vacancies.map(item => {
-                                        return <Vacancy key={item.id} vacancyData={item}/>
+                                        return <Vacancy deleteCallback={deleteCallback} addCallback={addCallback} key={item.id} vacancyData={item}/>
                                     })}
                                 </Flex>
                                 <Center mt="40px">

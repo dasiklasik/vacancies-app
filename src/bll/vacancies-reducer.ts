@@ -67,7 +67,6 @@ export const getVacancies = createAppAsyncThunk('vacancies/getVacancies',
 
 export const getVacanciesIdFromLS = createAppAsyncThunk('vacancies/getVacanciesIdFromLS',
     (params = undefined, thunkAPI) => {
-        thunkAPI.dispatch(clearVacancies())
 
         const pageNumber = thunkAPI.getState().vacancies.pageNumber
         let startAt = pageNumber - 1
@@ -112,6 +111,7 @@ export const addToFavorite = createAppAsyncThunk('vacancies/addToFavorite',
 
 export const deleteFromFavorite = createAppAsyncThunk('vacancies/deleteFromFavorite',
     (id: number) => {
+    debugger
         let favorites = localStorage.getItem('favorites')
         if(favorites !== null) {
             let favoritesArray: number[] = JSON.parse(favorites)
@@ -169,10 +169,14 @@ const slice = createSlice({
                 state.vacancies[index].favoriteInApp = true
             })
             .addCase(deleteFromFavorite.fulfilled, (state, action) => {
+                debugger
                 const index = state.vacancies.findIndex(item => item.id === action.payload)
-                state.vacancies[index].favoriteInApp = false
+                if (index !== -1) {
+                    state.vacancies[index].favoriteInApp = false
+                }
             })
             .addCase(getVacanciesIdFromLS.fulfilled, (state, action) => {
+                debugger
                 state.vacanciesIdFromLS = action.payload.vacanciesIdFromLS
                 state.totalCount = action.payload.totalCount
             })

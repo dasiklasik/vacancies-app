@@ -4,18 +4,27 @@ import {ThunkDispatch} from "redux-thunk";
 import {StoreType} from "../../bll/store";
 import {AnyAction} from "redux";
 import {getOneVacancy, VacancyAppType} from "../../bll/vacancies-reducer";
+import {VacancyPropsType} from "../Vacancy/Vacancy";
 
 type VacancyWithFetchingDataPropsType = {
     id: number
-    Component: (props: {vacancyData: VacancyAppType}) => JSX.Element
+    deleteCallback: (id: number) => void
+    addCallback: (id: number) => void
+    Component: (props: VacancyPropsType) => JSX.Element
 }
 
-export const VacancyWithFetchingData = ({id, Component, ...props}: VacancyWithFetchingDataPropsType) => {
+export const VacancyWithFetchingData = (props: VacancyWithFetchingDataPropsType) => {
+
+    const {
+        id,
+        Component,
+        addCallback,
+        deleteCallback,
+    } = props
 
     const dispatch = useDispatch<ThunkDispatch<StoreType, void, AnyAction>>()
 
     useEffect(() => {
-        debugger
         dispatch(getOneVacancy(id))
     }, [dispatch, id])
 
@@ -24,6 +33,6 @@ export const VacancyWithFetchingData = ({id, Component, ...props}: VacancyWithFe
 
 
     return (
-        <Component vacancyData={vacancyData}/>
+        <Component addCallback={addCallback} deleteCallback={deleteCallback} vacancyData={vacancyData}/>
     )
 }

@@ -1,4 +1,4 @@
-import {Container, Flex, Loader} from "@mantine/core";
+import {Container, Flex} from "@mantine/core";
 import styles from './Vacancy.module.css'
 import {LocationIcon} from "../Icons/LocationIcon";
 import {addToFavorite, deleteFromFavorite, VacancyAppType} from "../../bll/vacancies-reducer";
@@ -9,20 +9,21 @@ import {StoreType} from "../../bll/store";
 import {AnyAction} from "redux";
 import {DotsLoader} from "../Loaders/DotsLoader";
 
+export type VacancyPropsType = {
+    vacancyData: VacancyAppType
+    deleteCallback: (id: number) => void
+    addCallback: (id: number) => void
+}
 
-export const Vacancy = (props: {vacancyData: VacancyAppType}) => {
+export const Vacancy = (props: VacancyPropsType) => {
 
-    const {vacancyData} = props
+    const {
+        vacancyData,
+        deleteCallback,
+        addCallback,
+    } = props
     
     const dispatch = useDispatch<ThunkDispatch<StoreType, void, AnyAction>>()
-    
-    const addCallback = (id: number) => {
-        dispatch(addToFavorite(id))
-    }
-
-    const deleteCallback = (id: number) => {
-        dispatch(deleteFromFavorite(id))
-    }
 
 
     return (
