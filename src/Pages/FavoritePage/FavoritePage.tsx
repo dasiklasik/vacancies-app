@@ -7,8 +7,8 @@ import {AnyAction} from "redux";
 import {
     getVacanciesFromLS, VacancyAppType,
 } from "../../bll/vacancies-reducer";
-import {Vacancy} from "../Vacancy/Vacancy";
-import {VacancyPagination} from "../VacancyPagination/VacancyPagination";
+import {Vacancy} from "../../components/Vacancy/Vacancy";
+import {VacancyPagination} from "../../components/VacancyPagination/VacancyPagination";
 import {EmptyFavoritePage} from "./EmptyFavoritePage";
 
 export const FavoritePage = () => {

@@ -1,19 +1,19 @@
 import {Box, Center, Container, Flex} from "@mantine/core";
-import {SearchField} from "../SearchField/SearchField";
-import {FilterBlock} from "../FilterBlock/FilterBlock";
+import {SearchField} from "../../common/SearchField/SearchField";
+import {FilterBlock} from "../../components/FilterBlock/FilterBlock";
 import {useDispatch, useSelector} from "react-redux";
 import {ThunkDispatch} from "redux-thunk";
 import {StoreType} from "../../bll/store";
 import {AnyAction} from "redux";
 import {useCallback, useEffect} from "react";
 import {
-    getVacancies,
+    getVacancies, setKeyword,
     StatusType,
     VacancyAppType
 } from "../../bll/vacancies-reducer";
-import {VacancyPagination} from "../VacancyPagination/VacancyPagination";
-import {Vacancy} from "../Vacancy/Vacancy";
-import { DotsLoader } from "../Loaders/DotsLoader";
+import {VacancyPagination} from "../../components/VacancyPagination/VacancyPagination";
+import {Vacancy} from "../../components/Vacancy/Vacancy";
+import { DotsLoader } from "../../common/Loaders/DotsLoader";
 import {EmptyVacanciesPage} from "./EmptyVacanciesPage";
 import styles from './VacanciesPage.module.css'
 
@@ -32,6 +32,11 @@ export const VacanciesPage = () => {
         dispatch(getVacancies())
     }, [dispatch])
 
+    const searchKeyword = (value: string) => {
+        dispatch(setKeyword(value))
+        dispatch(getVacancies())
+    }
+
     return (
         <Container p={"0px"} className={styles.wrapper}>
             <Flex gap="28px" className={styles.flexWrapper}>
@@ -39,7 +44,7 @@ export const VacanciesPage = () => {
                     <FilterBlock/>
                 </Container>
                 <Box w={773} className={styles.secondColumn}>
-                    <SearchField/>
+                    <SearchField callback={searchKeyword}/>
                     {status === 'loading' ? <DotsLoader/>
                         : vacancies.length === 0 ? <EmptyVacanciesPage/>
                             :<Box>

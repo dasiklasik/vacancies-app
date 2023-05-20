@@ -1,5 +1,5 @@
 import {Container, Paper} from "@mantine/core";
-import {Vacancy} from "../Vacancy/Vacancy";
+import {Vacancy} from "../../components/Vacancy/Vacancy";
 import {useParams} from "react-router-dom";
 import {useSelector} from "react-redux";
 import {StoreType} from "../../bll/store";

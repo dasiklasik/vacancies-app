@@ -2,9 +2,9 @@ import {Flex, Header, Title} from "@mantine/core";
 import React from "react";
 import {NavLink} from "react-router-dom";
 import styles from './HeaderContainer.module.css';
-import {LogoIcon} from "../Icons/LogoIcon";
 import {useElementSize} from "@mantine/hooks";
 import {BurgerMenu} from "../BurgerMenu/BurgerMenu";
+import {LogoIcon} from "../../assets/icons/LogoIcon";
 
 
 export const HeaderContainer = () => {

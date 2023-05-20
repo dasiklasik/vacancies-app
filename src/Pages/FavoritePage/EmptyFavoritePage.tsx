@@ -1,6 +1,6 @@
 import {Button, Center, Flex, Title} from "@mantine/core";
 import React from "react";
-import image from '../../assets/searching-image.png'
+import image from '../../assets/images/searching-image.png'
 import {NavLink} from "react-router-dom";
 
 export const EmptyFavoritePage = () => {

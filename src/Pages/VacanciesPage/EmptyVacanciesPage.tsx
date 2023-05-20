@@ -1,5 +1,5 @@
 import {Button, Center, Flex, Title} from "@mantine/core";
-import image from "../../assets/searching-image.png";
+import image from "../../assets/images/searching-image.png";
 import React from "react";
 
 export const EmptyVacanciesPage = () => {

@@ -1,15 +1,14 @@
 import {Flex, Paper, Title} from "@mantine/core";
 import styles from './Vacancy.module.css'
-import {LocationIcon} from "../Icons/LocationIcon";
 import {addToFavorite, deleteFromFavorite, VacancyAppType} from "../../bll/vacancies-reducer";
-import {FavoriteButton} from "../FavoriteButton/FavoriteButton";
-import {DotsLoader} from "../Loaders/DotsLoader";
+import {FavoriteButton} from "../../common/FavoriteButton/FavoriteButton";
+import {DotsLoader} from "../../common/Loaders/DotsLoader";
 import {useNavigate} from "react-router-dom";
 import {useDispatch} from "react-redux";
 import {ThunkDispatch} from "redux-thunk";
 import {StoreType} from "../../bll/store";
 import {AnyAction} from "redux";
-import {useElementSize} from "@mantine/hooks";
+import { LocationIcon } from "../../assets/icons/LocationIcon";
 
 export type VacancyPropsType = {
     vacancyData: VacancyAppType

@@ -7,13 +7,13 @@ import {ThunkDispatch} from "redux-thunk";
 import {StoreType} from "../../bll/store";
 import {AnyAction} from "redux";
 import {getAccessToken} from "../../bll/auth-reducer";
-import {VacanciesPage} from "../VacanciesPage/VacanciesPage";
+import {VacanciesPage} from "../../Pages/VacanciesPage/VacanciesPage";
 import {getCatalogues} from "../../bll/vacancies-reducer";
-import {FavoritePage} from "../FavoritePage/FavoritePage";
-import {CircleLoader} from "../Loaders/CircleLoader";
-import {Page404} from "../Page404/Page404";
+import {FavoritePage} from "../../Pages/FavoritePage/FavoritePage";
+import {CircleLoader} from "../../common/Loaders/CircleLoader";
+import {Page404} from "../../Pages/Page404/Page404";
 import {Box, Container} from '@mantine/core';
-import {VacancyPage} from "../VacancyPage/VacancyPage";
+import {VacancyPage} from "../../Pages/VacancyPage/VacancyPage";
 
 function App() {
 

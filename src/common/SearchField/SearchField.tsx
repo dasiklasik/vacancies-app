@@ -1,25 +1,21 @@
 import {Button, Input, Paper} from "@mantine/core";
-import {SearchIcon} from "../Icons/SearchIcon";
 import styles from './SearchField.module.css'
 import {ChangeEvent, useState} from "react";
-import {useDispatch} from "react-redux";
-import {ThunkDispatch} from "redux-thunk";
-import {StoreType} from "../../bll/store";
-import {AnyAction} from "redux";
-import {getVacancies, setKeyword} from "../../bll/vacancies-reducer";
+import { SearchIcon } from "../../assets/icons/SearchIcon";
 
-export const SearchField = () => {
+type SearchFieldPropsType = {
+    callback: (value: string) => void
+}
+
+export const SearchField = (props: SearchFieldPropsType) => {
     const [inputValue, setInputValue] = useState('')
-
-    const dispatch = useDispatch<ThunkDispatch<StoreType, void, AnyAction>>()
 
     const changeInputValue = (e: ChangeEvent<HTMLInputElement>) => {
         setInputValue(e.target.value)
     }
 
     const searchKeyword = () => {
-        dispatch(setKeyword(inputValue))
-        dispatch(getVacancies())
+        props.callback(inputValue)
     }
 
     return (
