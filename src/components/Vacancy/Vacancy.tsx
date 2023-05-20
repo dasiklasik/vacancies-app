@@ -1,4 +1,4 @@
-import {Flex, Paper} from "@mantine/core";
+import {Flex, Paper, Title} from "@mantine/core";
 import styles from './Vacancy.module.css'
 import {LocationIcon} from "../Icons/LocationIcon";
 import {addToFavorite, deleteFromFavorite, VacancyAppType} from "../../bll/vacancies-reducer";
@@ -9,6 +9,7 @@ import {useDispatch} from "react-redux";
 import {ThunkDispatch} from "redux-thunk";
 import {StoreType} from "../../bll/store";
 import {AnyAction} from "redux";
+import {useElementSize} from "@mantine/hooks";
 
 export type VacancyPropsType = {
     vacancyData: VacancyAppType
@@ -42,7 +43,7 @@ export const Vacancy = (props: VacancyPropsType) => {
             {
                 vacancyData ? <Flex justify='space-between'>
                     <div className={styles.content}>
-                        <h3>{vacancyData.profession}</h3>
+                        <Title order={3}>{vacancyData.profession}</Title>
                         <Flex className={styles.conditions} gap='12px' align='center'>
                             <p className={styles.salary}>{`з/п от ${vacancyData.payment_from} ${vacancyData.currency}`}</p>
                             <p className={styles.circle}>•</p>

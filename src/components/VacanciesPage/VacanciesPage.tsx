@@ -7,7 +7,6 @@ import {StoreType} from "../../bll/store";
 import {AnyAction} from "redux";
 import {useCallback, useEffect} from "react";
 import {
-    clearState,
     getVacancies,
     StatusType,
     VacancyAppType
@@ -16,6 +15,7 @@ import {VacancyPagination} from "../VacancyPagination/VacancyPagination";
 import {Vacancy} from "../Vacancy/Vacancy";
 import { DotsLoader } from "../Loaders/DotsLoader";
 import {EmptyVacanciesPage} from "./EmptyVacanciesPage";
+import styles from './VacanciesPage.module.css'
 
 export const VacanciesPage = () => {
 
@@ -32,18 +32,17 @@ export const VacanciesPage = () => {
         dispatch(getVacancies())
     }, [dispatch])
 
-
     return (
-        <Container size={'1200px'} p={0}>
-            <Flex gap="28px">
-                <Container  p={0} w={315}>
+        <Container p={"0px"} className={styles.wrapper}>
+            <Flex gap="28px" className={styles.flexWrapper}>
+                <Container className={styles.filter}  p={0} w={315}>
                     <FilterBlock/>
                 </Container>
-                <Box w={773}>
+                <Box w={773} className={styles.secondColumn}>
                     <SearchField/>
                     {status === 'loading' ? <DotsLoader/>
                         : vacancies.length === 0 ? <EmptyVacanciesPage/>
-                         :<Box>
+                            :<Box>
                                 <Flex direction="column" gap="16px" align={"stretch"}>
                                     {vacancies.map(item => {
                                         return <Vacancy key={item.id} vacancyData={item}/>

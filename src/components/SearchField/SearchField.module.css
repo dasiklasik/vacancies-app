@@ -1,6 +1,7 @@
 .search {
   position: relative;
   margin-bottom: 24px;
+  background: transparent;
 }
 
 .search__field input::placeholder {
@@ -13,4 +14,18 @@
   position: absolute;
   top: 8px;
   right: 12px;
+}
+
+@media (max-width: 500px) {
+  .search {
+    text-align: center;
+  }
+
+  .search__button {
+    width: 100%;
+    position: relative;
+    top: 0;
+    right: 0;
+    margin-top: 10px;
+  }
 }

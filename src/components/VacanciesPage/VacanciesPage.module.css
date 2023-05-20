@@ -1,0 +1,20 @@
+.wrapper {
+  width: 100%;
+  max-width: 100%;
+}
+
+@media (max-width: 850px) {
+  .flexWrapper {
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+  }
+
+  .secondColumn {
+    width: 100%;
+  }
+
+  .filter {
+    width: 290px;
+  }
+}

@@ -12,7 +12,7 @@ import {getCatalogues} from "../../bll/vacancies-reducer";
 import {FavoritePage} from "../FavoritePage/FavoritePage";
 import {CircleLoader} from "../Loaders/CircleLoader";
 import {Page404} from "../Page404/Page404";
-import { Box } from '@mantine/core';
+import {Box, Container} from '@mantine/core';
 import {VacancyPage} from "../VacancyPage/VacancyPage";
 
 function App() {
@@ -32,14 +32,16 @@ function App() {
         <BrowserRouter>
             <div>
                 <HeaderContainer/>
-                    <Box pt={40} pb={44} className={styles.wrapper}>
-                        <Routes>
-                            <Route path='/favorites' element={<FavoritePage/>}/>
-                            <Route path='/vacancies' element={<VacanciesPage/>}/>
-                            <Route path='/vacancies/:id' element={<VacancyPage/>}/>
-                            <Route path='/' element={<Navigate to='/vacancies'/>}/>
-                            <Route path='*' element={<Page404/>}/>
-                        </Routes>
+                    <Box pt={40} pb={44} className={styles.back} mih={"100vh"}>
+                        <Container p={0} className={styles.wrapper}>
+                            <Routes>
+                                <Route path='/favorites' element={<FavoritePage/>}/>
+                                <Route path='/vacancies' element={<VacanciesPage/>}/>
+                                <Route path='/vacancies/:id' element={<VacancyPage/>}/>
+                                <Route path='/' element={<Navigate to='/vacancies'/>}/>
+                                <Route path='*' element={<Page404/>}/>
+                            </Routes>
+                        </Container>
                     </Box>
             </div>
         </BrowserRouter>

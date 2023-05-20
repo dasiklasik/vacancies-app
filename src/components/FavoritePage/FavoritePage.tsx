@@ -32,7 +32,7 @@ debugger
             {vacancies.length ? <Container size={'1200px'} p={0}>
                     <Flex direction="column" gap="16px" align={"stretch"}>
                         {vacancies.map(item => {
-                            return <Vacancy vacancyData={item}/>
+                            return <Vacancy key={item.id} vacancyData={item}/>
                         })}
                     </Flex>
                     <Center mt="40px">

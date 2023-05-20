@@ -7,7 +7,7 @@ import {VacancyAppType} from "../../bll/vacancies-reducer";
 import HTMLReactParser from "html-react-parser";
 
 export const VacancyPage = () => {
-debugger
+
     const param = useParams()
     const id = Number(param.id)
 
@@ -19,9 +19,9 @@ debugger
 
 
     return (
-        <Container size={'1200px'} p={0}>
+        <Container size={'1116px'} p={0}>
             <Vacancy vacancyData={vacancyData}/>
-            <Paper p={24} mt={20} withBorder radius={12} w={1200}>
+            <Paper p={24} mt={20} withBorder radius={12} w={'100%'}>
                 {desc}
             </Paper>
         </Container>

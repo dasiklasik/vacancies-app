@@ -2,6 +2,8 @@ import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {API, CatalogueType} from "../api/API";
 import { setIsAppInitialized } from "./app-reducer";
 import {StoreType} from "./store";
+import {Simulate} from "react-dom/test-utils";
+import drag = Simulate.drag;
 
 const initialState: InitialStateType = {
     totalCount: 0,
@@ -52,7 +54,6 @@ export const getVacancies = createAppAsyncThunk('vacancies/getVacancies',
         const token = thunkAPI.getState().auth.accessToken
         const vacanciesAmount = thunkAPI.getState().vacancies.vacanciesAmount
         const response = await API.fetchVacancies(token, requestData, vacanciesAmount)
-
 
         return {
             //формируем вакансию и добавляем свойство favoriteInApp

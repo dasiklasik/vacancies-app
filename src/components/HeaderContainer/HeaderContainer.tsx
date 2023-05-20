@@ -3,24 +3,35 @@ import React from "react";
 import {NavLink} from "react-router-dom";
 import styles from './HeaderContainer.module.css';
 import {LogoIcon} from "../Icons/LogoIcon";
+import {useElementSize} from "@mantine/hooks";
+import {BurgerMenu} from "../BurgerMenu/BurgerMenu";
 
 
 export const HeaderContainer = () => {
+
+    const { ref, width } = useElementSize();
+
     return (
-        <Header height={'84px'}>
+        <Header ref={ref} height={'84px'}>
             <Flex align="center" gap={280} className={styles.wrapper}>
                 <Flex align="center" gap={12} className={styles.logo}>
                     <LogoIcon/>
                     <Title className={styles.logo__title} order={1}>Jobored</Title>
                 </Flex>
-                <div className={styles.navigation}>
-                    <nav>
-                        <ul>
-                            <li><NavLink className={({isActive}) => isActive ? styles.active : ''} to='/vacancies'>Поиск вакансий</NavLink></li>
-                            <li><NavLink className={({isActive}) => isActive ? styles.active : ''} to='/favorites'>Избранное</NavLink></li>
-                        </ul>
-                    </nav>
-                </div>
+            {width < 600 ? <BurgerMenu/> :
+
+                    <div className={styles.navigation}>
+                        <nav>
+                            <ul>
+                                <li><NavLink className={({isActive}) => isActive ? styles.active : ''} to='/vacancies'>Поиск
+                                    вакансий</NavLink></li>
+                                <li><NavLink className={({isActive}) => isActive ? styles.active : ''}
+                                             to='/favorites'>Избранное</NavLink></li>
+                            </ul>
+                        </nav>
+                    </div>
+
+            }
             </Flex>
         </Header>
     )

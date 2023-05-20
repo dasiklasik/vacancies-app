@@ -2,6 +2,7 @@
   width: 1116px;
   margin: 0 auto;
   height: 100%;
+  gap: 50px;
 }
 
 .logo__title {
@@ -33,4 +34,18 @@
 .navigation a.active {
   color: #5E96FC;
   font-weight: 500;
+}
+
+@media (max-width: 1250px) {
+  .wrapper {
+    width: 100%;
+    max-width: 90%;
+  }
+}
+
+@media (max-width: 600px) {
+  .wrapper {
+    gap: 0;
+    justify-content: space-between;
+  }
 }
