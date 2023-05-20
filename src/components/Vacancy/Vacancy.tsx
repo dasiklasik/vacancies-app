@@ -1,12 +1,8 @@
 import {Container, Flex} from "@mantine/core";
 import styles from './Vacancy.module.css'
 import {LocationIcon} from "../Icons/LocationIcon";
-import {addToFavorite, deleteFromFavorite, VacancyAppType} from "../../bll/vacancies-reducer";
+import { VacancyAppType} from "../../bll/vacancies-reducer";
 import {FavoriteButton} from "../FavoriteButton/FavoriteButton";
-import {useDispatch} from "react-redux";
-import {ThunkDispatch} from "redux-thunk";
-import {StoreType} from "../../bll/store";
-import {AnyAction} from "redux";
 import {DotsLoader} from "../Loaders/DotsLoader";
 
 export type VacancyPropsType = {
@@ -22,8 +18,6 @@ export const Vacancy = (props: VacancyPropsType) => {
         deleteCallback,
         addCallback,
     } = props
-    
-    const dispatch = useDispatch<ThunkDispatch<StoreType, void, AnyAction>>()
 
 
     return (
