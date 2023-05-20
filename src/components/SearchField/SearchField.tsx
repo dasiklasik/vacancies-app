@@ -31,8 +31,9 @@ export const SearchField = () => {
                 icon={<SearchIcon/>}
                 size={"lg"}
                 className={styles.search__field}
+                data-elem="search-input"
             />
-            <Button onClick={searchKeyword} className={styles.search__button}>Поиск</Button>
+            <Button data-elem="search-button" onClick={searchKeyword} className={styles.search__button}>Поиск</Button>
         </Paper>
     )
 }

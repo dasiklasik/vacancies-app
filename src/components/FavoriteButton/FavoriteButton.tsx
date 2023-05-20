@@ -5,6 +5,7 @@ type FavoriteButtonPropsType = {
     isFavorite: boolean
     addCallback: () => void
     deleteCallback: () => void
+    dataElem: string
 }
 
 export const FavoriteButton = (props: FavoriteButtonPropsType) => {
@@ -13,6 +14,7 @@ export const FavoriteButton = (props: FavoriteButtonPropsType) => {
         isFavorite,
         addCallback,
         deleteCallback,
+        dataElem,
     } = props
 
     const changeFavorite = (e: MouseEvent<HTMLSpanElement>) => {
@@ -25,7 +27,7 @@ export const FavoriteButton = (props: FavoriteButtonPropsType) => {
     }
 
     return (
-        <span onClick={changeFavorite}>
+        <span data-elem={dataElem} onClick={changeFavorite}>
             <StarIcon filled={isFavorite}/>
         </span>
     )

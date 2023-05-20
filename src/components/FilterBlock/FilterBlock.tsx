@@ -43,14 +43,14 @@ export const FilterBlock = () => {
             </Flex>
             <Container p={0}>
                 <Title mb={8} order={5}>Отрасль</Title>
-                <Select onChange={changeSelectValue} placeholder="Выберете отрасль" data={selectData}/>
+                <Select data-elem="industry-select" onChange={changeSelectValue} placeholder="Выберете отрасль" data={selectData}/>
             </Container>
             <Container p={0} my={20}>
                 <Title order={5}>Оклад</Title>
-                <NumberInput my={8} value={minValue} onChange={changeMinValue} min={0} placeholder="От"/>
-                <NumberInput value={maxValue} onChange={changeMaxValue} min={0} placeholder="До"/>
+                <NumberInput data-elem="salary-from-input" my={8} value={minValue} onChange={changeMinValue} min={0} placeholder="От"/>
+                <NumberInput data-elem="salary-to-input" value={maxValue} onChange={changeMaxValue} min={0} placeholder="До"/>
             </Container>
-            <Center><Button onClick={filterVacancies}>Применить</Button></Center>
+            <Center><Button data-elem="search-button" onClick={filterVacancies}>Применить</Button></Center>
         </Paper>
     )
 }

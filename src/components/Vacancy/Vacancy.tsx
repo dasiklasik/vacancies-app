@@ -1,4 +1,4 @@
-import {Container, Flex} from "@mantine/core";
+import {Flex, Paper} from "@mantine/core";
 import styles from './Vacancy.module.css'
 import {LocationIcon} from "../Icons/LocationIcon";
 import {addToFavorite, deleteFromFavorite, VacancyAppType} from "../../bll/vacancies-reducer";
@@ -37,7 +37,7 @@ export const Vacancy = (props: VacancyPropsType) => {
     }
 
     return (
-        <Container size={'100%'} onClick={navigateToVacancyPage} px='24px' py='24px' className={styles.wrapper}>
+        <Paper withBorder radius={12} data-elem={`vacancy-${vacancyData.id}`} w={'100%'} onClick={navigateToVacancyPage} p='24px' className={styles.wrapper}>
 
             {
                 vacancyData ? <Flex justify='space-between'>
@@ -51,12 +51,13 @@ export const Vacancy = (props: VacancyPropsType) => {
                         <Flex align='center' gap='8px'><LocationIcon/><p>{vacancyData.town}</p></Flex>
                     </div>
                     <FavoriteButton
+                        dataElem={`vacancy-${vacancyData.id}`}
                         isFavorite={vacancyData.favoriteInApp}
                         addCallback={addCallback}
                         deleteCallback={deleteCallback}
                     />
                 </Flex> : <DotsLoader/>
             }
-        </Container>
+        </Paper>
     )
 }
