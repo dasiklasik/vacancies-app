@@ -1,4 +1,6 @@
 import {
+    addToFavorite, deleteFromFavorite,
+    getCatalogues,
     getVacancies,
     InitialStateType,
     setFilterValues,
@@ -19,12 +21,130 @@ let initialState: InitialStateType = {
         max: 0,
     },
     vacanciesAmount: 0,
+    vacanciesIdFromLS: []
 }
 
 beforeEach(() => {
     initialState = {
         totalCount: 0,
-        vacancies: [],
+        vacancies: [
+            {
+                id: 20,
+                profession: 'string',
+                id_client: 2,
+                date_pub_to: 2,
+                date_archived: 2,
+                date_published: 2,
+                work: 'string',
+                compensation: 'string',
+                address: 'string',
+                candidat: 'string',
+                town: {id: 3, title: 'string', declension: 'string', genitive: 'string', hasMetro: false},
+                type_of_work: {id: 0, title: 'string'},
+                place_of_work: {id: 3, title: 'string'},
+                education: {id: 3, title: 'string'},
+                agency: {id: 3, title: 'string'},
+                experience: {id: 3, title: 'string'},
+                maritalstatus: {id: 3, title: 'string'},
+                children: {id: 3, title: 'string'},
+                languages: [],
+                catalogues: [{
+                    id: 3,
+                    key: 3,
+                    title: 'string',
+                    positions: [
+                        {id: 3, key: 3, title: 'string'}
+                    ]
+                }
+                ],
+                is_archive: false,
+                is_storage: false,
+                contact: 'string',
+                email: 'string',
+                url: 'string',
+                phone: 'string',
+                fax: 'string',
+                already_sent_on_vacancy: false,
+                favorite: false,
+                driving_licence: ['A'],
+                metro: [{id: 3, title: 'string', id_metro_line: 2}],
+                agreement: false,
+                payment_from: 2,
+                payment_to: 2,
+                currency: 'rub' as const,
+                moveable: false,
+                gender: {id: 3, title: 'string'},
+                age_from: 4,
+                age_to: 4,
+                firm_name: '',
+                firm_activity: '',
+                client_logo: 'string',
+                link: 'string',
+                views_count: 3,
+                resumes_all: 3,
+                resumes_new: 3,
+                canEdit: false,
+                favoriteInApp: false,
+            },
+            {
+                id: 21,
+                profession: 'string',
+                id_client: 2,
+                date_pub_to: 2,
+                date_archived: 2,
+                date_published: 2,
+                work: 'string',
+                compensation: 'string',
+                address: 'string',
+                candidat: 'string',
+                town: {id: 3, title: 'string', declension: 'string', genitive: 'string', hasMetro: false},
+                type_of_work: {id: 0, title: 'string'},
+                place_of_work: {id: 3, title: 'string'},
+                education: {id: 3, title: 'string'},
+                agency: {id: 3, title: 'string'},
+                experience: {id: 3, title: 'string'},
+                maritalstatus: {id: 3, title: 'string'},
+                children: {id: 3, title: 'string'},
+                languages: [],
+                catalogues: [{
+                    id: 3,
+                    key: 3,
+                    title: 'string',
+                    positions: [
+                        {id: 3, key: 3, title: 'string'}
+                    ]
+                }
+                ],
+                is_archive: false,
+                is_storage: false,
+                contact: 'string',
+                email: 'string',
+                url: 'string',
+                phone: 'string',
+                fax: 'string',
+                already_sent_on_vacancy: false,
+                favorite: false,
+                driving_licence: ['A'],
+                metro: [{id: 3, title: 'string', id_metro_line: 2}],
+                agreement: false,
+                payment_from: 2,
+                payment_to: 2,
+                currency: 'rub' as const,
+                moveable: false,
+                gender: {id: 3, title: 'string'},
+                age_from: 4,
+                age_to: 4,
+                firm_name: '',
+                firm_activity: '',
+                client_logo: 'string',
+                link: 'string',
+                views_count: 3,
+                resumes_all: 3,
+                resumes_new: 3,
+                canEdit: false,
+                favoriteInApp: true,
+            },
+        ],
         keyword: '',
         pageNumber: 1,
         catalogues: [],
@@ -34,6 +154,7 @@ beforeEach(() => {
             max: 0,
         },
         vacanciesAmount: 0,
+        vacanciesIdFromLS: [],
     }
 })
 
@@ -139,4 +260,36 @@ test('vacancies reducer should set filter values', () => {
     expect(endState.salary.min).toBe(20)
     expect(endState.salary.max).toBe(40)
     expect(endState.cataloguesItem).toBe(33)
+})
+
+test('vacancies reducer should set catalogues', () => {
+    const catalogues = [
+        {
+            title_rus: 'string',
+            url_rus: 'string',
+            title: 'string',
+            title_trimmed: 'string',
+            key: 22,
+            positions: []
+        }
+    ]
+
+    const action = getCatalogues.fulfilled(catalogues, '')
+    const endState = vacanciesReducer(initialState, action)
+
+    expect(endState.catalogues.length).toBe(1)
+})
+
+test('vacancies reducer should add to favorite', () => {
+    const action = addToFavorite.fulfilled(20, '', 20)
+    const endState = vacanciesReducer(initialState, action)
+
+    expect(endState.vacancies[0].favoriteInApp).toBe(true)
+})
+
+test('vacancies reducer should remove from favorite', () => {
+    const action = deleteFromFavorite.fulfilled(21, '', 21)
+    const endState = vacanciesReducer(initialState, action)
+
+    expect(endState.vacancies[1].favoriteInApp).toBe(false)
 })

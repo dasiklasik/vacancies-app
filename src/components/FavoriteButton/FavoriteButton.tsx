@@ -8,7 +8,7 @@ type FavoriteButtonPropsType = {
 }
 
 export const FavoriteButton = (props: FavoriteButtonPropsType) => {
-debugger
+
     const {
         id,
         isFavorite,

@@ -8,12 +8,13 @@ const initialState: InitialStateType = {
     keyword: null,
     vacanciesAmount: 4,
     salary: {
-        min: 0,
-        max: 0,
+        min: undefined,
+        max: undefined,
     },
     cataloguesItem: null,
     vacancies: [],
-    catalogues: []
+    catalogues: [],
+    vacanciesIdFromLS: [],
 }
 
 export const createAppAsyncThunk = createAsyncThunk.withTypes<{
@@ -51,7 +52,6 @@ export const getVacancies = createAppAsyncThunk('vacancies/getVacancies',
         return {
             //добавляем свойство favoriteInApp в объекты вакансий
             ...response.data, objects: response.data.objects.map(item => {
-                debugger
                 const favorites = localStorage.getItem('favorites')
                 let favoritesArray: number[] = favorites ? JSON.parse(favorites) : []
                 const isFavorite = favoritesArray.includes(item.id)
@@ -60,9 +60,37 @@ export const getVacancies = createAppAsyncThunk('vacancies/getVacancies',
         }
     })
 
+export const getVacanciesIdFromLS = createAppAsyncThunk('vacancies/getVacanciesIdFromLS',
+    (params = undefined, thunkAPI) => {
+        thunkAPI.dispatch(clearVacancies())
+
+        const pageNumber = thunkAPI.getState().vacancies.pageNumber
+        let startAt = pageNumber - 1
+        let endAt = startAt + 4
+
+        for (let i = 1; i < pageNumber; i++) {
+            startAt += 4
+            endAt += 4
+        }
+
+        let favorites = localStorage.getItem('favorites')
+        let favoritesArray: number[] = favorites ? JSON.parse(favorites) : []
+
+        return {vacanciesIdFromLS: favoritesArray.slice(startAt, endAt), totalCount: favoritesArray.length}
+    })
+
+export const getOneVacancy = createAppAsyncThunk('vacancies/getOneVacancy',
+    async (id: number, thunkAPI) => {
+        const token = thunkAPI.getState().auth.accessToken
+
+        const response = await API.getOneVacancy(token, id)
+
+        return response.data
+    })
+
 export const addToFavorite = createAppAsyncThunk('vacancies/addToFavorite',
      (id: number) => {
-    debugger
+
         let favorites = localStorage.getItem('favorites')
         if(favorites !== null) {
             const favoritesArray: number[] = JSON.parse(favorites)
@@ -104,6 +132,17 @@ const slice = createSlice({
             state.cataloguesItem = action.payload.catalogues
             state.salary.max = action.payload.max
             state.salary.min = action.payload.min
+        },
+        clearState: (state) => {
+            debugger
+            state.vacancies = []
+            state.keyword = null
+            state.salary = {min: undefined, max: undefined}
+            state.cataloguesItem = null
+            state.pageNumber = 1
+        },
+        clearVacancies: (state) => {
+            state.vacancies = []
         }
     },
     extraReducers: builder => {
@@ -111,7 +150,7 @@ const slice = createSlice({
             .addCase(getVacancies.fulfilled, (state, action) => {
                 state.vacancies = action.payload.objects
                 state.totalCount = action.payload.total
-        })
+            })
             .addCase(getCatalogues.fulfilled, (state, action) => {
                 state.catalogues = action.payload
             })
@@ -123,13 +162,20 @@ const slice = createSlice({
                 const index = state.vacancies.findIndex(item => item.id === action.payload)
                 state.vacancies[index].favoriteInApp = false
             })
+            .addCase(getVacanciesIdFromLS.fulfilled, (state, action) => {
+                state.vacanciesIdFromLS = action.payload.vacanciesIdFromLS
+                state.totalCount = action.payload.totalCount
+            })
+            .addCase(getOneVacancy.fulfilled, (state, action) => {
+                state.vacancies = [...state.vacancies, {...action.payload, favoriteInApp: true}]
+            })
     }
 })
 
 export const vacanciesReducer = slice.reducer
 
 //actions
-export const {setPageNumber, setKeyword, setFilterValues} = slice.actions
+export const {setPageNumber, setKeyword, setFilterValues, clearState, clearVacancies} = slice.actions
 
 //types
 export type VacancyAppType = VacancyType & {
@@ -148,4 +194,5 @@ export type InitialStateType = {
     },
     vacancies: Array<VacancyAppType>
     catalogues: Array<CatalogueType>
+    vacanciesIdFromLS: number[]
 }

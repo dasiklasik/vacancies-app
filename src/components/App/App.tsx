@@ -10,6 +10,7 @@ import {getAccessToken} from "../../bll/auth-reducer";
 import { Loader } from '@mantine/core';
 import {VacanciesPage} from "../VacanciesPage/VacanciesPage";
 import {getCatalogues} from "../../bll/vacancies-reducer";
+import {FavoritePage} from "../FavoritePage/FavoritePage";
 
 function App() {
 
@@ -28,7 +29,7 @@ function App() {
             <div className='app'>
                 <HeaderContainer/>
                     <Routes>
-                        {/*<Route path='/favorites' element={}/>*/}
+                        <Route path='/favorites' element={<FavoritePage/>}/>
                         <Route path='/vacancies' element={<VacanciesPage/>}/>
                         <Route path='/' element={<Navigate to='/vacancies'/>}/>
                         {/*<Route path='*' element={<h1>404: PAGE NOT FOUND</h1>}/>*/}

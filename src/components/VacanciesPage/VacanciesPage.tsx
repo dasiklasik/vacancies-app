@@ -1,10 +1,33 @@
-import {Box, Container, Flex} from "@mantine/core";
-import {VacanciesList} from "../VacanciesList/VacanciesList";
-
+import {Box, Center, Container, Flex} from "@mantine/core";
 import {SearchField} from "../SearchField/SearchField";
 import {FilterBlock} from "../FilterBlock/FilterBlock";
+import {useDispatch, useSelector} from "react-redux";
+import {ThunkDispatch} from "redux-thunk";
+import {StoreType} from "../../bll/store";
+import {AnyAction} from "redux";
+import {useCallback, useEffect} from "react";
+import {clearState, getVacancies, VacancyAppType} from "../../bll/vacancies-reducer";
+import {VacancyPagination} from "../VacancyPagination/VacancyPagination";
+import {Vacancy} from "../Vacancy/Vacancy";
 
 export const VacanciesPage = () => {
+
+    const dispatch = useDispatch<ThunkDispatch<StoreType, void, AnyAction>>()
+
+    useEffect(() => {
+        debugger
+        dispatch(getVacancies())
+
+        return () => {
+            dispatch(clearState())
+        }
+    }, [dispatch])
+
+    const vacancies = useSelector<StoreType, VacancyAppType[]>(state => state.vacancies.vacancies)
+
+    const onPaginationChangeCallback = useCallback(() => {
+        dispatch(getVacancies())
+    }, [dispatch])
 
 
     return (
@@ -15,7 +38,14 @@ export const VacanciesPage = () => {
                 </Container>
                 <Box w={773}>
                     <SearchField/>
-                    <VacanciesList/>
+                    <Flex direction="column" gap="16px" align={"stretch"}>
+                        {vacancies.map(item => {
+                            return <Vacancy key={item.id} vacancyData={item}/>
+                        })}
+                    </Flex>
+                    <Center mt="40px">
+                        <VacancyPagination callback={onPaginationChangeCallback}/>
+                    </Center>
                 </Box>
             </Flex>
         </Container>

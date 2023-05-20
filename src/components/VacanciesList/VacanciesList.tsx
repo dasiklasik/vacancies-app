@@ -1,36 +1,22 @@
 import {Vacancy} from "../Vacancy/Vacancy";
-import {getVacancies, setPageNumber, VacancyAppType} from "../../bll/vacancies-reducer";
 import {Center, Container, Flex, Pagination} from "@mantine/core";
-import {useDispatch, useSelector} from "react-redux";
-import {ThunkDispatch} from "redux-thunk";
-import {StoreType} from "../../bll/store";
-import {AnyAction} from "redux";
-import {useEffect} from "react";
+import {VacancyAppType} from "../../bll/vacancies-reducer";
 
+type VacanciesListPropsType = {
+    vacancies: VacancyAppType[]
+    pageNumber: number
+    pageCount: number
+    changePageNumber: (value: number) => void
+}
 
-export const VacanciesList = () => {
+export const VacanciesList = (props: VacanciesListPropsType) => {
 
-    const dispatch = useDispatch<ThunkDispatch<StoreType, void, AnyAction>>()
-
-    useEffect(() => {
-        dispatch(getVacancies())
-    }, [dispatch])
-
-    const vacancies = useSelector<StoreType, VacancyAppType[]>(state => state.vacancies.vacancies)
-    const totalCount = useSelector<StoreType, number>(state => state.vacancies.totalCount)
-    const pageNumber = useSelector<StoreType, number>(state => state.vacancies.pageNumber)
-    const vacanciesAmount = useSelector<StoreType, number>(state => state.vacancies.vacanciesAmount)
-
-    const changePageNumber = (value: number) => {
-        dispatch(setPageNumber(value))
-        dispatch(getVacancies())
-    }
-
-    let pageCount = totalCount / vacanciesAmount;
-
-    if (totalCount > 500) {
-        pageCount = 125
-    }
+    const {
+        vacancies,
+        pageNumber,
+        pageCount,
+        changePageNumber
+    } = props
 
     return (
         <Container p={0}>
