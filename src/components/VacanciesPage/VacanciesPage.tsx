@@ -7,10 +7,8 @@ import {StoreType} from "../../bll/store";
 import {AnyAction} from "redux";
 import {useCallback, useEffect} from "react";
 import {
-    addToFavorite,
-    clearState, deleteFromFavorite,
+    clearState,
     getVacancies,
-    getVacanciesIdFromLS,
     StatusType,
     VacancyAppType
 } from "../../bll/vacancies-reducer";
@@ -24,12 +22,7 @@ export const VacanciesPage = () => {
     const dispatch = useDispatch<ThunkDispatch<StoreType, void, AnyAction>>()
 
     useEffect(() => {
-        debugger
         dispatch(getVacancies())
-
-        return () => {
-            dispatch(clearState())
-        }
     }, [dispatch])
 
     const vacancies = useSelector<StoreType, VacancyAppType[]>(state => state.vacancies.vacancies)
@@ -38,14 +31,6 @@ export const VacanciesPage = () => {
     const onPaginationChangeCallback = useCallback(() => {
         dispatch(getVacancies())
     }, [dispatch])
-
-    const addCallback = (id: number) => {
-        dispatch(addToFavorite(id))
-    }
-
-    const deleteCallback = (id: number) => {
-        dispatch(deleteFromFavorite(id))
-    }
 
 
     return (
@@ -61,7 +46,7 @@ export const VacanciesPage = () => {
                          :<Box>
                                 <Flex direction="column" gap="16px" align={"stretch"}>
                                     {vacancies.map(item => {
-                                        return <Vacancy deleteCallback={deleteCallback} addCallback={addCallback} key={item.id} vacancyData={item}/>
+                                        return <Vacancy key={item.id} vacancyData={item}/>
                                     })}
                                 </Flex>
                                 <Center mt="40px">

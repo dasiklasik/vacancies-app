@@ -13,6 +13,7 @@ import {FavoritePage} from "../FavoritePage/FavoritePage";
 import {CircleLoader} from "../Loaders/CircleLoader";
 import {Page404} from "../Page404/Page404";
 import { Box } from '@mantine/core';
+import {VacancyPage} from "../VacancyPage/VacancyPage";
 
 function App() {
 
@@ -35,6 +36,7 @@ function App() {
                         <Routes>
                             <Route path='/favorites' element={<FavoritePage/>}/>
                             <Route path='/vacancies' element={<VacanciesPage/>}/>
+                            <Route path='/vacancies/:id' element={<VacancyPage/>}/>
                             <Route path='/' element={<Navigate to='/vacancies'/>}/>
                             <Route path='*' element={<Page404/>}/>
                         </Routes>

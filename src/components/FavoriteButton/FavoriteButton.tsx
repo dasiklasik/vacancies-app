@@ -1,26 +1,26 @@
 import {StarIcon} from "../Icons/StarIcon";
+import {MouseEvent} from "react";
 
 type FavoriteButtonPropsType = {
-    id: number
     isFavorite: boolean
-    addCallback: (id: number) => void
-    deleteCallback: (id: number) => void
+    addCallback: () => void
+    deleteCallback: () => void
 }
 
 export const FavoriteButton = (props: FavoriteButtonPropsType) => {
 
     const {
-        id,
         isFavorite,
         addCallback,
         deleteCallback,
     } = props
 
-    const changeFavorite = () => {
+    const changeFavorite = (e: MouseEvent<HTMLSpanElement>) => {
+        e.stopPropagation()
         if (isFavorite) {
-            deleteCallback(id)
+            deleteCallback()
         } else {
-            addCallback(id)
+            addCallback()
         }
     }
 

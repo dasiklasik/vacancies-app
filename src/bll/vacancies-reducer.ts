@@ -1,5 +1,5 @@
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {API, CatalogueType, VacancyType} from "../api/API";
+import {API, CatalogueType} from "../api/API";
 import { setIsAppInitialized } from "./app-reducer";
 import {StoreType} from "./store";
 
@@ -15,7 +15,6 @@ const initialState: InitialStateType = {
     cataloguesItem: null,
     vacancies: [],
     catalogues: [],
-    vacanciesIdFromLS: [],
     vacanciesEntityStatus: 'idle',
 }
 
@@ -54,19 +53,34 @@ export const getVacancies = createAppAsyncThunk('vacancies/getVacancies',
         const vacanciesAmount = thunkAPI.getState().vacancies.vacanciesAmount
         const response = await API.fetchVacancies(token, requestData, vacanciesAmount)
 
+
         return {
-            //добавляем свойство favoriteInApp в объекты вакансий
+            //формируем вакансию и добавляем свойство favoriteInApp
             ...response.data, objects: response.data.objects.map(item => {
                 const favorites = localStorage.getItem('favorites')
-                let favoritesArray: number[] = favorites ? JSON.parse(favorites) : []
-                const isFavorite = favoritesArray.includes(item.id)
-                return {...item, favoriteInApp: isFavorite}
+                let favoritesArray: VacancyAppType[] = favorites ? JSON.parse(favorites) : []
+                const isFavorite = !!favoritesArray.find(i => i.id === item.id)
+
+                const vacancy: VacancyAppType = {
+                    currency: item.currency,
+                    descriptionText: item.vacancyRichText,
+                    favoriteInApp: isFavorite,
+                    firm_name: item.firm_name,
+                    id: item.id,
+                    payment_from: item.payment_from,
+                    payment_to: item.payment_to,
+                    profession: item.profession,
+                    town: item.town.title,
+                    type_of_work: item.type_of_work.title,
+                }
+                return vacancy
             })
         }
     })
 
-export const getVacanciesIdFromLS = createAppAsyncThunk('vacancies/getVacanciesIdFromLS',
+export const getVacanciesFromLS = createAppAsyncThunk('vacancies/getVacanciesIdFromLS',
     (params = undefined, thunkAPI) => {
+        // thunkAPI.dispatch(clearVacancies())
 
         const pageNumber = thunkAPI.getState().vacancies.pageNumber
         let startAt = pageNumber - 1
@@ -78,50 +92,39 @@ export const getVacanciesIdFromLS = createAppAsyncThunk('vacancies/getVacanciesI
         }
 
         let favorites = localStorage.getItem('favorites')
-        let favoritesArray: number[] = favorites ? JSON.parse(favorites) : []
+        let favoritesArray: VacancyAppType[] = favorites ? JSON.parse(favorites) : []
 
         return {vacanciesIdFromLS: favoritesArray.slice(startAt, endAt), totalCount: favoritesArray.length}
     })
 
-export const getOneVacancy = createAppAsyncThunk('vacancies/getOneVacancy',
-    async (id: number, thunkAPI) => {
-        thunkAPI.dispatch(setVacanciesStatus('loading'))
-
-        const token = thunkAPI.getState().auth.accessToken
-
-        const response = await API.getOneVacancy(token, id)
-
-        return response.data
-    })
-
 export const addToFavorite = createAppAsyncThunk('vacancies/addToFavorite',
-     (id: number) => {
+     (vacancyData: VacancyAppType) => {
 
         let favorites = localStorage.getItem('favorites')
         if(favorites !== null) {
-            const favoritesArray: number[] = JSON.parse(favorites)
-            favoritesArray.push(id)
+            const favoritesArray: VacancyAppType[] = JSON.parse(favorites)
+            favoritesArray.push(vacancyData)
             const favoritesArrayString = JSON.stringify(favoritesArray)
             localStorage.setItem('favorites', favoritesArrayString)
         } else {
-            localStorage.setItem('favorites', JSON.stringify([id]))
+            localStorage.setItem('favorites', JSON.stringify([vacancyData]))
         }
-        return id
+        return vacancyData.id
     })
 
 export const deleteFromFavorite = createAppAsyncThunk('vacancies/deleteFromFavorite',
-    (id: number) => {
-    debugger
+    (vacancyData: VacancyAppType) => {
+
         let favorites = localStorage.getItem('favorites')
         if(favorites !== null) {
-            let favoritesArray: number[] = JSON.parse(favorites)
-            favoritesArray = favoritesArray.filter(item => item !== id)
+            let favoritesArray: VacancyAppType[] = JSON.parse(favorites)
+            favoritesArray = favoritesArray.filter(item => item.id !== vacancyData.id)
             const favoritesArrayString = JSON.stringify(favoritesArray)
             localStorage.setItem('favorites', favoritesArrayString)
         } else {
             localStorage.setItem('favorites', JSON.stringify([]))
         }
-        return id
+        return vacancyData.id
     })
 
 //slice
@@ -169,20 +172,14 @@ const slice = createSlice({
                 state.vacancies[index].favoriteInApp = true
             })
             .addCase(deleteFromFavorite.fulfilled, (state, action) => {
-                debugger
                 const index = state.vacancies.findIndex(item => item.id === action.payload)
                 if (index !== -1) {
                     state.vacancies[index].favoriteInApp = false
                 }
             })
-            .addCase(getVacanciesIdFromLS.fulfilled, (state, action) => {
-                debugger
-                state.vacanciesIdFromLS = action.payload.vacanciesIdFromLS
+            .addCase(getVacanciesFromLS.fulfilled, (state, action) => {
+                state.vacancies = action.payload.vacanciesIdFromLS
                 state.totalCount = action.payload.totalCount
-            })
-            .addCase(getOneVacancy.fulfilled, (state, action) => {
-                state.vacancies = [...state.vacancies, {...action.payload, favoriteInApp: true}]
-                state.vacanciesEntityStatus = 'succeed'
             })
     }
 })
@@ -193,7 +190,16 @@ export const vacanciesReducer = slice.reducer
 export const {setPageNumber, setKeyword, setFilterValues, clearState, clearVacancies, setVacanciesStatus} = slice.actions
 
 //types
-export type VacancyAppType = VacancyType & {
+export type VacancyAppType = {
+    id: number
+    profession: string
+    firm_name: string
+    town: string
+    type_of_work: string
+    payment_to: number
+    payment_from: number
+    currency: string
+    descriptionText: string
     favoriteInApp: boolean
 }
 
@@ -209,8 +215,8 @@ export type InitialStateType = {
     },
     vacancies: Array<VacancyAppType>
     catalogues: Array<CatalogueType>
-    vacanciesIdFromLS: number[],
     vacanciesEntityStatus: StatusType
 }
 
 export type StatusType = 'idle' | 'loading' | 'succeed' | 'failed'
+

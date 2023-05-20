@@ -92,6 +92,7 @@ export type VacancyType = {
     resumes_all: number
     resumes_new: number
     canEdit: boolean
+    vacancyRichText: string
 }
 
 export type CatalogueType = {

@@ -5,57 +5,34 @@ import {ThunkDispatch} from "redux-thunk";
 import {StoreType} from "../../bll/store";
 import {AnyAction} from "redux";
 import {
-    addToFavorite,
-    clearState,
-    deleteFromFavorite,
-    getVacanciesIdFromLS,
+    getVacanciesFromLS, VacancyAppType,
 } from "../../bll/vacancies-reducer";
 import {Vacancy} from "../Vacancy/Vacancy";
 import {VacancyPagination} from "../VacancyPagination/VacancyPagination";
-import {VacancyWithFetchingData} from "../VacancyWithFetchingData/VacancyWithFetchingData";
 import {EmptyFavoritePage} from "./EmptyFavoritePage";
 
 export const FavoritePage = () => {
 
     const dispatch = useDispatch<ThunkDispatch<StoreType, void, AnyAction>>()
-    const vacanciesId = useSelector<StoreType, number[]>(state => state.vacancies.vacanciesIdFromLS)
 
 
     useEffect(() => {
-        dispatch(getVacanciesIdFromLS())
-
-        return () => {
-            dispatch(clearState())
-        }
+        dispatch(getVacanciesFromLS())
     }, [dispatch])
 
     const onPaginationChangeCallback = useCallback(() => {
-        dispatch(getVacanciesIdFromLS())
+        dispatch(getVacanciesFromLS())
     }, [dispatch])
 
-    const addCallback = (id: number) => {
-        dispatch(addToFavorite(id))
-        dispatch(getVacanciesIdFromLS())
-    }
-
-    const deleteCallback = (id: number) => {
-        dispatch(deleteFromFavorite(id))
-        dispatch(getVacanciesIdFromLS())
-    }
+    const vacancies = useSelector<StoreType, VacancyAppType[]>(state => state.vacancies.vacancies)
 
 debugger
     return (
         <>
-            {vacanciesId.length ? <Container size={'1200px'} p={0}>
+            {vacancies.length ? <Container size={'1200px'} p={0}>
                     <Flex direction="column" gap="16px" align={"stretch"}>
-                        {vacanciesId.map(item => {
-                            return <VacancyWithFetchingData
-                                deleteCallback={deleteCallback}
-                                addCallback={addCallback}
-                                key={item}
-                                id={item}
-                                Component={Vacancy}
-                            />
+                        {vacancies.map(item => {
+                            return <Vacancy vacancyData={item}/>
                         })}
                     </Flex>
                     <Center mt="40px">
