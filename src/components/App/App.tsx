@@ -11,6 +11,7 @@ import {VacanciesPage} from "../VacanciesPage/VacanciesPage";
 import {getCatalogues} from "../../bll/vacancies-reducer";
 import {FavoritePage} from "../FavoritePage/FavoritePage";
 import {CircleLoader} from "../Loaders/CircleLoader";
+import {EmptyFavoritePage} from "../FavoritePage/EmptyFavoritePage";
 
 function App() {
 
@@ -23,6 +24,7 @@ function App() {
     }, [dispatch])
 
     if (!isAppInitialized) return <CircleLoader/>
+
 
     return (
         <BrowserRouter>

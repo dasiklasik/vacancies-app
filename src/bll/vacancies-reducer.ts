@@ -74,7 +74,7 @@ export const getVacanciesIdFromLS = createAppAsyncThunk('vacancies/getVacanciesI
         let endAt = startAt + 4
 
         for (let i = 1; i < pageNumber; i++) {
-            startAt += 4
+            startAt += 3
             endAt += 4
         }
 
@@ -141,7 +141,6 @@ const slice = createSlice({
             state.salary.min = action.payload.min
         },
         clearState: (state) => {
-            debugger
             state.vacancies = []
             state.keyword = null
             state.salary = {min: undefined, max: undefined}

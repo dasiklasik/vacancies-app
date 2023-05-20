@@ -10,6 +10,7 @@ import {clearState, getVacancies, StatusType, VacancyAppType} from "../../bll/va
 import {VacancyPagination} from "../VacancyPagination/VacancyPagination";
 import {Vacancy} from "../Vacancy/Vacancy";
 import { DotsLoader } from "../Loaders/DotsLoader";
+import {EmptyVacanciesPage} from "./EmptyVacanciesPage";
 
 export const VacanciesPage = () => {
 
@@ -40,16 +41,18 @@ export const VacanciesPage = () => {
                 </Container>
                 <Box w={773}>
                     <SearchField/>
-                    {status !== 'loading' ? <Box>
-                        <Flex direction="column" gap="16px" align={"stretch"}>
-                            {vacancies.map(item => {
-                                return <Vacancy key={item.id} vacancyData={item}/>
-                            })}
-                        </Flex>
-                        <Center mt="40px">
-                            <VacancyPagination callback={onPaginationChangeCallback}/>
-                        </Center>
-                    </Box> : <DotsLoader/>}
+                    {status === 'loading' ? <DotsLoader/>
+                        : vacancies.length === 0 ? <EmptyVacanciesPage/>
+                         :<Box>
+                                <Flex direction="column" gap="16px" align={"stretch"}>
+                                    {vacancies.map(item => {
+                                        return <Vacancy key={item.id} vacancyData={item}/>
+                                    })}
+                                </Flex>
+                                <Center mt="40px">
+                                    <VacancyPagination callback={onPaginationChangeCallback}/>
+                                </Center>
+                            </Box> }
                 </Box>
             </Flex>
         </Container>
