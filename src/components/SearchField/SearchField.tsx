@@ -24,7 +24,14 @@ export const SearchField = () => {
 
     return (
         <Paper className={styles.search}>
-            <Input radius={8} onChange={changeInputValue} value={inputValue} icon={<SearchIcon/>} size={"lg"}/>
+            <Input
+                placeholder={"Введите название вакансии"}
+                radius={8} onChange={changeInputValue}
+                value={inputValue}
+                icon={<SearchIcon/>}
+                size={"lg"}
+                className={styles.search__field}
+            />
             <Button onClick={searchKeyword} className={styles.search__button}>Поиск</Button>
         </Paper>
     )

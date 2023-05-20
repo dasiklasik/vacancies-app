@@ -3,6 +3,12 @@
   margin-bottom: 24px;
 }
 
+.search__field input::placeholder {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 21px;
+}
+
 .search__button {
   position: absolute;
   top: 8px;
