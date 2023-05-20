@@ -1,5 +1,6 @@
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {API, CatalogueType, VacancyType} from "../api/API";
+import { setIsAppInitialized } from "./app-reducer";
 import {StoreType} from "./store";
 
 const initialState: InitialStateType = {
@@ -15,6 +16,7 @@ const initialState: InitialStateType = {
     vacancies: [],
     catalogues: [],
     vacanciesIdFromLS: [],
+    vacanciesEntityStatus: 'idle',
 }
 
 export const createAppAsyncThunk = createAsyncThunk.withTypes<{
@@ -27,11 +29,14 @@ export const getCatalogues = createAppAsyncThunk('vacancies/getCatalogues',
         const token = thunkAPI.getState().auth.accessToken
         const response = await API.getCatalogues(token)
 
+        thunkAPI.dispatch(setIsAppInitialized(true))
+
         return response.data
     })
 
 export const getVacancies = createAppAsyncThunk('vacancies/getVacancies',
     async (param = undefined, thunkAPI) => {
+        thunkAPI.dispatch(setVacanciesStatus('loading'))
 
         //проверяем наличие favorites в localstorage и создаем, если нет
         if (!localStorage.getItem('favorites')) {
@@ -81,6 +86,8 @@ export const getVacanciesIdFromLS = createAppAsyncThunk('vacancies/getVacanciesI
 
 export const getOneVacancy = createAppAsyncThunk('vacancies/getOneVacancy',
     async (id: number, thunkAPI) => {
+        thunkAPI.dispatch(setVacanciesStatus('loading'))
+
         const token = thunkAPI.getState().auth.accessToken
 
         const response = await API.getOneVacancy(token, id)
@@ -143,6 +150,9 @@ const slice = createSlice({
         },
         clearVacancies: (state) => {
             state.vacancies = []
+        },
+        setVacanciesStatus: (state, action: PayloadAction<StatusType>) => {
+            state.vacanciesEntityStatus = action.payload
         }
     },
     extraReducers: builder => {
@@ -150,6 +160,7 @@ const slice = createSlice({
             .addCase(getVacancies.fulfilled, (state, action) => {
                 state.vacancies = action.payload.objects
                 state.totalCount = action.payload.total
+                state.vacanciesEntityStatus = 'succeed'
             })
             .addCase(getCatalogues.fulfilled, (state, action) => {
                 state.catalogues = action.payload
@@ -168,6 +179,7 @@ const slice = createSlice({
             })
             .addCase(getOneVacancy.fulfilled, (state, action) => {
                 state.vacancies = [...state.vacancies, {...action.payload, favoriteInApp: true}]
+                state.vacanciesEntityStatus = 'succeed'
             })
     }
 })
@@ -175,7 +187,7 @@ const slice = createSlice({
 export const vacanciesReducer = slice.reducer
 
 //actions
-export const {setPageNumber, setKeyword, setFilterValues, clearState, clearVacancies} = slice.actions
+export const {setPageNumber, setKeyword, setFilterValues, clearState, clearVacancies, setVacanciesStatus} = slice.actions
 
 //types
 export type VacancyAppType = VacancyType & {
@@ -194,5 +206,8 @@ export type InitialStateType = {
     },
     vacancies: Array<VacancyAppType>
     catalogues: Array<CatalogueType>
-    vacanciesIdFromLS: number[]
+    vacanciesIdFromLS: number[],
+    vacanciesEntityStatus: StatusType
 }
+
+export type StatusType = 'idle' | 'loading' | 'succeed' | 'failed'

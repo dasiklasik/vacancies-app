@@ -3,10 +3,12 @@ import {authReducer} from "./auth-reducer";
 import thunk from "redux-thunk";
 import {configureStore} from "@reduxjs/toolkit";
 import {vacanciesReducer} from "./vacancies-reducer";
+import {appReducer} from "./app-reducer";
 
 const reducer = combineReducers({
     auth: authReducer,
     vacancies: vacanciesReducer,
+    app: appReducer,
 })
 
 export const store = configureStore({

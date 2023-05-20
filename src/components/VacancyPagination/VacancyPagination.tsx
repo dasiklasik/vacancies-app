@@ -26,8 +26,6 @@ export const VacancyPagination = React.memo(({callback, ...props}: VacancyPagina
 
     let pageCount = Math.ceil(totalCount / vacanciesAmount)
 
-    debugger
-
     if (totalCount > 500) {
         pageCount = 125
     }

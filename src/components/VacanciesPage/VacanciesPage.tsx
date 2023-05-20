@@ -6,9 +6,10 @@ import {ThunkDispatch} from "redux-thunk";
 import {StoreType} from "../../bll/store";
 import {AnyAction} from "redux";
 import {useCallback, useEffect} from "react";
-import {clearState, getVacancies, VacancyAppType} from "../../bll/vacancies-reducer";
+import {clearState, getVacancies, StatusType, VacancyAppType} from "../../bll/vacancies-reducer";
 import {VacancyPagination} from "../VacancyPagination/VacancyPagination";
 import {Vacancy} from "../Vacancy/Vacancy";
+import { DotsLoader } from "../Loaders/DotsLoader";
 
 export const VacanciesPage = () => {
 
@@ -24,6 +25,7 @@ export const VacanciesPage = () => {
     }, [dispatch])
 
     const vacancies = useSelector<StoreType, VacancyAppType[]>(state => state.vacancies.vacancies)
+    const status = useSelector<StoreType, StatusType>(state => state.vacancies.vacanciesEntityStatus)
 
     const onPaginationChangeCallback = useCallback(() => {
         dispatch(getVacancies())
@@ -38,14 +40,16 @@ export const VacanciesPage = () => {
                 </Container>
                 <Box w={773}>
                     <SearchField/>
-                    <Flex direction="column" gap="16px" align={"stretch"}>
-                        {vacancies.map(item => {
-                            return <Vacancy key={item.id} vacancyData={item}/>
-                        })}
-                    </Flex>
-                    <Center mt="40px">
-                        <VacancyPagination callback={onPaginationChangeCallback}/>
-                    </Center>
+                    {status !== 'loading' ? <Box>
+                        <Flex direction="column" gap="16px" align={"stretch"}>
+                            {vacancies.map(item => {
+                                return <Vacancy key={item.id} vacancyData={item}/>
+                            })}
+                        </Flex>
+                        <Center mt="40px">
+                            <VacancyPagination callback={onPaginationChangeCallback}/>
+                        </Center>
+                    </Box> : <DotsLoader/>}
                 </Box>
             </Flex>
         </Container>

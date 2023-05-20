@@ -7,22 +7,22 @@ import {ThunkDispatch} from "redux-thunk";
 import {StoreType} from "../../bll/store";
 import {AnyAction} from "redux";
 import {getAccessToken} from "../../bll/auth-reducer";
-import { Loader } from '@mantine/core';
 import {VacanciesPage} from "../VacanciesPage/VacanciesPage";
 import {getCatalogues} from "../../bll/vacancies-reducer";
 import {FavoritePage} from "../FavoritePage/FavoritePage";
+import {CircleLoader} from "../Loaders/CircleLoader";
 
 function App() {
 
     const dispatch = useDispatch<ThunkDispatch<StoreType, void, AnyAction>>()
-    const isAuth = useSelector<StoreType, boolean>( state => state.auth.isAuth)
+    const isAppInitialized = useSelector<StoreType, boolean>( state => state.app.isAppInitialized)
 
     useEffect(() => {
         dispatch(getAccessToken())
         dispatch(getCatalogues())
     }, [dispatch])
 
-    if (!isAuth) return <Loader/>
+    if (!isAppInitialized) return <CircleLoader/>
 
     return (
         <BrowserRouter>

@@ -7,6 +7,7 @@ import {useDispatch} from "react-redux";
 import {ThunkDispatch} from "redux-thunk";
 import {StoreType} from "../../bll/store";
 import {AnyAction} from "redux";
+import {DotsLoader} from "../Loaders/DotsLoader";
 
 
 export const Vacancy = (props: {vacancyData: VacancyAppType}) => {
@@ -44,7 +45,7 @@ export const Vacancy = (props: {vacancyData: VacancyAppType}) => {
                         addCallback={addCallback}
                         deleteCallback={deleteCallback}
                     />
-                </Flex> : <Loader/>
+                </Flex> : <DotsLoader/>
             }
         </Container>
     )

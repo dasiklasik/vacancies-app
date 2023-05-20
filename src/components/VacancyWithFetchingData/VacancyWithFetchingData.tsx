@@ -15,6 +15,7 @@ export const VacancyWithFetchingData = ({id, Component, ...props}: VacancyWithFe
     const dispatch = useDispatch<ThunkDispatch<StoreType, void, AnyAction>>()
 
     useEffect(() => {
+        debugger
         dispatch(getOneVacancy(id))
     }, [dispatch, id])
 

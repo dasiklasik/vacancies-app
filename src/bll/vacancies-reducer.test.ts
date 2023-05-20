@@ -5,7 +5,7 @@ import {
     InitialStateType,
     setFilterValues,
     setKeyword,
-    setPageNumber,
+    setPageNumber, setVacanciesStatus,
     vacanciesReducer
 } from "./vacancies-reducer";
 
@@ -21,7 +21,8 @@ let initialState: InitialStateType = {
         max: 0,
     },
     vacanciesAmount: 0,
-    vacanciesIdFromLS: []
+    vacanciesIdFromLS: [],
+    vacanciesEntityStatus: 'idle',
 }
 
 beforeEach(() => {
@@ -155,6 +156,7 @@ beforeEach(() => {
         },
         vacanciesAmount: 0,
         vacanciesIdFromLS: [],
+        vacanciesEntityStatus: 'idle',
     }
 })
 
@@ -292,4 +294,21 @@ test('vacancies reducer should remove from favorite', () => {
     const endState = vacanciesReducer(initialState, action)
 
     expect(endState.vacancies[1].favoriteInApp).toBe(false)
+})
+
+test('vacancies reducer should set entity status', () => {
+    const action1 = setVacanciesStatus('loading')
+    const endState1 = vacanciesReducer(initialState, action1)
+
+    expect(endState1.vacanciesEntityStatus).toBe('loading')
+
+    const action2 = setVacanciesStatus('succeed')
+    const endState2 = vacanciesReducer(initialState, action2)
+
+    expect(endState2.vacanciesEntityStatus).toBe('succeed')
+
+    const action3 = setVacanciesStatus('failed')
+    const endState3 = vacanciesReducer(initialState, action3)
+
+    expect(endState3.vacanciesEntityStatus).toBe('failed')
 })
