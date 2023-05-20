@@ -11,7 +11,7 @@ import {VacanciesPage} from "../VacanciesPage/VacanciesPage";
 import {getCatalogues} from "../../bll/vacancies-reducer";
 import {FavoritePage} from "../FavoritePage/FavoritePage";
 import {CircleLoader} from "../Loaders/CircleLoader";
-import {EmptyFavoritePage} from "../FavoritePage/EmptyFavoritePage";
+import {Page404} from "../Page404/Page404";
 
 function App() {
 
@@ -34,7 +34,7 @@ function App() {
                         <Route path='/favorites' element={<FavoritePage/>}/>
                         <Route path='/vacancies' element={<VacanciesPage/>}/>
                         <Route path='/' element={<Navigate to='/vacancies'/>}/>
-                        {/*<Route path='*' element={<h1>404: PAGE NOT FOUND</h1>}/>*/}
+                        <Route path='*' element={<Page404/>}/>
                     </Routes>
             </div>
         </BrowserRouter>
