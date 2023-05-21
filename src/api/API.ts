@@ -33,6 +33,14 @@ export const API = {
     getOneVacancy: (token: string | null, id: number) => {
         headers.Authorization = `Bearer ${token}`
         return instance.get<VacancyType>(`vacancies/${id}`)
+    },
+    getVacanciesByIds: (token: string | null, ids: number[], vacanciesAmount: number) => {
+        headers.Authorization = `Bearer ${token}`
+        let requestString = `vacancies/?count=${vacanciesAmount}`
+        ids.forEach(item => {
+            requestString += `&ids[]=${item}`
+        })
+        return instance.get<ResponseType>(requestString)
     }
 }
 

@@ -5,15 +5,17 @@ import {ThunkDispatch} from "redux-thunk";
 import {StoreType} from "../../bll/store";
 import {AnyAction} from "redux";
 import {
-    getVacanciesFromLS, VacancyAppType,
+    getVacanciesFromLS, StatusType, VacancyAppType,
 } from "../../bll/vacancies-reducer";
 import {Vacancy} from "../../components/Vacancy/Vacancy";
 import {VacancyPagination} from "../../components/VacancyPagination/VacancyPagination";
 import {EmptyFavoritePage} from "./EmptyFavoritePage";
+import {CircleLoader} from "../../common/Loaders/CircleLoader";
 
 export const FavoritePage = () => {
 
     const dispatch = useDispatch<ThunkDispatch<StoreType, void, AnyAction>>()
+    const status = useSelector<StoreType, StatusType>(state => state.vacancies.vacanciesEntityStatus)
 
 
     useEffect(() => {
@@ -26,21 +28,21 @@ export const FavoritePage = () => {
 
     const vacancies = useSelector<StoreType, VacancyAppType[]>(state => state.vacancies.vacancies)
 
-debugger
     return (
         <>
-            {vacancies.length ? <Container size={'1200px'} p={0}>
-                    <Flex direction="column" gap="16px" align={"stretch"}>
-                        {vacancies.map(item => {
-                            return <Vacancy key={item.id} vacancyData={item}/>
-                        })}
-                    </Flex>
-                    <Center mt="40px">
-                        <VacancyPagination callback={onPaginationChangeCallback}/>
-                    </Center>
-                </Container>
-                : <EmptyFavoritePage/>
-            }
+            {status === 'loading' ? <CircleLoader/>
+                : vacancies.length ? <Container size={'1200px'} p={0}>
+                        <Flex direction="column" gap="16px" align={"stretch"}>
+                            {vacancies.map(item => {
+                                return <Vacancy key={item.id} vacancyData={item}/>
+                            })}
+                        </Flex>
+                        <Center mt="40px">
+                            <VacancyPagination callback={onPaginationChangeCallback}/>
+                        </Center>
+                    </Container>
+                    : <EmptyFavoritePage/>}
+
         </>
     )
 }

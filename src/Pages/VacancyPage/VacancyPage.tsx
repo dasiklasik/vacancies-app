@@ -15,7 +15,7 @@ export const VacancyPage = () => {
     filter(item => item.id === id)[0])
 
 
-    const desc = HTMLReactParser(vacancyData.descriptionText)
+    const desc = HTMLReactParser(vacancyData.vacancyRichText)
 
 
     return (

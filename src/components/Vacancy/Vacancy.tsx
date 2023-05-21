@@ -29,11 +29,11 @@ export const Vacancy = (props: VacancyPropsType) => {
     }
 
     const addCallback = () => {
-        dispatch(addToFavorite({...vacancyData, favoriteInApp: true}))
+        dispatch(addToFavorite(vacancyData.id))
     }
 
     const deleteCallback = () => {
-        dispatch(deleteFromFavorite({...vacancyData, favoriteInApp: false}))
+        dispatch(deleteFromFavorite(vacancyData.id))
     }
 
     return (
@@ -46,9 +46,9 @@ export const Vacancy = (props: VacancyPropsType) => {
                         <Flex className={styles.conditions} gap='12px' align='center'>
                             <p className={styles.salary}>{`з/п от ${vacancyData.payment_from} ${vacancyData.currency}`}</p>
                             <p className={styles.circle}>•</p>
-                            <p>{vacancyData.type_of_work}</p>
+                            <p>{vacancyData.type_of_work.title}</p>
                         </Flex>
-                        <Flex align='center' gap='8px'><LocationIcon/><p>{vacancyData.town}</p></Flex>
+                        <Flex align='center' gap='8px'><LocationIcon/><p>{vacancyData.town.title}</p></Flex>
                     </div>
                     <FavoriteButton
                         dataElem={`vacancy-${vacancyData.id}`}

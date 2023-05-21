@@ -1,5 +1,5 @@
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {API, CatalogueType} from "../api/API";
+import {API, CatalogueType, VacancyType} from "../api/API";
 import { setIsAppInitialized } from "./app-reducer";
 import {StoreType} from "./store";
 
@@ -59,29 +59,20 @@ export const getVacancies = createAppAsyncThunk('vacancies/getVacancies',
             //формируем вакансию и добавляем свойство favoriteInApp
             ...response.data, objects: response.data.objects.map(item => {
                 const favorites = localStorage.getItem('favorites')
-                let favoritesArray: VacancyAppType[] = favorites ? JSON.parse(favorites) : []
-                const isFavorite = !!favoritesArray.find(i => i.id === item.id)
+                let favoritesArray: number[] = favorites ? JSON.parse(favorites) : []
+                const isFavorite = !!favoritesArray.includes(item.id)
 
-                const vacancy: VacancyAppType = {
-                    currency: item.currency,
-                    descriptionText: item.vacancyRichText,
-                    favoriteInApp: isFavorite,
-                    firm_name: item.firm_name,
-                    id: item.id,
-                    payment_from: item.payment_from,
-                    payment_to: item.payment_to,
-                    profession: item.profession,
-                    town: item.town.title,
-                    type_of_work: item.type_of_work.title,
-                }
-                return vacancy
+                return {...item, favoriteInApp: isFavorite}
             })
         }
     })
 
 export const getVacanciesFromLS = createAppAsyncThunk('vacancies/getVacanciesIdFromLS',
-    (params = undefined, thunkAPI) => {
-        // thunkAPI.dispatch(clearVacancies())
+    async (params = undefined, thunkAPI) => {
+        thunkAPI.dispatch(setVacanciesStatus('loading'))
+
+        const vacanciesAmount = thunkAPI.getState().vacancies.vacanciesAmount
+        const token = thunkAPI.getState().auth.accessToken
 
         const pageNumber = thunkAPI.getState().vacancies.pageNumber
         let startAt = pageNumber - 1
@@ -93,39 +84,43 @@ export const getVacanciesFromLS = createAppAsyncThunk('vacancies/getVacanciesIdF
         }
 
         let favorites = localStorage.getItem('favorites')
-        let favoritesArray: VacancyAppType[] = favorites ? JSON.parse(favorites) : []
+        let favoritesArray: number[] = favorites ? JSON.parse(favorites) : []
 
-        return {vacanciesIdFromLS: favoritesArray.slice(startAt, endAt), totalCount: favoritesArray.length}
+        if (favoritesArray.length === 0) return {vacancies: [], totalCount: 0}
+
+        const response= await API.getVacanciesByIds(token, favoritesArray.slice(startAt, endAt), vacanciesAmount)
+
+        return {vacancies: response.data.objects, totalCount: response.data.total}
     })
 
 export const addToFavorite = createAppAsyncThunk('vacancies/addToFavorite',
-     (vacancyData: VacancyAppType) => {
+     (id: number) => {
 
         let favorites = localStorage.getItem('favorites')
         if(favorites !== null) {
-            const favoritesArray: VacancyAppType[] = JSON.parse(favorites)
-            favoritesArray.push(vacancyData)
+            const favoritesArray: number[] = JSON.parse(favorites)
+            favoritesArray.push(id)
             const favoritesArrayString = JSON.stringify(favoritesArray)
             localStorage.setItem('favorites', favoritesArrayString)
         } else {
-            localStorage.setItem('favorites', JSON.stringify([vacancyData]))
+            localStorage.setItem('favorites', JSON.stringify([id]))
         }
-        return vacancyData.id
+        return id
     })
 
 export const deleteFromFavorite = createAppAsyncThunk('vacancies/deleteFromFavorite',
-    (vacancyData: VacancyAppType) => {
+    (id: number) => {
 
         let favorites = localStorage.getItem('favorites')
         if(favorites !== null) {
-            let favoritesArray: VacancyAppType[] = JSON.parse(favorites)
-            favoritesArray = favoritesArray.filter(item => item.id !== vacancyData.id)
+            let favoritesArray: number[] = JSON.parse(favorites)
+            favoritesArray = favoritesArray.filter(item => item !== id)
             const favoritesArrayString = JSON.stringify(favoritesArray)
             localStorage.setItem('favorites', favoritesArrayString)
         } else {
             localStorage.setItem('favorites', JSON.stringify([]))
         }
-        return vacancyData.id
+        return id
     })
 
 //slice
@@ -146,13 +141,6 @@ const slice = createSlice({
             if (action.payload.max || action.payload.min) {
                 state.no_agreement = 1
             }
-        },
-        clearState: (state) => {
-            state.vacancies = []
-            state.keyword = null
-            state.salary = {min: undefined, max: undefined}
-            state.cataloguesItem = null
-            state.pageNumber = 1
         },
         clearVacancies: (state) => {
             state.vacancies = []
@@ -182,8 +170,9 @@ const slice = createSlice({
                 }
             })
             .addCase(getVacanciesFromLS.fulfilled, (state, action) => {
-                state.vacancies = action.payload.vacanciesIdFromLS
+                state.vacancies = action.payload.vacancies.map(item => ({...item, favoriteInApp: true}))
                 state.totalCount = action.payload.totalCount
+                state.vacanciesEntityStatus = 'succeed'
             })
     }
 })
@@ -191,19 +180,10 @@ const slice = createSlice({
 export const vacanciesReducer = slice.reducer
 
 //actions
-export const {setPageNumber, setKeyword, setFilterValues, clearState, clearVacancies, setVacanciesStatus} = slice.actions
+export const {setPageNumber, setKeyword, setFilterValues, clearVacancies, setVacanciesStatus} = slice.actions
 
 //types
-export type VacancyAppType = {
-    id: number
-    profession: string
-    firm_name: string
-    town: string
-    type_of_work: string
-    payment_to: number
-    payment_from: number
-    currency: string
-    descriptionText: string
+export type VacancyAppType = VacancyType & {
     favoriteInApp: boolean
 }
 
