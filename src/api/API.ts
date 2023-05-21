@@ -30,10 +30,6 @@ export const API = {
         headers.Authorization = `Bearer ${token}`
         return instance.get<CatalogueType[]>('catalogues')
     },
-    getOneVacancy: (token: string | null, id: number) => {
-        headers.Authorization = `Bearer ${token}`
-        return instance.get<VacancyType>(`vacancies/${id}`)
-    },
     getVacanciesByIds: (token: string | null, ids: number[], vacanciesAmount: number) => {
         headers.Authorization = `Bearer ${token}`
         let requestString = `vacancies/?count=${vacanciesAmount}`
