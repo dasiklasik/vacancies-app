@@ -40,7 +40,7 @@ export const getVacancies = createAppAsyncThunk('vacancies/getVacancies',
         }
 
         const requestData = {
-            page: thunkAPI.getState().vacancies.pageNumber,
+            page: thunkAPI.getState().vacancies.pageNumber - 1,
             keyword: thunkAPI.getState().vacancies.keyword,
             payment_from: thunkAPI.getState().vacancies.salary.min,
             payment_to: thunkAPI.getState().vacancies.salary.max,
