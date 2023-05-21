@@ -56,7 +56,7 @@ export const getVacancies = createAppAsyncThunk('vacancies/getVacancies',
             ...response.data, objects: response.data.objects.map(item => {
                 const favorites = localStorage.getItem('favorites')
                 let favoritesArray: number[] = favorites ? JSON.parse(favorites) : []
-                const isFavorite = !!favoritesArray.includes(item.id)
+                const isFavorite = favoritesArray.includes(item.id)
 
                 return {...item, favoriteInApp: isFavorite}
             })
