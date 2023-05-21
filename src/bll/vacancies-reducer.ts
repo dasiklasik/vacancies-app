@@ -1,7 +1,7 @@
-import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {API, CatalogueType, VacancyType} from "../api/API";
+import { createAppAsyncThunk } from "../utils/createAppAsyncThunk";
 import { setIsAppInitialized } from "./app-reducer";
-import {StoreType} from "./store";
 
 const initialState: InitialStateType = {
     totalCount: 0,
@@ -18,10 +18,6 @@ const initialState: InitialStateType = {
     vacanciesEntityStatus: 'idle',
     no_agreement: null
 }
-
-export const createAppAsyncThunk = createAsyncThunk.withTypes<{
-    state: StoreType,
-}>()
 
 //thunk
 export const getCatalogues = createAppAsyncThunk('vacancies/getCatalogues',
