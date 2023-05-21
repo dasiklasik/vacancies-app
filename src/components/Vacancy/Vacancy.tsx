@@ -36,6 +36,13 @@ export const Vacancy = (props: VacancyPropsType) => {
         dispatch(deleteFromFavorite(vacancyData.id))
     }
 
+    const salary = vacancyData.payment_to && vacancyData.payment_from ?
+        `з/п ${vacancyData.payment_from}—${vacancyData.payment_to}`
+        : vacancyData.payment_from ? `з/п от ${vacancyData.payment_from}`
+            : vacancyData.payment_to ? `з/п до ${vacancyData.payment_to}`
+                : vacancyData.agreement ? `з/п по договоренности`
+                    : `з/п не указана`
+
     return (
         <Paper withBorder radius={12} data-elem={`vacancy-${vacancyData.id}`} w={'100%'} onClick={navigateToVacancyPage} p='24px' className={styles.wrapper}>
 
@@ -44,7 +51,7 @@ export const Vacancy = (props: VacancyPropsType) => {
                     <div className={styles.content}>
                         <Title order={3}>{vacancyData.profession}</Title>
                         <Flex className={styles.conditions} gap='12px' align='center'>
-                            <p className={styles.salary}>{`з/п от ${vacancyData.payment_from} ${vacancyData.currency}`}</p>
+                            <p className={styles.salary}>{salary}</p>
                             <p className={styles.circle}>•</p>
                             <p>{vacancyData.type_of_work.title}</p>
                         </Flex>
