@@ -1,0 +1,13 @@
+.alert {
+  background: red;
+  color: #ffffff;
+}
+
+.alert div {
+  color: #fff;
+  font-weight: 700;
+}
+
+.alert svg path {
+  fill: #ffffff;
+}

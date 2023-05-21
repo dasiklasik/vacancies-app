@@ -2,6 +2,7 @@ import {appReducer, setIsAppInitialized} from "./app-reducer";
 
 const initialState = {
     isAppInitialized: false,
+    error: null
 }
 
 test('app reducer should set property isAppInitialized', () => {

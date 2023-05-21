@@ -14,11 +14,14 @@ import {CircleLoader} from "../../common/Loaders/CircleLoader";
 import {Page404} from "../../Pages/Page404/Page404";
 import {Box, Container} from '@mantine/core';
 import {VacancyPage} from "../../Pages/VacancyPage/VacancyPage";
+import {ErrorAlert} from "../../common/ErrorAlert/ErrorAlert";
+import {setError} from "../../bll/app-reducer";
 
 function App() {
 
     const dispatch = useDispatch<ThunkDispatch<StoreType, void, AnyAction>>()
     const isAppInitialized = useSelector<StoreType, boolean>( state => state.app.isAppInitialized)
+    const error = useSelector<StoreType, string | null>(state => state.app.error)
 
     useEffect(() => {
         dispatch(getAccessToken())
@@ -28,9 +31,14 @@ function App() {
     if (!isAppInitialized) return <CircleLoader/>
 
 
+    const closeErrorAlert = () => {
+        dispatch(setError(null))
+    }
+
     return (
         <BrowserRouter>
             <div>
+                {error && <ErrorAlert closeCallback={closeErrorAlert} error={error}/>}
                 <HeaderContainer/>
                     <Box pt={40} pb={44} className={styles.back} mih={"100vh"}>
                         <Container p={0} className={styles.wrapper}>
