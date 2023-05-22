@@ -14,17 +14,17 @@
 }
 
 .button__reset:hover {
-  color: #92C1FF;
+  color: #92c1ff;
 }
 
 .button__reset:hover line {
-  stroke: #92C1FF;
+  stroke: #92c1ff;
 }
 
 .button__reset:active {
-  color: #5E96FC;
+  color: #5e96fc;
 }
 
 .button__reset:active line {
-  stroke: #5E96FC;
+  stroke: #5e96fc;
 }

@@ -1,7 +1,7 @@
-import {Burger, Menu } from "@mantine/core"
-import {useState} from "react";
-import { NavLink } from "react-router-dom";
-import styles from './BurgerMenu.module.css'
+import {Burger, Menu} from '@mantine/core';
+import {useState} from 'react';
+import {NavLink} from 'react-router-dom';
+import styles from './BurgerMenu.module.css';
 
 export const BurgerMenu = () => {
 
@@ -19,8 +19,10 @@ export const BurgerMenu = () => {
                 </Menu.Target>
 
                 <Menu.Dropdown>
-                    <Menu.Item closeMenuOnClick><NavLink className={({isActive}) => isActive ? styles.active : ''} to='/vacancies'>Поиск вакансий</NavLink></Menu.Item>
-                    <Menu.Item closeMenuOnClick><NavLink className={({isActive}) => isActive ? styles.active : ''} to='/favorites'>Избранное</NavLink></Menu.Item>
+                    <Menu.Item closeMenuOnClick><NavLink className={({isActive}) => isActive ? styles.active : ''}
+                                                         to="/vacancies">Поиск вакансий</NavLink></Menu.Item>
+                    <Menu.Item closeMenuOnClick><NavLink className={({isActive}) => isActive ? styles.active : ''}
+                                                         to="/favorites">Избранное</NavLink></Menu.Item>
                 </Menu.Dropdown>
             </Menu>
         </div>

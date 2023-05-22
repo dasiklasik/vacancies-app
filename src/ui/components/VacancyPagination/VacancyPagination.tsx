@@ -1,7 +1,7 @@
-import {Pagination} from "@mantine/core";
-import {clearVacancies, setPageNumber} from "../../../bll/vacancies/vacancies-reducer";
-import {useAppDispatch, useAppSelector} from "../../../bll/store";
-import React from "react";
+import {Pagination} from '@mantine/core';
+import {clearVacancies, setPageNumber} from '../../../bll/vacancies/vacancies-reducer';
+import {useAppDispatch, useAppSelector} from '../../../bll/store';
+import React from 'react';
 
 type VacancyPaginationPropsType = {
     callback: () => void

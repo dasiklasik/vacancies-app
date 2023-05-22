@@ -1,5 +1,5 @@
-import {MouseEvent} from "react";
-import { StarIcon } from "../../../../assets/icons/StarIcon";
+import {MouseEvent} from 'react';
+import { StarIcon } from '../../../../assets/icons/StarIcon';
 
 type FavoriteButtonPropsType = {
     isFavorite: boolean

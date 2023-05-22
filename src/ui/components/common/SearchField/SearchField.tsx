@@ -1,7 +1,7 @@
-import {Button, Input, Paper} from "@mantine/core";
-import styles from './SearchField.module.css'
-import {ChangeEvent, useState} from "react";
-import { SearchIcon } from "../../../../assets/icons/SearchIcon";
+import {Button, Input, Paper} from '@mantine/core';
+import styles from './SearchField.module.css';
+import {ChangeEvent, useState} from 'react';
+import { SearchIcon } from '../../../../assets/icons/SearchIcon';
 
 type SearchFieldPropsType = {
     callback: (value: string) => void
@@ -21,11 +21,11 @@ export const SearchField = (props: SearchFieldPropsType) => {
     return (
         <Paper className={styles.search}>
             <Input
-                placeholder={"Введите название вакансии"}
+                placeholder="Введите название вакансии"
                 radius={8} onChange={changeInputValue}
                 value={inputValue}
                 icon={<SearchIcon/>}
-                size={"lg"}
+                size="lg"
                 className={styles.search__field}
                 data-elem="search-input"
             />

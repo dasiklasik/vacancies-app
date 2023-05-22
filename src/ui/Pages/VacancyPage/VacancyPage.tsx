@@ -1,12 +1,11 @@
-import {Container, Paper} from "@mantine/core";
-import {Vacancy} from "../../components/Vacancy/Vacancy";
-import {useParams} from "react-router-dom";
-import {useAppDispatch, useAppSelector} from "../../../bll/store";
-import HTMLReactParser from "html-react-parser";
-import {useEffect} from "react";
-
-import { VacancyAppType } from "../../../bll/vacancies/vacancies-reducer-types";
-import { getOneVacancy } from "../../../bll/vacancies/vacancies-reducer-thunks";
+import {Container, Paper} from '@mantine/core';
+import {Vacancy} from '../../components/Vacancy/Vacancy';
+import {useParams} from 'react-router-dom';
+import {useAppDispatch, useAppSelector} from '../../../bll/store';
+import HTMLReactParser from 'html-react-parser';
+import {useEffect} from 'react';
+import { VacancyAppType } from '../../../bll/vacancies/vacancies-reducer-types';
+import { getOneVacancy } from '../../../bll/vacancies/vacancies-reducer-thunks';
 
 export const VacancyPage = () => {
 
