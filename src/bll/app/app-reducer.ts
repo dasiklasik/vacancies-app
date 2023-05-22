@@ -1,7 +1,7 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {createAppAsyncThunk} from "../../utils/createAppAsyncThunk";
 import {getAccessToken} from "../auth/auth-reducer";
-import { getCatalogues, getVacancies, getVacanciesFromLS } from "../vacancies/vacancies-reducer-thunks";
+import {getCatalogues, getOneVacancy, getVacancies, getVacanciesFromLS} from "../vacancies/vacancies-reducer-thunks";
 
 const initialState: initialStateType = {
     isAppInitialized: false,
@@ -42,6 +42,9 @@ const slice = createSlice({
             .addCase(getVacanciesFromLS.rejected, (state, action) => {
                 state.error = action.error.message ? action.error.message : 'Some error occurred'
             })
+            .addCase(getOneVacancy.rejected, (state, action) => {
+                state.error = action.error.message ? action.error.message : 'Some error occurred'
+            })
     }
 })
 
@@ -55,4 +58,3 @@ type initialStateType = {
     isAppInitialized: boolean
     error: string | null
 }
-
