@@ -64,7 +64,7 @@ export const Vacancy = (props: VacancyPropsType) => {
                         <Flex align="center" gap="8px"><LocationIcon/><p>{vacancyData.town.title}</p></Flex>
                     </div>
                     <FavoriteButton
-                        dataElem={`vacancy-${vacancyData.id}`}
+                        dataElem={`vacancy-${vacancyData.id}-shortlist-button`}
                         isFavorite={vacancyData.favoriteInApp}
                         addCallback={addCallback}
                         deleteCallback={deleteCallback}
