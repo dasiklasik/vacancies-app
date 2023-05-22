@@ -2,6 +2,7 @@ import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {API, CatalogueType, VacancyType} from "../api/API";
 import { createAppAsyncThunk } from "../utils/createAppAsyncThunk";
 import { setIsAppInitialized } from "./app-reducer";
+import {checkIsFavorite} from "../utils/checkIsFavorite";
 
 const initialState: InitialStateType = {
     totalCount: 0,
@@ -54,11 +55,7 @@ export const getVacancies = createAppAsyncThunk('vacancies/getVacancies',
         return {
             //формируем вакансию и добавляем свойство favoriteInApp
             ...response.data, objects: response.data.objects.map(item => {
-                const favorites = localStorage.getItem('favorites')
-                let favoritesArray: number[] = favorites ? JSON.parse(favorites) : []
-                const isFavorite = favoritesArray.includes(item.id)
-
-                return {...item, favoriteInApp: isFavorite}
+                return {...item, favoriteInApp: checkIsFavorite(item.id)}
             })
         }
     })
@@ -106,7 +103,6 @@ export const addToFavorite = createAppAsyncThunk('vacancies/addToFavorite',
 
 export const deleteFromFavorite = createAppAsyncThunk('vacancies/deleteFromFavorite',
     (id: number) => {
-
         let favorites = localStorage.getItem('favorites')
         if(favorites !== null) {
             let favoritesArray: number[] = JSON.parse(favorites)
@@ -117,6 +113,15 @@ export const deleteFromFavorite = createAppAsyncThunk('vacancies/deleteFromFavor
             localStorage.setItem('favorites', JSON.stringify([]))
         }
         return id
+    })
+
+export const getOneVacancy = createAppAsyncThunk('vacancies/getOneVacancy',
+    async (id: number, thunkAPI) => {
+        const token = thunkAPI.getState().auth.accessToken
+
+        const response = await API.getOneVacancy(token, id)
+
+        return {...response.data, favoriteInApp: checkIsFavorite(response.data.id)}
     })
 
 //slice
@@ -171,6 +176,9 @@ const slice = createSlice({
                 state.vacancies = action.payload.vacancies.map(item => ({...item, favoriteInApp: true}))
                 state.totalCount = action.payload.totalCount
                 state.vacanciesEntityStatus = 'succeed'
+            })
+            .addCase(getOneVacancy.fulfilled, (state, action) => {
+                state.vacancies.push({...action.payload})
             })
     }
 })

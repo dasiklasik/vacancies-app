@@ -1,18 +1,30 @@
 import {Container, Paper} from "@mantine/core";
 import {Vacancy} from "../../components/Vacancy/Vacancy";
 import {useParams} from "react-router-dom";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {StoreType} from "../../bll/store";
-import {VacancyAppType} from "../../bll/vacancies-reducer";
+import {getOneVacancy, VacancyAppType} from "../../bll/vacancies-reducer";
 import HTMLReactParser from "html-react-parser";
+import {useEffect} from "react";
+import {ThunkDispatch} from "redux-thunk";
+import {AnyAction} from "redux";
 
 export const VacancyPage = () => {
 
     const param = useParams()
     const id = Number(param.id)
 
+    const dispatch = useDispatch<ThunkDispatch<StoreType, void, AnyAction>>()
+
     const vacancyData = useSelector<StoreType, VacancyAppType>(state => state.vacancies.vacancies
         .filter(item => item.id === id)[0])
+
+    useEffect(() => {
+        //проверяем, если вакансия в state и запрашиваем, если нет
+        if (!vacancyData) {
+            dispatch(getOneVacancy(id))
+        }
+    }, [vacancyData, dispatch, id])
 
     const desc = HTMLReactParser(vacancyData.vacancyRichText)
 
