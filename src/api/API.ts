@@ -1,8 +1,8 @@
 import axios from "axios";
 
 const headers = {
-    'x-secret-key': 'GEU4nvd3rej*jeh.eqp',
-    'x-api-app-id': 'v3.r.137440105.ffdbab114f92b821eac4e21f485343924a773131.06c3bdbb8446aeb91c35b80c42ff69eb9c457948',
+    'x-secret-key': process.env.REACT_APP_X_SECRET_KEY,
+    'x-api-app-id': process.env.REACT_APP_CLIENT_SECRET,
 }
 
 const instance = axios.create({
@@ -22,10 +22,10 @@ instance.interceptors.request.use((config) => {
 export const API = {
     getAccessToken: () => {
         const params = {
-            login: 'sergei.stralenia@gmail.com',
-            password: 'paralect123',
-            client_id: 2356,
-            client_secret: 'v3.r.137440105.ffdbab114f92b821eac4e21f485343924a773131.06c3bdbb8446aeb91c35b80c42ff69eb9c457948',
+            login: process.env.REACT_APP_LOGIN,
+            password: process.env.REACT_APP_PASSWORD,
+            client_id: process.env.REACT_APP_CLIENT_ID,
+            client_secret: process.env.REACT_APP_CLIENT_SECRET,
             hr: 0,
         }
          return instance.get('oauth2/password/', {params, headers})
@@ -33,8 +33,8 @@ export const API = {
     refreshToken: (refreshToken: string) => {
         const params = {
             refresh_token: refreshToken,
-            client_id: 2356,
-            client_secret: 'v3.r.137440105.ffdbab114f92b821eac4e21f485343924a773131.06c3bdbb8446aeb91c35b80c42ff69eb9c457948',
+            client_id: process.env.REACT_APP_CLIENT_ID,
+            client_secret: process.env.REACT_APP_CLIENT_SECRET,
         }
         return instance.get('oauth2/refresh_token/', {params, headers})
     },
