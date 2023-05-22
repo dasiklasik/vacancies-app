@@ -86,7 +86,7 @@ export const getVacanciesFromLS = createAppAsyncThunk('vacancies/getVacanciesIdF
 
         const response= await API.getVacanciesByIds(token, favoritesArray.slice(startAt, endAt), vacanciesAmount)
 
-        return {vacancies: response.data.objects, totalCount: response.data.total}
+        return {vacancies: response.data.objects, totalCount: favoritesArray.length}
     })
 
 export const addToFavorite = createAppAsyncThunk('vacancies/addToFavorite',
@@ -136,6 +136,8 @@ const slice = createSlice({
             state.salary.min = action.payload.min
             if (action.payload.max || action.payload.min) {
                 state.no_agreement = 1
+            } else if (!action.payload.max && !action.payload.min) {
+                state.no_agreement = null
             }
         },
         clearVacancies: (state) => {
@@ -200,4 +202,3 @@ export type InitialStateType = {
 }
 
 export type StatusType = 'idle' | 'loading' | 'succeed' | 'failed'
-

@@ -5,7 +5,7 @@ import {ThunkDispatch} from "redux-thunk";
 import {StoreType} from "../../bll/store";
 import {AnyAction} from "redux";
 import {
-    getVacanciesFromLS, StatusType, VacancyAppType,
+    getVacanciesFromLS, setPageNumber, StatusType, VacancyAppType,
 } from "../../bll/vacancies-reducer";
 import {Vacancy} from "../../components/Vacancy/Vacancy";
 import {VacancyPagination} from "../../components/VacancyPagination/VacancyPagination";
@@ -19,6 +19,7 @@ export const FavoritePage = () => {
 
 
     useEffect(() => {
+        dispatch(setPageNumber(1))
         dispatch(getVacanciesFromLS())
     }, [dispatch])
 

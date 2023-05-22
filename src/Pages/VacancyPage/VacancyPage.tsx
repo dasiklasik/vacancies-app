@@ -11,12 +11,10 @@ export const VacancyPage = () => {
     const param = useParams()
     const id = Number(param.id)
 
-    const vacancyData = useSelector<StoreType, VacancyAppType>(state => state.vacancies.vacancies.
-    filter(item => item.id === id)[0])
-
+    const vacancyData = useSelector<StoreType, VacancyAppType>(state => state.vacancies.vacancies
+        .filter(item => item.id === id)[0])
 
     const desc = HTMLReactParser(vacancyData.vacancyRichText)
-
 
     return (
         <Container size={'1116px'} p={0}>
