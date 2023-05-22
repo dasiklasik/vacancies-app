@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import styles from './App.module.css';
-import {BrowserRouter, Navigate, Route, Routes} from 'react-router-dom';
+import {HashRouter, Navigate, Route, Routes} from 'react-router-dom';
 import {useAppDispatch, useAppSelector} from '../../../bll/store';
 import {initApp, setError} from '../../../bll/app/app-reducer';
 import {CircleLoader} from '../common/Loaders/CircleLoader';
@@ -30,7 +30,7 @@ function App() {
     if (!isAppInitialized) return <CircleLoader/>
 
     return (
-        <BrowserRouter>
+        <HashRouter>
             <div>
                 {error && <ErrorAlert closeCallback={closeErrorAlert} error={error}/>}
                 <HeaderContainer/>
@@ -46,7 +46,7 @@ function App() {
                     </Container>
                 </Box>
             </div>
-        </BrowserRouter>
+        </HashRouter>
     );
 }
 
