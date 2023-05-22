@@ -7,7 +7,7 @@ export const EmptyFavoritePage = () => {
     return (
         <Center w={"100%"} mih={'90vh'}>
             <Flex direction={"column"} align={"center"}  w={327} p={0}>
-                <img src={image}/>
+                <img src={image} alt={""}/>
                 <Title my={32} order={3}>Упс, здесь еще ничего нет!</Title>
                 <Button component={NavLink} to={'/vacancies'} variant={"light"}>Поиск Вакансий</Button>
             </Flex>
