@@ -32,7 +32,7 @@ debugger
     return (
         <>
             {vacancyData ? <Container size={'1116px'} p={0}>
-                <Vacancy vacancyData={vacancyData}/>
+                <Vacancy isVacancyPage={true} vacancyData={vacancyData}/>
                 <Paper className={styles.desc} p={24} mt={20} withBorder radius={12} w={'100%'}>
                     {desc}
                 </Paper>

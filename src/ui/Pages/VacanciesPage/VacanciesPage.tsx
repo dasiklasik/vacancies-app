@@ -5,16 +5,18 @@ import {useAppDispatch, useAppSelector} from '../../../bll/store';
 import {useCallback, useEffect, useState} from 'react';
 import {VacancyPagination} from '../../components/VacancyPagination/VacancyPagination';
 import {Vacancy} from '../../components/Vacancy/Vacancy';
-import { DotsLoader } from '../../components/common/Loaders/DotsLoader';
+import {DotsLoader} from '../../components/common/Loaders/DotsLoader';
 import {EmptyVacanciesPage} from './EmptyVacanciesPage';
 import styles from './VacanciesPage.module.css'
-import { getVacancies } from '../../../bll/vacancies/vacancies-reducer-thunks';
-import {StatusType, VacancyAppType } from '../../../bll/vacancies/vacancies-reducer-types';
+import {getVacancies} from '../../../bll/vacancies/vacancies-reducer-thunks';
+import {StatusType, VacancyAppType} from '../../../bll/vacancies/vacancies-reducer-types';
 import {setFilterValues} from '../../../bll/vacancies/vacancies-reducer';
+import {useNavigate} from "react-router-dom";
 
 export const VacanciesPage = () => {
 
     const dispatch = useAppDispatch()
+    const navigate = useNavigate()
     const vacancies = useAppSelector<VacancyAppType[]>(state => state.vacancies.vacancies)
     const status = useAppSelector<StatusType>(state => state.vacancies.vacanciesEntityStatus)
 
@@ -48,10 +50,14 @@ export const VacanciesPage = () => {
         dispatch(getVacancies())
     }
 
+    const navigateToVacancyPage = (id: number) => {
+        navigate(`/vacancies/${id}`)
+    }
+
     return (
         <Container p="0px" className={styles.wrapper}>
             <Flex gap="28px" className={styles.flexWrapper}>
-                <Container className={styles.filter}  p={0} w={315}>
+                <Container className={styles.filter} p={0} w={315}>
                     <FilterBlock
                         maxValue={maxValue}
                         minValue={minValue}
@@ -71,16 +77,20 @@ export const VacanciesPage = () => {
                     />
                     {status === 'loading' ? <DotsLoader/>
                         : vacancies.length === 0 ? <EmptyVacanciesPage/>
-                            :<Box>
+                            : <Box>
                                 <Flex direction="column" gap="16px" align="stretch">
                                     {vacancies.map(item => {
-                                        return <Vacancy key={item.id} vacancyData={item}/>
+                                        return (
+                                            <Box onClick={() => navigateToVacancyPage(item.id)}>
+                                                <Vacancy key={item.id} vacancyData={item}/>
+                                            </Box>
+                                        )
                                     })}
                                 </Flex>
                                 <Center mt="40px">
                                     <VacancyPagination callback={onPaginationChangeCallback}/>
                                 </Center>
-                            </Box> }
+                            </Box>}
                 </Box>
             </Flex>
         </Container>

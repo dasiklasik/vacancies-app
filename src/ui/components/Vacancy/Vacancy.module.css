@@ -3,21 +3,38 @@
   cursor: pointer;
 }
 
+.vacancyPage {
+  cursor: default;
+}
+
 .content {
   font-weight: 400;
   font-size: 16px;
   line-height: 20px;
 }
 
-.content h3 {
+.content .title {
   color: #5e96fc;
   font-weight: 600;
   font-size: 20px;
   line-height: 24px;
 }
 
+.vacancyPage .content .title {
+  color: #000000;
+  font-weight: 700;
+  font-size: 28px;
+  line-height: 34px;
+}
+
 .content .conditions {
   margin: 12px 0;
+}
+
+.vacancyPage .content .conditions {
+  font-size: 20px;
+  line-height: 20px;
+  margin: 17px 0;
 }
 
 .content .salary {

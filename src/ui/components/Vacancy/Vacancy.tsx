@@ -11,6 +11,7 @@ import { useAppDispatch } from '../../../bll/store';
 export type VacancyPropsType = {
     vacancyData: VacancyAppType
     deleteFromFavoriteCallback?: () => void
+    isVacancyPage?: boolean
 }
 
 export const Vacancy = (props: VacancyPropsType) => {
@@ -18,10 +19,10 @@ export const Vacancy = (props: VacancyPropsType) => {
     const {
         vacancyData,
         deleteFromFavoriteCallback,
+        isVacancyPage,
     } = props
 
     const dispatch = useAppDispatch()
-    const navigate = useNavigate()
 
     const salary = vacancyData.payment_to && vacancyData.payment_from ?
         `з/п ${vacancyData.payment_from}—${vacancyData.payment_to}`
@@ -30,9 +31,8 @@ export const Vacancy = (props: VacancyPropsType) => {
                 : vacancyData.agreement ? `з/п по договоренности`
                     : `з/п не указана`
 
-    const navigateToVacancyPage = () => {
-        navigate(`/vacancies/${vacancyData.id}`)
-    }
+    const className = isVacancyPage ? `${styles.vacancyPage} ${styles.wrapper}` : styles.wrapper
+    const titleOrder = isVacancyPage ? 2 : 3
 
     const addCallback = () => {
         dispatch(addToFavorite(vacancyData.id))
@@ -48,15 +48,14 @@ export const Vacancy = (props: VacancyPropsType) => {
             withBorder
             radius={12}
             data-elem={`vacancy-${vacancyData.id}`} w="100%"
-            onClick={navigateToVacancyPage}
             p="24px"
-            className={styles.wrapper}
+            className={className}
         >
 
             {
                 vacancyData ? <Flex justify="space-between">
                     <div className={styles.content}>
-                        <Title order={3}>{vacancyData.profession}</Title>
+                        <Title order={titleOrder} className={styles.title}>{vacancyData.profession}</Title>
                         <Flex className={styles.conditions} gap="12px" align="center">
                             <p className={styles.salary}>{salary}</p>
                             <p className={styles.circle}>•</p>
