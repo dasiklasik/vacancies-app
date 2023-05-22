@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/vacancies-app/static/css/main.a0b3fabe.css",
-    "main.js": "/vacancies-app/static/js/main.0313ea5a.js",
+    "main.js": "/vacancies-app/static/js/main.6cfbf8f2.js",
     "static/media/searching-image.png": "/vacancies-app/static/media/searching-image.32058478f4e555b3b7e8.png",
     "index.html": "/vacancies-app/index.html",
     "main.a0b3fabe.css.map": "/vacancies-app/static/css/main.a0b3fabe.css.map",
-    "main.0313ea5a.js.map": "/vacancies-app/static/js/main.0313ea5a.js.map"
+    "main.6cfbf8f2.js.map": "/vacancies-app/static/js/main.6cfbf8f2.js.map"
   },
   "entrypoints": [
     "static/css/main.a0b3fabe.css",
-    "static/js/main.0313ea5a.js"
+    "static/js/main.6cfbf8f2.js"
   ]
 }
