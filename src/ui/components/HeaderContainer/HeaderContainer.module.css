@@ -5,6 +5,11 @@
   gap: 50px;
 }
 
+.wrapper a {
+  color: #000000;
+  text-decoration: none;
+}
+
 .logo__title {
   font-weight: 600;
   font-size: 24px;
