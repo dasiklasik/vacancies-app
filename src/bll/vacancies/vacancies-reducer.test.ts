@@ -1,15 +1,12 @@
 import {
-    addToFavorite,
     clearVacancies,
-    deleteFromFavorite,
-    getCatalogues,
-    getVacancies, getVacanciesFromLS,
-    InitialStateType,
     setFilterValues,
     setKeyword,
     setPageNumber, setVacanciesStatus,
-    vacanciesReducer, VacancyAppType
+    vacanciesReducer
 } from "./vacancies-reducer";
+import {addToFavorite, deleteFromFavorite, getCatalogues, getVacancies, getVacanciesFromLS } from "./vacancies-reducer-thunks";
+import { InitialStateType, VacancyAppType } from "./vacancies-reducer-types";
 
 let initialState: InitialStateType = {
     totalCount: 0,

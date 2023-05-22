@@ -5,9 +5,10 @@ import {CatalogueType} from "../../../api/API";
 import {useEffect, useState} from "react";
 import {ThunkDispatch} from "redux-thunk";
 import {AnyAction} from "redux";
-import {getVacancies, setFilterValues} from "../../../bll/vacancies/vacancies-reducer";
+import {setFilterValues} from "../../../bll/vacancies/vacancies-reducer";
 import {IconX} from "../../../assets/icons/IconX";
 import styles from './FilterBlock.module.css'
+import { getVacancies } from "../../../bll/vacancies/vacancies-reducer-thunks";
 
 export const FilterBlock = () => {
 

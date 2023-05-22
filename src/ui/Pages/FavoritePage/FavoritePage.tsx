@@ -4,13 +4,13 @@ import {useDispatch, useSelector} from "react-redux";
 import {ThunkDispatch} from "redux-thunk";
 import {StoreType} from "../../../bll/store";
 import {AnyAction} from "redux";
-import {
-    getVacanciesFromLS, setPageNumber, StatusType, VacancyAppType,
-} from "../../../bll/vacancies/vacancies-reducer";
+import {setPageNumber} from "../../../bll/vacancies/vacancies-reducer";
 import {Vacancy} from "../../components/Vacancy/Vacancy";
 import {VacancyPagination} from "../../components/VacancyPagination/VacancyPagination";
 import {EmptyFavoritePage} from "./EmptyFavoritePage";
 import {CircleLoader} from "../../components/common/Loaders/CircleLoader";
+import {StatusType, VacancyAppType } from "../../../bll/vacancies/vacancies-reducer-types";
+import { getVacanciesFromLS } from "../../../bll/vacancies/vacancies-reducer-thunks";
 
 export const FavoritePage = () => {
 

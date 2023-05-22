@@ -3,11 +3,12 @@ import {Vacancy} from "../../components/Vacancy/Vacancy";
 import {useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {StoreType} from "../../../bll/store";
-import {getOneVacancy, VacancyAppType} from "../../../bll/vacancies/vacancies-reducer";
 import HTMLReactParser from "html-react-parser";
 import {useEffect} from "react";
 import {ThunkDispatch} from "redux-thunk";
 import {AnyAction} from "redux";
+import { VacancyAppType } from "../../../bll/vacancies/vacancies-reducer-types";
+import { getOneVacancy } from "../../../bll/vacancies/vacancies-reducer-thunks";
 
 export const VacancyPage = () => {
 

@@ -1,7 +1,7 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {getCatalogues, getVacancies, getVacanciesFromLS} from "../vacancies/vacancies-reducer";
 import {createAppAsyncThunk} from "../../utils/createAppAsyncThunk";
 import {getAccessToken} from "../auth/auth-reducer";
+import { getCatalogues, getVacancies, getVacanciesFromLS } from "../vacancies/vacancies-reducer-thunks";
 
 const initialState: initialStateType = {
     isAppInitialized: false,

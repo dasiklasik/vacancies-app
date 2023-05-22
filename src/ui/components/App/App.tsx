@@ -5,8 +5,6 @@ import {useDispatch, useSelector} from "react-redux";
 import {ThunkDispatch} from "redux-thunk";
 import {StoreType} from "../../../bll/store";
 import {AnyAction} from "redux";
-import {getAccessToken} from "../../../bll/auth/auth-reducer";
-import { getCatalogues } from '../../../bll/vacancies/vacancies-reducer';
 import {initApp, setError} from '../../../bll/app/app-reducer';
 import {CircleLoader } from '../common/Loaders/CircleLoader';
 import { ErrorAlert } from '../common/ErrorAlert/ErrorAlert';

@@ -3,7 +3,7 @@ import {API} from "../../api/API";
 import {createAppAsyncThunk} from "../../utils/createAppAsyncThunk";
 
 export const getAccessToken = createAppAsyncThunk('auth/me',
-    async (params, thunkAPI) => {
+    async () => {
 
         const ttl = localStorage.getItem('ttl')
         const token = localStorage.getItem('access_token')

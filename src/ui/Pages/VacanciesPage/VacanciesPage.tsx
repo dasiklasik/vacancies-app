@@ -6,16 +6,14 @@ import {ThunkDispatch} from "redux-thunk";
 import {StoreType} from "../../../bll/store";
 import {AnyAction} from "redux";
 import {useCallback, useEffect} from "react";
-import {
-    getVacancies, setKeyword,
-    StatusType,
-    VacancyAppType
-} from "../../../bll/vacancies/vacancies-reducer";
 import {VacancyPagination} from "../../components/VacancyPagination/VacancyPagination";
 import {Vacancy} from "../../components/Vacancy/Vacancy";
 import { DotsLoader } from "../../components/common/Loaders/DotsLoader";
 import {EmptyVacanciesPage} from "./EmptyVacanciesPage";
 import styles from './VacanciesPage.module.css'
+import { getVacancies } from "../../../bll/vacancies/vacancies-reducer-thunks";
+import {StatusType, VacancyAppType } from "../../../bll/vacancies/vacancies-reducer-types";
+import { setKeyword } from "../../../bll/vacancies/vacancies-reducer";
 
 export const VacanciesPage = () => {
 
