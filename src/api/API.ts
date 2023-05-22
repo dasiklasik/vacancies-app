@@ -3,13 +3,20 @@ import axios from "axios";
 const headers = {
     'x-secret-key': 'GEU4nvd3rej*jeh.eqp',
     'x-api-app-id': 'v3.r.137440105.ffdbab114f92b821eac4e21f485343924a773131.06c3bdbb8446aeb91c35b80c42ff69eb9c457948',
-    'Authorization': '',
 }
 
 const instance = axios.create({
     baseURL: 'https://startup-summer-2023-proxy.onrender.com/2.0/',
     withCredentials: true,
     headers,
+})
+
+instance.interceptors.request.use((config) => {
+    const token = localStorage.getItem('access_token')
+    if (token) {
+        config.headers.Authorization = `Bearer ${token}`
+    }
+    return config
 })
 
 export const API = {
@@ -31,8 +38,7 @@ export const API = {
         }
         return instance.get('oauth2/refresh_token/', {params, headers})
     },
-    fetchVacancies: (token: string | null, requestData: FetchVacanciesRequestDataType, vacanciesAmount: number) => {
-        headers.Authorization = `Bearer ${token}`
+    fetchVacancies: (requestData: FetchVacanciesRequestDataType, vacanciesAmount: number) => {
         let requestString = `vacancies/?count=${vacanciesAmount}`
         Object.entries(requestData).forEach((item) => {
             if(item[1]) {
@@ -41,20 +47,17 @@ export const API = {
         })
         return instance.get<ResponseType>(requestString)
     },
-    getCatalogues: (token: string | null) => {
-        headers.Authorization = `Bearer ${token}`
+    getCatalogues: () => {
         return instance.get<CatalogueType[]>('catalogues')
     },
-    getVacanciesByIds: (token: string | null, ids: number[], vacanciesAmount: number) => {
-        headers.Authorization = `Bearer ${token}`
+    getVacanciesByIds: (ids: number[], vacanciesAmount: number) => {
         let requestString = `vacancies/?count=${vacanciesAmount}`
         ids.forEach(item => {
             requestString += `&ids[]=${item}`
         })
         return instance.get<ResponseType>(requestString)
     },
-    getOneVacancy: (token: string | null, id: number) => {
-        headers.Authorization = `Bearer ${token}`
+    getOneVacancy: (id: number) => {
         return instance.get<VacancyType>(`vacancies/${id}`)
     }
 }

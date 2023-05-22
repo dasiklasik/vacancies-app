@@ -7,9 +7,7 @@ import {setVacanciesStatus} from "./vacancies-reducer";
 
 export const getCatalogues = createAppAsyncThunk('vacancies/getCatalogues',
     async (param = undefined, thunkAPI) => {
-        const token = thunkAPI.getState().auth.accessToken
-        const response = await API.getCatalogues(token)
-        debugger
+        const response = await API.getCatalogues()
         thunkAPI.dispatch(setIsAppInitialized(true))
 
         return response.data
@@ -32,9 +30,8 @@ export const getVacancies = createAppAsyncThunk('vacancies/getVacancies',
             catalogues: thunkAPI.getState().vacancies.cataloguesItem,
             no_agreement: thunkAPI.getState().vacancies.no_agreement
         }
-        const token = thunkAPI.getState().auth.accessToken
         const vacanciesAmount = thunkAPI.getState().vacancies.vacanciesAmount
-        const response = await API.fetchVacancies(token, requestData, vacanciesAmount)
+        const response = await API.fetchVacancies(requestData, vacanciesAmount)
 
         return {
             //формируем вакансию и добавляем свойство favoriteInApp
@@ -49,7 +46,6 @@ export const getVacanciesFromLS = createAppAsyncThunk('vacancies/getVacanciesIdF
         thunkAPI.dispatch(setVacanciesStatus('loading'))
 
         const vacanciesAmount = thunkAPI.getState().vacancies.vacanciesAmount
-        const token = thunkAPI.getState().auth.accessToken
 
         const pageNumber = thunkAPI.getState().vacancies.pageNumber
         let startAt = pageNumber - 1
@@ -64,7 +60,7 @@ export const getVacanciesFromLS = createAppAsyncThunk('vacancies/getVacanciesIdF
 
         if (favorites.length === 0) return {vacancies: [], totalCount: 0}
 
-        const response= await API.getVacanciesByIds(token, favorites.slice(startAt, endAt), vacanciesAmount)
+        const response= await API.getVacanciesByIds(favorites.slice(startAt, endAt), vacanciesAmount)
 
         return {vacancies: response.data.objects, totalCount: favorites.length}
     })
@@ -92,10 +88,9 @@ export const deleteFromFavorite = createAppAsyncThunk('vacancies/deleteFromFavor
     })
 
 export const getOneVacancy = createAppAsyncThunk('vacancies/getOneVacancy',
-    async (id: number, thunkAPI) => {
-        const token = thunkAPI.getState().auth.accessToken
+    async (id: number) => {
 
-        const response = await API.getOneVacancy(token, id)
+        const response = await API.getOneVacancy(id)
 
         return {...response.data, favoriteInApp: checkIsFavorite(response.data.id)}
     })
