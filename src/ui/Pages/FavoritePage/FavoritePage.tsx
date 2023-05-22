@@ -1,9 +1,6 @@
 import {Center, Container, Flex} from "@mantine/core";
 import {useCallback, useEffect} from "react";
-import {useDispatch, useSelector} from "react-redux";
-import {ThunkDispatch} from "redux-thunk";
-import {StoreType} from "../../../bll/store";
-import {AnyAction} from "redux";
+import {useAppDispatch, useAppSelector} from "../../../bll/store";
 import {setPageNumber} from "../../../bll/vacancies/vacancies-reducer";
 import {Vacancy} from "../../components/Vacancy/Vacancy";
 import {VacancyPagination} from "../../components/VacancyPagination/VacancyPagination";
@@ -14,9 +11,9 @@ import { getVacanciesFromLS } from "../../../bll/vacancies/vacancies-reducer-thu
 
 export const FavoritePage = () => {
 
-    const dispatch = useDispatch<ThunkDispatch<StoreType, void, AnyAction>>()
-    const status = useSelector<StoreType, StatusType>(state => state.vacancies.vacanciesEntityStatus)
-    const vacancies = useSelector<StoreType, VacancyAppType[]>(state => state.vacancies.vacancies)
+    const dispatch = useAppDispatch()
+    const status = useAppSelector<StatusType>(state => state.vacancies.vacanciesEntityStatus)
+    const vacancies = useAppSelector<VacancyAppType[]>(state => state.vacancies.vacancies)
 
 
     useEffect(() => {

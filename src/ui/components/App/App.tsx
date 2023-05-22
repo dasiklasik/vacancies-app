@@ -1,10 +1,7 @@
 import React, {useEffect} from 'react';
 import styles from './App.module.css';
 import {BrowserRouter, Navigate, Route, Routes} from "react-router-dom";
-import {useDispatch, useSelector} from "react-redux";
-import {ThunkDispatch} from "redux-thunk";
-import {StoreType} from "../../../bll/store";
-import {AnyAction} from "redux";
+import {useAppDispatch, useAppSelector} from "../../../bll/store";
 import {initApp, setError} from '../../../bll/app/app-reducer';
 import {CircleLoader } from '../common/Loaders/CircleLoader';
 import { ErrorAlert } from '../common/ErrorAlert/ErrorAlert';
@@ -18,9 +15,9 @@ import { Page404 } from '../../Pages/Page404/Page404';
 
 function App() {
 
-    const dispatch = useDispatch<ThunkDispatch<StoreType, void, AnyAction>>()
-    const isAppInitialized = useSelector<StoreType, boolean>( state => state.app.isAppInitialized)
-    const error = useSelector<StoreType, string | null>(state => state.app.error)
+    const dispatch = useAppDispatch()
+    const isAppInitialized = useAppSelector<boolean>( state => state.app.isAppInitialized)
+    const error = useAppSelector<string | null>(state => state.app.error)
 
     useEffect(() => {
         dispatch(initApp())

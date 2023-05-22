@@ -1,9 +1,6 @@
 import {Pagination} from "@mantine/core";
 import {clearVacancies, setPageNumber} from "../../../bll/vacancies/vacancies-reducer";
-import {useDispatch, useSelector} from "react-redux";
-import {StoreType} from "../../../bll/store";
-import {ThunkDispatch} from "redux-thunk";
-import {AnyAction} from "redux";
+import {useAppDispatch, useAppSelector} from "../../../bll/store";
 import React from "react";
 
 type VacancyPaginationPropsType = {
@@ -12,12 +9,12 @@ type VacancyPaginationPropsType = {
 
 export const VacancyPagination = React.memo(({callback, ...props}: VacancyPaginationPropsType) => {
 
-    const dispatch = useDispatch<ThunkDispatch<StoreType, void, AnyAction>>()
+    const dispatch = useAppDispatch()
 
 
-    const pageNumber = useSelector<StoreType, number>(state => state.vacancies.pageNumber)
-    const totalCount = useSelector<StoreType, number>(state => state.vacancies.totalCount)
-    const vacanciesAmount = useSelector<StoreType, number>(state => state.vacancies.vacanciesAmount)
+    const pageNumber = useAppSelector<number>(state => state.vacancies.pageNumber)
+    const totalCount = useAppSelector<number>(state => state.vacancies.totalCount)
+    const vacanciesAmount = useAppSelector<number>(state => state.vacancies.vacanciesAmount)
 
     const changePageNumber = (value: number) => {
         dispatch(setPageNumber(value))

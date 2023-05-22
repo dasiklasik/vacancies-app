@@ -1,10 +1,7 @@
 import {Button, Center, Container, Flex, NumberInput, Paper, Select, Title} from "@mantine/core"
-import {useDispatch, useSelector} from "react-redux";
-import {StoreType} from "../../../bll/store";
+import {useAppDispatch, useAppSelector} from "../../../bll/store";
 import {CatalogueType} from "../../../api/API";
 import {useEffect, useState} from "react";
-import {ThunkDispatch} from "redux-thunk";
-import {AnyAction} from "redux";
 import {setFilterValues} from "../../../bll/vacancies/vacancies-reducer";
 import {IconX} from "../../../assets/icons/IconX";
 import styles from './FilterBlock.module.css'
@@ -12,7 +9,7 @@ import { getVacancies } from "../../../bll/vacancies/vacancies-reducer-thunks";
 
 export const FilterBlock = () => {
 
-    const dispatch = useDispatch<ThunkDispatch<StoreType, void, AnyAction>>()
+    const dispatch = useAppDispatch()
 
     useEffect(() => {
         return () => {
@@ -26,7 +23,7 @@ export const FilterBlock = () => {
     const [selectValue, setSelectValue] = useState('')
 
 
-    const catalogues = useSelector<StoreType, CatalogueType[]>(state => state.vacancies.catalogues)
+    const catalogues = useAppSelector<CatalogueType[]>(state => state.vacancies.catalogues)
 
     const selectData = catalogues.map(item => ({value: item.key.toString(), label: item.title_trimmed}))
 

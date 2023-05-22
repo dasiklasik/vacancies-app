@@ -1,12 +1,10 @@
 import {Container, Paper} from "@mantine/core";
 import {Vacancy} from "../../components/Vacancy/Vacancy";
 import {useParams} from "react-router-dom";
-import {useDispatch, useSelector} from "react-redux";
-import {StoreType} from "../../../bll/store";
+import {useAppDispatch, useAppSelector} from "../../../bll/store";
 import HTMLReactParser from "html-react-parser";
 import {useEffect} from "react";
-import {ThunkDispatch} from "redux-thunk";
-import {AnyAction} from "redux";
+
 import { VacancyAppType } from "../../../bll/vacancies/vacancies-reducer-types";
 import { getOneVacancy } from "../../../bll/vacancies/vacancies-reducer-thunks";
 
@@ -15,9 +13,9 @@ export const VacancyPage = () => {
     const param = useParams()
     const id = Number(param.id)
 
-    const dispatch = useDispatch<ThunkDispatch<StoreType, void, AnyAction>>()
+    const dispatch = useAppDispatch()
 
-    const vacancyData = useSelector<StoreType, VacancyAppType>(state => state.vacancies.vacancies
+    const vacancyData = useAppSelector<VacancyAppType>(state => state.vacancies.vacancies
         .filter(item => item.id === id)[0])
 
     useEffect(() => {

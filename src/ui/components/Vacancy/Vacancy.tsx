@@ -3,13 +3,10 @@ import styles from './Vacancy.module.css'
 import {FavoriteButton} from "../common/FavoriteButton/FavoriteButton";
 import {DotsLoader} from "../common/Loaders/DotsLoader";
 import {useNavigate} from "react-router-dom";
-import {useDispatch} from "react-redux";
-import {ThunkDispatch} from "redux-thunk";
-import {StoreType} from "../../../bll/store";
-import {AnyAction} from "redux";
 import { LocationIcon } from "../../../assets/icons/LocationIcon";
 import { VacancyAppType } from "../../../bll/vacancies/vacancies-reducer-types";
 import { addToFavorite, deleteFromFavorite } from "../../../bll/vacancies/vacancies-reducer-thunks";
+import { useAppDispatch } from "../../../bll/store";
 
 export type VacancyPropsType = {
     vacancyData: VacancyAppType
@@ -23,7 +20,7 @@ export const Vacancy = (props: VacancyPropsType) => {
         deleteFromFavoriteCallback,
     } = props
 
-    const dispatch = useDispatch<ThunkDispatch<StoreType, void, AnyAction>>()
+    const dispatch = useAppDispatch()
 
     const navigate = useNavigate()
 

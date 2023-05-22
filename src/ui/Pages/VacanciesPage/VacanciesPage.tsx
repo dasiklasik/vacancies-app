@@ -1,10 +1,7 @@
 import {Box, Center, Container, Flex} from "@mantine/core";
 import {SearchField} from "../../components/common/SearchField/SearchField";
 import {FilterBlock} from "../../components/FilterBlock/FilterBlock";
-import {useDispatch, useSelector} from "react-redux";
-import {ThunkDispatch} from "redux-thunk";
-import {StoreType} from "../../../bll/store";
-import {AnyAction} from "redux";
+import {useAppDispatch, useAppSelector} from "../../../bll/store";
 import {useCallback, useEffect} from "react";
 import {VacancyPagination} from "../../components/VacancyPagination/VacancyPagination";
 import {Vacancy} from "../../components/Vacancy/Vacancy";
@@ -17,14 +14,14 @@ import { setKeyword } from "../../../bll/vacancies/vacancies-reducer";
 
 export const VacanciesPage = () => {
 
-    const dispatch = useDispatch<ThunkDispatch<StoreType, void, AnyAction>>()
+    const dispatch = useAppDispatch()
 
     useEffect(() => {
         dispatch(getVacancies())
     }, [dispatch])
 
-    const vacancies = useSelector<StoreType, VacancyAppType[]>(state => state.vacancies.vacancies)
-    const status = useSelector<StoreType, StatusType>(state => state.vacancies.vacanciesEntityStatus)
+    const vacancies = useAppSelector<VacancyAppType[]>(state => state.vacancies.vacancies)
+    const status = useAppSelector<StatusType>(state => state.vacancies.vacanciesEntityStatus)
 
     const onPaginationChangeCallback = useCallback(() => {
         dispatch(getVacancies())
