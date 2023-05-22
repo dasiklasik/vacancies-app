@@ -81,8 +81,8 @@ export const VacanciesPage = () => {
                                 <Flex direction="column" gap="16px" align="stretch">
                                     {vacancies.map(item => {
                                         return (
-                                            <Box onClick={() => navigateToVacancyPage(item.id)}>
-                                                <Vacancy key={item.id} vacancyData={item}/>
+                                            <Box key={item.id} onClick={() => navigateToVacancyPage(item.id)}>
+                                                <Vacancy vacancyData={item}/>
                                             </Box>
                                         )
                                     })}
