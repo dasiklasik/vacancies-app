@@ -12,12 +12,14 @@ import { LocationIcon } from "../../assets/icons/LocationIcon";
 
 export type VacancyPropsType = {
     vacancyData: VacancyAppType
+    deleteFromFavoriteCallback?: () => void
 }
 
 export const Vacancy = (props: VacancyPropsType) => {
 
     const {
         vacancyData,
+        deleteFromFavoriteCallback,
     } = props
 
     const dispatch = useDispatch<ThunkDispatch<StoreType, void, AnyAction>>()
@@ -34,6 +36,7 @@ export const Vacancy = (props: VacancyPropsType) => {
 
     const deleteCallback = () => {
         dispatch(deleteFromFavorite(vacancyData.id))
+        deleteFromFavoriteCallback && deleteFromFavoriteCallback()
     }
 
     const salary = vacancyData.payment_to && vacancyData.payment_from ?

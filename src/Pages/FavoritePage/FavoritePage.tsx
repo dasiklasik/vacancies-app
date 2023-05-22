@@ -27,6 +27,10 @@ export const FavoritePage = () => {
         dispatch(getVacanciesFromLS())
     }, [dispatch])
 
+    const deleteCallback = () => {
+        dispatch(getVacanciesFromLS())
+    }
+
     const vacancies = useSelector<StoreType, VacancyAppType[]>(state => state.vacancies.vacancies)
 
     return (
@@ -35,7 +39,7 @@ export const FavoritePage = () => {
                 : vacancies.length ? <Container size={'1200px'} p={0}>
                         <Flex direction="column" gap="16px" align={"stretch"}>
                             {vacancies.map(item => {
-                                return <Vacancy key={item.id} vacancyData={item}/>
+                                return <Vacancy deleteFromFavoriteCallback={deleteCallback} key={item.id} vacancyData={item}/>
                             })}
                         </Flex>
                         <Center mt="40px">
