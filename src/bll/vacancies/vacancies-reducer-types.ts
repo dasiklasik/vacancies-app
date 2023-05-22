@@ -21,3 +21,10 @@ export type InitialStateType = {
 }
 
 export type StatusType = 'idle' | 'loading' | 'succeed' | 'failed'
+
+export type VacanciesFilterValues = {
+    min: number | undefined
+    max: number | undefined
+    catalogues: number | null
+    keyword: string | null
+}

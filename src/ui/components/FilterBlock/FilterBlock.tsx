@@ -1,13 +1,34 @@
 import {Button, Center, Container, Flex, NumberInput, Paper, Select, Title} from '@mantine/core';
 import {useAppDispatch, useAppSelector} from '../../../bll/store';
 import {CatalogueType} from '../../../api/API';
-import {useEffect, useState} from 'react';
+import {useEffect} from 'react';
 import {setFilterValues} from '../../../bll/vacancies/vacancies-reducer';
 import {IconX} from '../../../assets/icons/IconX';
 import styles from './FilterBlock.module.css'
-import {getVacancies} from '../../../bll/vacancies/vacancies-reducer-thunks';
 
-export const FilterBlock = () => {
+type FilterBlockPropsType = {
+    minValue: number | ''
+    maxValue: number | ''
+    selectValue: string
+    changeMinValue: (value: number | '') => void
+    changeMaxValue: (value: number | '') => void
+    changeSelectValue: (value: string) => void
+    submitFilter: () => void
+    resetValues: () => void
+}
+
+export const FilterBlock = (props: FilterBlockPropsType) => {
+
+    const {
+        maxValue,
+        minValue,
+        selectValue,
+        changeMaxValue,
+        changeMinValue,
+        changeSelectValue,
+        submitFilter,
+        resetValues,
+    } = props
 
     const dispatch = useAppDispatch()
     const catalogues = useAppSelector<CatalogueType[]>(state => state.vacancies.catalogues)
@@ -16,40 +37,12 @@ export const FilterBlock = () => {
     useEffect(() => {
         return () => {
             //зачищаем фильтр в vacancies-reducer при размонтировании компоненты
-            dispatch(setFilterValues({min: undefined, max: undefined, catalogues: 0}))
+            dispatch(setFilterValues({min: undefined, max: undefined, catalogues: 0, keyword: null}))
         }
     }, [dispatch])
 
-    const [minValue, setMinValue] = useState<number | ''>('')
-    const [maxValue, setMaxValue] = useState<number | ''>('')
-    const [selectValue, setSelectValue] = useState('')
 
 
-    const changeMinValue = (value: number) => {
-        setMinValue(value)
-    }
-
-    const changeMaxValue = (value: number) => {
-        setMaxValue(value)
-    }
-
-    const changeSelectValue = (value: string) => {
-        setSelectValue(value)
-    }
-
-    const filterVacancies = () => {
-        const min = typeof minValue !== 'string' ? minValue : undefined
-        const max = typeof maxValue !== 'string' ? maxValue : undefined
-        dispatch(setFilterValues({min, max, catalogues: +selectValue}))
-        dispatch(getVacancies())
-    }
-
-    const resetValues = () => {
-        dispatch(setFilterValues({min: undefined, max: undefined, catalogues: 0}))
-        setSelectValue('')
-        setMinValue('')
-        setMaxValue('')
-    }
 
     return (
         <Paper withBorder radius={12} p="20px">
@@ -88,7 +81,7 @@ export const FilterBlock = () => {
                     placeholder="До"
                 />
             </Container>
-            <Center><Button data-elem="search-button" onClick={filterVacancies}>Применить</Button></Center>
+            <Center><Button data-elem="search-button" onClick={submitFilter}>Применить</Button></Center>
         </Paper>
     )
 }

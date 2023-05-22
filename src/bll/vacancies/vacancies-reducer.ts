@@ -1,6 +1,6 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {addToFavorite, deleteFromFavorite, getCatalogues, getOneVacancy, getVacancies, getVacanciesFromLS} from "./vacancies-reducer-thunks";
-import { InitialStateType, StatusType } from "./vacancies-reducer-types";
+import {InitialStateType, StatusType, VacanciesFilterValues} from "./vacancies-reducer-types";
 
 const initialState: InitialStateType = {
     totalCount: 0,
@@ -26,13 +26,11 @@ const slice = createSlice({
         setPageNumber: (state, action: PayloadAction<number>) => {
             state.pageNumber = action.payload
         },
-        setKeyword: (state, action: PayloadAction<string>) => {
-            state.keyword = action.payload
-        },
-        setFilterValues: (state, action: PayloadAction<{min: number | undefined, max: number | undefined, catalogues: number}>) => {
+        setFilterValues: (state, action: PayloadAction<VacanciesFilterValues>) => {
             state.cataloguesItem = action.payload.catalogues
             state.salary.max = action.payload.max
             state.salary.min = action.payload.min
+            state.keyword = action.payload.keyword
             if (action.payload.max || action.payload.min) {
                 state.no_agreement = 1
             } else if (!action.payload.max && !action.payload.min) {
@@ -80,4 +78,4 @@ const slice = createSlice({
 export const vacanciesReducer = slice.reducer
 
 //actions
-export const {setPageNumber, setKeyword, setFilterValues, clearVacancies, setVacanciesStatus} = slice.actions
+export const {setPageNumber, setFilterValues, clearVacancies, setVacanciesStatus} = slice.actions

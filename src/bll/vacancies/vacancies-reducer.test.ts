@@ -1,7 +1,6 @@
 import {
     clearVacancies,
     setFilterValues,
-    setKeyword,
     setPageNumber, setVacanciesStatus,
     vacanciesReducer
 } from "./vacancies-reducer";
@@ -235,25 +234,20 @@ test('vacancies reducer should set total number', () => {
     expect(endState.pageNumber).toBe(3)
 })
 
-test('vacancies reducer should set keyword', () => {
-    const keyword = 'manager'
-    const action = setKeyword(keyword)
-    const endState = vacanciesReducer(initialState, action)
-
-    expect(endState.keyword).toBe(keyword)
-})
 
 test('vacancies reducer should set filter values', () => {
     const selectValue = 33
     const min = 20
     const max = 40
+    const keyword = 'key'
 
-    const action = setFilterValues({min, max, catalogues: selectValue})
+    const action = setFilterValues({min, max, catalogues: selectValue, keyword})
     const endState = vacanciesReducer(initialState, action)
 
-    expect(endState.salary.min).toBe(20)
-    expect(endState.salary.max).toBe(40)
-    expect(endState.cataloguesItem).toBe(33)
+    expect(endState.salary.min).toBe(min)
+    expect(endState.salary.max).toBe(max)
+    expect(endState.cataloguesItem).toBe(selectValue)
+    expect(endState.keyword).toBe(keyword)
 })
 
 test('vacancies reducer should set catalogues', () => {
