@@ -1,0 +1,30 @@
+.button__reset {
+  display: flex;
+  align-items: center;
+  color: #acadb9;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+.button__reset line {
+  stroke: #acadb9;
+  transition: all 0.3s;
+}
+
+.button__reset:hover {
+  color: #92C1FF;
+}
+
+.button__reset:hover line {
+  stroke: #92C1FF;
+}
+
+.button__reset:active {
+  color: #5E96FC;
+}
+
+.button__reset:active line {
+  stroke: #5E96FC;
+}

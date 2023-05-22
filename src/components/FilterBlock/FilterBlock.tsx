@@ -6,6 +6,8 @@ import {useEffect, useState} from "react";
 import {ThunkDispatch} from "redux-thunk";
 import {AnyAction} from "redux";
 import {getVacancies, setFilterValues} from "../../bll/vacancies-reducer";
+import {IconX} from "../../assets/icons/IconX";
+import styles from './FilterBlock.module.css'
 
 export const FilterBlock = () => {
 
@@ -57,7 +59,11 @@ export const FilterBlock = () => {
         <Paper withBorder radius={12} p="20px">
             <Flex justify={"space-between"} mb={32}>
                 <Title order={3}>Фильтры</Title>
-                <Button onClick={resetValues} variant="subtle" color="#acadb9">Сбросить все</Button>
+                <button className={styles.button__reset} onClick={resetValues}>
+                    <span>Сбросить все</span>
+                    <IconX/>
+                </button>
+                {/*<Button onClick={resetValues} variant="subtle" color="#acadb9">Сбросить все x</Button>*/}
             </Flex>
             <Container p={0}>
                 <Title mb={8} order={5}>Отрасль</Title>
