@@ -14,7 +14,22 @@ const instance = axios.create({
 
 export const API = {
     getAccessToken: () => {
-        return instance.get('oauth2/password/?login=sergei.stralenia@gmail.com&password=paralect123&client_id=2356&client_secret=v3.r.137440105.ffdbab114f92b821eac4e21f485343924a773131.06c3bdbb8446aeb91c35b80c42ff69eb9c457948&hr=0')
+        const params = {
+            login: 'sergei.stralenia@gmail.com',
+            password: 'paralect123',
+            client_id: 2356,
+            client_secret: 'v3.r.137440105.ffdbab114f92b821eac4e21f485343924a773131.06c3bdbb8446aeb91c35b80c42ff69eb9c457948',
+            hr: 0,
+        }
+         return instance.get('oauth2/password/', {params, headers})
+    },
+    refreshToken: (refreshToken: string) => {
+        const params = {
+            refresh_token: refreshToken,
+            client_id: 2356,
+            client_secret: 'v3.r.137440105.ffdbab114f92b821eac4e21f485343924a773131.06c3bdbb8446aeb91c35b80c42ff69eb9c457948',
+        }
+        return instance.get('oauth2/refresh_token/', {params, headers})
     },
     fetchVacancies: (token: string | null, requestData: FetchVacanciesRequestDataType, vacanciesAmount: number) => {
         headers.Authorization = `Bearer ${token}`

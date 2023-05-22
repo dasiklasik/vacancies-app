@@ -1,9 +1,9 @@
 import {combineReducers} from "redux";
-import {authReducer} from "./auth-reducer";
+import {authReducer} from "./auth/auth-reducer";
 import thunk from "redux-thunk";
 import {configureStore} from "@reduxjs/toolkit";
-import {vacanciesReducer} from "./vacancies-reducer";
-import {appReducer} from "./app-reducer";
+import {vacanciesReducer} from "./vacancies/vacancies-reducer";
+import {appReducer} from "./app/app-reducer";
 
 const reducer = combineReducers({
     auth: authReducer,
