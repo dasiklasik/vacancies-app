@@ -1,7 +1,7 @@
 import {Button, Center, Container, Flex, NumberInput, Paper, Select, Title} from '@mantine/core';
 import {useAppDispatch, useAppSelector} from '../../../bll/store';
 import {CatalogueType} from '../../../api/API';
-import {useEffect} from 'react';
+import {useEffect, KeyboardEvent} from 'react';
 import {setFilterValues} from '../../../bll/vacancies/vacancies-reducer';
 import {IconX} from '../../../assets/icons/IconX';
 import styles from './FilterBlock.module.css'
@@ -42,7 +42,11 @@ export const FilterBlock = (props: FilterBlockPropsType) => {
     }, [dispatch])
 
 
-
+    const onEnterHandler = (e: KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === 'Enter') {
+            submitFilter()
+        }
+    }
 
     return (
         <Paper withBorder radius={12} p="20px">
@@ -72,6 +76,7 @@ export const FilterBlock = (props: FilterBlockPropsType) => {
                     onChange={changeMinValue}
                     min={0}
                     placeholder="От"
+                    onKeyPress={onEnterHandler}
                 />
                 <NumberInput
                     data-elem="salary-to-input"

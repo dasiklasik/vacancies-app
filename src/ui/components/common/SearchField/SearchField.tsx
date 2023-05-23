@@ -1,6 +1,6 @@
 import {Button, Input, Paper} from '@mantine/core';
 import styles from './SearchField.module.css';
-import {ChangeEvent} from 'react';
+import {ChangeEvent, KeyboardEvent} from 'react';
 import { SearchIcon } from '../../../../assets/icons/SearchIcon';
 
 type SearchFieldPropsType = {
@@ -21,6 +21,12 @@ export const SearchField = (props: SearchFieldPropsType) => {
         onChange(e.target.value)
     }
 
+    const onEnterHandler = (e: KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === 'Enter') {
+            callback()
+        }
+    }
+
     return (
         <Paper className={styles.search}>
             <Input
@@ -31,6 +37,7 @@ export const SearchField = (props: SearchFieldPropsType) => {
                 size="lg"
                 className={styles.search__field}
                 data-elem="search-input"
+                onKeyPress={onEnterHandler}
             />
             <Button data-elem="search-button" onClick={callback} className={styles.search__button}>Поиск</Button>
         </Paper>
