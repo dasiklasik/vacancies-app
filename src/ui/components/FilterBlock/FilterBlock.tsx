@@ -1,7 +1,7 @@
 import {Button, Center, Container, Flex, NumberInput, Paper, Select, Title} from '@mantine/core';
 import {useAppDispatch, useAppSelector} from '../../../bll/store';
 import {CatalogueType} from '../../../api/API';
-import {useEffect, KeyboardEvent} from 'react';
+import React, {useEffect, KeyboardEvent, useCallback} from 'react';
 import {setFilterValues} from '../../../bll/vacancies/vacancies-reducer';
 import {IconX} from '../../../assets/icons/IconX';
 import styles from './FilterBlock.module.css'
@@ -17,7 +17,7 @@ type FilterBlockPropsType = {
     resetValues: () => void
 }
 
-export const FilterBlock = (props: FilterBlockPropsType) => {
+export const FilterBlock = React.memo((props: FilterBlockPropsType) => {
 
     const {
         maxValue,
@@ -42,11 +42,11 @@ export const FilterBlock = (props: FilterBlockPropsType) => {
     }, [dispatch])
 
 
-    const onEnterHandler = (e: KeyboardEvent<HTMLInputElement>) => {
+    const onEnterHandler = useCallback((e: KeyboardEvent<HTMLInputElement>) => {
         if (e.key === 'Enter') {
             submitFilter()
         }
-    }
+    }, [submitFilter])
 
     return (
         <Paper withBorder radius={12} p="20px">
@@ -89,4 +89,4 @@ export const FilterBlock = (props: FilterBlockPropsType) => {
             <Center><Button data-elem="search-button" onClick={submitFilter}>Применить</Button></Center>
         </Paper>
     )
-}
+})

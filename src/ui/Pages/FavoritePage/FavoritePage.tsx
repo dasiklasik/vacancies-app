@@ -25,9 +25,9 @@ export const FavoritePage = () => {
         dispatch(getVacanciesFromLS())
     }, [dispatch])
 
-    const deleteCallback = () => {
+    const deleteCallback = useCallback(() => {
         dispatch(getVacanciesFromLS())
-    }
+    }, [dispatch])
 
 
 

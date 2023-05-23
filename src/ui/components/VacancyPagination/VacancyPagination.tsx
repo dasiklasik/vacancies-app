@@ -1,7 +1,7 @@
 import {Pagination} from '@mantine/core';
 import {clearVacancies, setPageNumber} from '../../../bll/vacancies/vacancies-reducer';
 import {useAppDispatch, useAppSelector} from '../../../bll/store';
-import React from 'react';
+import React, {useCallback} from 'react';
 
 type VacancyPaginationPropsType = {
     callback: () => void
@@ -16,11 +16,11 @@ export const VacancyPagination = React.memo(({callback, ...props}: VacancyPagina
     const totalCount = useAppSelector<number>(state => state.vacancies.totalCount)
     const vacanciesAmount = useAppSelector<number>(state => state.vacancies.vacanciesAmount)
 
-    const changePageNumber = (value: number) => {
+    const changePageNumber = useCallback((value: number) => {
         dispatch(setPageNumber(value))
         dispatch(clearVacancies())
         callback()
-    }
+    }, [dispatch, callback])
 
     let pageCount = Math.ceil(totalCount / vacanciesAmount)
 

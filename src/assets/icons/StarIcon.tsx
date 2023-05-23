@@ -1,8 +1,10 @@
+import React from "react";
+
 type StarIconPropsTYpe = {
     filled: boolean
 }
 
-export const StarIcon = ({filled}: StarIconPropsTYpe) => {
+export const StarIcon = React.memo(({filled}: StarIconPropsTYpe) => {
 
     const fill = filled ? '#5E96FC' : 'none'
     const stroke = filled ? '#5E96FC' : '#acadb9'
@@ -14,4 +16,4 @@ export const StarIcon = ({filled}: StarIconPropsTYpe) => {
                 stroke={stroke} strokeWidth="1.5"/>
         </svg>
     )
-}
+})

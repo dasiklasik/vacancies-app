@@ -1,5 +1,6 @@
 import {Alert, Dialog} from '@mantine/core';
 import styles from './ErrorAlert.module.css';
+import React from "react";
 
 
 type ErrorAlertPropsType = {
@@ -7,7 +8,7 @@ type ErrorAlertPropsType = {
     closeCallback: () => void
 }
 
-export const ErrorAlert = (props: ErrorAlertPropsType) => {
+export const ErrorAlert = React.memo((props: ErrorAlertPropsType) => {
 
     const {
         error,
@@ -24,4 +25,4 @@ export const ErrorAlert = (props: ErrorAlertPropsType) => {
             </Alert>
         </Dialog>
     )
-}
+})

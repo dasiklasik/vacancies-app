@@ -2,11 +2,11 @@ import {Flex, Paper, Title} from '@mantine/core';
 import styles from './Vacancy.module.css'
 import {FavoriteButton} from '../common/FavoriteButton/FavoriteButton';
 import {DotsLoader} from '../common/Loaders/DotsLoader';
-import {useNavigate} from 'react-router-dom';
 import { LocationIcon } from '../../../assets/icons/LocationIcon';
 import { VacancyAppType } from '../../../bll/vacancies/vacancies-reducer-types';
 import { addToFavorite, deleteFromFavorite } from '../../../bll/vacancies/vacancies-reducer-thunks';
 import { useAppDispatch } from '../../../bll/store';
+import React, {useCallback} from "react";
 
 export type VacancyPropsType = {
     vacancyData: VacancyAppType
@@ -14,7 +14,7 @@ export type VacancyPropsType = {
     isVacancyPage?: boolean
 }
 
-export const Vacancy = (props: VacancyPropsType) => {
+export const Vacancy = React.memo((props: VacancyPropsType) => {
 
     const {
         vacancyData,
@@ -34,14 +34,14 @@ export const Vacancy = (props: VacancyPropsType) => {
     const className = isVacancyPage ? `${styles.vacancyPage} ${styles.wrapper}` : styles.wrapper
     const titleOrder = isVacancyPage ? 2 : 3
 
-    const addCallback = () => {
+    const addCallback = useCallback(() => {
         dispatch(addToFavorite(vacancyData.id))
-    }
+    }, [dispatch, vacancyData.id])
 
-    const deleteCallback = () => {
+    const deleteCallback = useCallback(() => {
         dispatch(deleteFromFavorite(vacancyData.id))
         deleteFromFavoriteCallback && deleteFromFavoriteCallback()
-    }
+    }, [dispatch, vacancyData.id, deleteFromFavoriteCallback])
 
     return (
         <Paper
@@ -73,4 +73,4 @@ export const Vacancy = (props: VacancyPropsType) => {
             }
         </Paper>
     )
-}
+})

@@ -1,5 +1,5 @@
-import {MouseEvent} from 'react';
-import { StarIcon } from '../../../../assets/icons/StarIcon';
+import React, {MouseEvent} from 'react';
+import {StarIcon} from '../../../../assets/icons/StarIcon';
 
 type FavoriteButtonPropsType = {
     isFavorite: boolean
@@ -8,7 +8,7 @@ type FavoriteButtonPropsType = {
     dataElem: string
 }
 
-export const FavoriteButton = (props: FavoriteButtonPropsType) => {
+export const FavoriteButton = React.memo((props: FavoriteButtonPropsType) => {
 
     const {
         isFavorite,
@@ -31,4 +31,4 @@ export const FavoriteButton = (props: FavoriteButtonPropsType) => {
             <StarIcon filled={isFavorite}/>
         </span>
     )
-}
+})

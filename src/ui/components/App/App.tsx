@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import styles from './App.module.css';
 import {HashRouter, Navigate, Route, Routes} from 'react-router-dom';
 import {useAppDispatch, useAppSelector} from '../../../bll/store';
@@ -21,11 +21,11 @@ function App() {
 
     useEffect(() => {
         dispatch(initApp())
-    }, [dispatch])
+    }, [])
 
-    const closeErrorAlert = () => {
+    const closeErrorAlert = useCallback(() => {
         dispatch(setError(null))
-    }
+    }, [dispatch])
 
     if (!isAppInitialized) return <CircleLoader/>
 

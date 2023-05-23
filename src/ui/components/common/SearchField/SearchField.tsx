@@ -1,6 +1,6 @@
 import {Button, Input, Paper} from '@mantine/core';
 import styles from './SearchField.module.css';
-import {ChangeEvent, KeyboardEvent} from 'react';
+import React, {ChangeEvent, KeyboardEvent, useCallback} from 'react';
 import { SearchIcon } from '../../../../assets/icons/SearchIcon';
 
 type SearchFieldPropsType = {
@@ -9,7 +9,7 @@ type SearchFieldPropsType = {
     onChange: (value: string) => void
 }
 
-export const SearchField = (props: SearchFieldPropsType) => {
+export const SearchField = React.memo((props: SearchFieldPropsType) => {
 
     const {
         callback,
@@ -17,15 +17,15 @@ export const SearchField = (props: SearchFieldPropsType) => {
         onChange,
     } = props
 
-    const changeInputValue = (e: ChangeEvent<HTMLInputElement>) => {
+    const changeInputValue = useCallback((e: ChangeEvent<HTMLInputElement>) => {
         onChange(e.target.value)
-    }
+    }, [onChange])
 
-    const onEnterHandler = (e: KeyboardEvent<HTMLInputElement>) => {
+    const onEnterHandler = useCallback((e: KeyboardEvent<HTMLInputElement>) => {
         if (e.key === 'Enter') {
             callback()
         }
-    }
+    }, [callback])
 
     return (
         <Paper className={styles.search}>
@@ -42,4 +42,4 @@ export const SearchField = (props: SearchFieldPropsType) => {
             <Button data-elem="search-button" onClick={callback} className={styles.search__button}>Поиск</Button>
         </Paper>
     )
-}
+})

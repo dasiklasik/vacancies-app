@@ -34,25 +34,25 @@ export const VacanciesPage = () => {
         dispatch(getVacancies())
     }, [dispatch])
 
-    const filterVacancies = () => {
+    const filterVacancies = useCallback(() => {
         const min = typeof minValue !== 'string' ? minValue : undefined
         const max = typeof maxValue !== 'string' ? maxValue : undefined
         dispatch(setFilterValues({min, max, catalogues: +selectValue, keyword: inputValue}))
         dispatch(getVacancies())
-    }
+    }, [dispatch, inputValue, maxValue, minValue, selectValue])
 
-    const resetValues = () => {
+    const resetValues = useCallback(() => {
         dispatch(setFilterValues({min: undefined, max: undefined, catalogues: 0, keyword: null}))
         setSelectValue('')
         setMinValue('')
         setMaxValue('')
         setInputValue('')
         dispatch(getVacancies())
-    }
+    }, [dispatch])
 
-    const navigateToVacancyPage = (id: number) => {
+    const navigateToVacancyPage = useCallback((id: number) => {
         navigate(`/vacancies/${id}`)
-    }
+    }, [navigate])
 
     return (
         <Container p="0px" className={styles.wrapper}>

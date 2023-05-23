@@ -1,5 +1,5 @@
 import {Burger, Menu} from '@mantine/core';
-import {useState} from 'react';
+import {useCallback, useState} from 'react';
 import {NavLink} from 'react-router-dom';
 import styles from './BurgerMenu.module.css';
 
@@ -7,9 +7,9 @@ export const BurgerMenu = () => {
 
     const [open, setOpen] = useState(false)
 
-    const toggleMenu = () => {
+    const toggleMenu = useCallback(() => {
         setOpen(!open)
-    }
+    }, [setOpen, open])
 
     return (
         <div className={styles.wrapper}>

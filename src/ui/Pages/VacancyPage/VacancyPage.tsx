@@ -10,7 +10,7 @@ import {CircleLoader} from '../../components/common/Loaders/CircleLoader';
 import styles from './VacancyPage.module.css'
 
 export const VacancyPage = () => {
-debugger
+
     const param = useParams()
     const id = Number(param.id)
 
