@@ -77,6 +77,7 @@ export const FilterBlock = React.memo((props: FilterBlockPropsType) => {
                     min={0}
                     placeholder="От"
                     onKeyPress={onEnterHandler}
+                    type={"number"}
                 />
                 <NumberInput
                     data-elem="salary-to-input"
@@ -84,6 +85,8 @@ export const FilterBlock = React.memo((props: FilterBlockPropsType) => {
                     onChange={changeMaxValue}
                     min={0}
                     placeholder="До"
+                    onKeyPress={onEnterHandler}
+                    type={"number"}
                 />
             </Container>
             <Center><Button data-elem="search-button" onClick={submitFilter}>Применить</Button></Center>
