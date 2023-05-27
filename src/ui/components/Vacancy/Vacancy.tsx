@@ -25,9 +25,9 @@ export const Vacancy = React.memo((props: VacancyPropsType) => {
     const dispatch = useAppDispatch()
 
     const salary = vacancyData.payment_to && vacancyData.payment_from ?
-        `з/п ${vacancyData.payment_from}—${vacancyData.payment_to}`
-        : vacancyData.payment_from ? `з/п от ${vacancyData.payment_from}`
-            : vacancyData.payment_to ? `з/п до ${vacancyData.payment_to}`
+        `з/п ${vacancyData.payment_from}—${vacancyData.payment_to} ${vacancyData.currency}`
+        : vacancyData.payment_from ? `з/п от ${vacancyData.payment_from} ${vacancyData.currency}`
+            : vacancyData.payment_to ? `з/п до ${vacancyData.payment_to} ${vacancyData.currency}`
                 : vacancyData.agreement ? `з/п по договоренности`
                     : `з/п не указана`
 
