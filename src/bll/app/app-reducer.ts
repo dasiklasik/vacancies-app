@@ -34,16 +34,19 @@ const slice = createSlice({
                 state.isAppInitialized = action.payload
             })
             .addCase(getVacancies.rejected, (state, action) => {
-                state.error = action.error.message ? action.error.message : 'Some error occurred'
+                state.error = action.payload && action.payload.message ? action.payload.message : 'Some error occurred'
             })
             .addCase(getCatalogues.rejected, (state, action) => {
-                state.error = action.error.message ? action.error.message : 'Some error occurred'
+                state.error = action.payload && action.payload.message ? action.payload.message : 'Some error occurred'
             })
             .addCase(getVacanciesFromLS.rejected, (state, action) => {
-                state.error = action.error.message ? action.error.message : 'Some error occurred'
+                state.error = action.payload && action.payload.message ? action.payload.message : 'Some error occurred'
             })
             .addCase(getOneVacancy.rejected, (state, action) => {
-                state.error = action.error.message ? action.error.message : 'Some error occurred'
+                state.error = action.payload && action.payload.message ? action.payload.message : 'Some error occurred'
+            })
+            .addCase(getAccessToken.rejected, (state, action) => {
+                state.error = action.payload && action.payload.message ? action.payload.message : 'Some error occurred'
             })
     }
 })

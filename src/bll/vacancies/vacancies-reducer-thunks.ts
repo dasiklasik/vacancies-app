@@ -4,13 +4,18 @@ import {setIsAppInitialized} from "../app/app-reducer";
 import {checkIsFavorite} from "../../utils/checkIsFavorite";
 import {getFavoriteFromLS} from "../../utils/getFavoriteFromLS";
 import {setVacanciesStatus} from "./vacancies-reducer";
+import {AxiosError} from "axios";
 
 export const getCatalogues = createAppAsyncThunk('vacancies/getCatalogues',
     async (param = undefined, thunkAPI) => {
-        const response = await API.getCatalogues()
-        thunkAPI.dispatch(setIsAppInitialized(true))
-
-        return response.data
+        try {
+            const response = await API.getCatalogues()
+            thunkAPI.dispatch(setIsAppInitialized(true))
+            return response.data
+        } catch (err) {
+            const error: AxiosError = err as any;
+            return thunkAPI.rejectWithValue(error)
+        }
     })
 
 export const getVacancies = createAppAsyncThunk('vacancies/getVacancies',
@@ -31,13 +36,17 @@ export const getVacancies = createAppAsyncThunk('vacancies/getVacancies',
             no_agreement: thunkAPI.getState().vacancies.no_agreement
         }
         const vacanciesAmount = thunkAPI.getState().vacancies.vacanciesAmount
-        const response = await API.fetchVacancies(requestData, vacanciesAmount)
-
-        return {
-            //формируем вакансию и добавляем свойство favoriteInApp
-            ...response.data, objects: response.data.objects.map(item => {
-                return {...item, favoriteInApp: checkIsFavorite(item.id)}
-            })
+        try {
+            const response = await API.fetchVacancies(requestData, vacanciesAmount)
+            return {
+                //формируем вакансию и добавляем свойство favoriteInApp
+                ...response.data, objects: response.data.objects.map(item => {
+                    return {...item, favoriteInApp: checkIsFavorite(item.id)}
+                })
+            }
+        } catch (err) {
+            const error: AxiosError = err as any;
+            return thunkAPI.rejectWithValue(error)
         }
     })
 
@@ -60,9 +69,13 @@ export const getVacanciesFromLS = createAppAsyncThunk('vacancies/getVacanciesIdF
 
         if (favorites.length === 0) return {vacancies: [], totalCount: 0}
 
-        const response= await API.getVacanciesByIds(favorites.slice(startAt, endAt), vacanciesAmount)
-
-        return {vacancies: response.data.objects, totalCount: favorites.length}
+        try {
+            const response= await API.getVacanciesByIds(favorites.slice(startAt, endAt), vacanciesAmount)
+            return {vacancies: response.data.objects, totalCount: favorites.length}
+        } catch (err) {
+            const error: AxiosError = err as any;
+            return thunkAPI.rejectWithValue(error)
+        }
     })
 
 export const addToFavorite = createAppAsyncThunk('vacancies/addToFavorite',
@@ -88,9 +101,12 @@ export const deleteFromFavorite = createAppAsyncThunk('vacancies/deleteFromFavor
     })
 
 export const getOneVacancy = createAppAsyncThunk('vacancies/getOneVacancy',
-    async (id: number) => {
-
-        const response = await API.getOneVacancy(id)
-
-        return {...response.data, favoriteInApp: checkIsFavorite(response.data.id)}
+    async (id: number, thunkAPI) => {
+        try {
+            const response = await API.getOneVacancy(id)
+            return {...response.data, favoriteInApp: checkIsFavorite(response.data.id)}
+        } catch (err) {
+            const error: AxiosError = err as any;
+            return thunkAPI.rejectWithValue(error)
+        }
     })
