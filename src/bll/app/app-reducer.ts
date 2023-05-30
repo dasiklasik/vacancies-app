@@ -1,6 +1,6 @@
-import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {createAppAsyncThunk} from "../../utils/createAppAsyncThunk";
+import {createSlice, isAnyOf, PayloadAction} from "@reduxjs/toolkit";
 import {getAccessToken} from "../auth/auth-reducer";
+import {createAppAsyncThunk} from "../store-types";
 import {getCatalogues, getOneVacancy, getVacancies, getVacanciesFromLS} from "../vacancies/vacancies-reducer-thunks";
 
 const initialState: initialStateType = {
@@ -33,21 +33,16 @@ const slice = createSlice({
             .addCase(initApp.fulfilled, (state, action) => {
                 state.isAppInitialized = action.payload
             })
-            .addCase(getVacancies.rejected, (state, action) => {
-                state.error = action.payload && action.payload.message ? action.payload.message : 'Some error occurred'
-            })
-            .addCase(getCatalogues.rejected, (state, action) => {
-                state.error = action.payload && action.payload.message ? action.payload.message : 'Some error occurred'
-            })
-            .addCase(getVacanciesFromLS.rejected, (state, action) => {
-                state.error = action.payload && action.payload.message ? action.payload.message : 'Some error occurred'
-            })
-            .addCase(getOneVacancy.rejected, (state, action) => {
-                state.error = action.payload && action.payload.message ? action.payload.message : 'Some error occurred'
-            })
-            .addCase(getAccessToken.rejected, (state, action) => {
-                state.error = action.payload && action.payload.message ? action.payload.message : 'Some error occurred'
-            })
+            .addMatcher((action) => [
+                    getOneVacancy.rejected.type,
+                    getVacancies.rejected.type,
+                    getCatalogues.rejected.type,
+                    getVacanciesFromLS.rejected.type,
+                    getAccessToken.rejected.type,
+                ].includes(action.type),
+                (state, action) => {
+                    state.error = action.payload && action.payload.message ? action.payload.message : 'Some error occurred'
+                })
     }
 })
 

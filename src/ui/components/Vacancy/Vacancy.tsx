@@ -5,8 +5,9 @@ import {DotsLoader} from '../common/Loaders/DotsLoader';
 import { LocationIcon } from '../../../assets/icons/LocationIcon';
 import { VacancyAppType } from '../../../bll/vacancies/vacancies-reducer-types';
 import { addToFavorite, deleteFromFavorite } from '../../../bll/vacancies/vacancies-reducer-thunks';
-import { useAppDispatch } from '../../../bll/store';
 import React, {useCallback} from "react";
+import {getSalaryString} from "../../../utils/getSalaryString";
+import { useAppDispatch } from '../../../bll/store';
 
 export type VacancyPropsType = {
     vacancyData: VacancyAppType
@@ -16,20 +17,11 @@ export type VacancyPropsType = {
 
 export const Vacancy = React.memo((props: VacancyPropsType) => {
 
-    const {
-        vacancyData,
-        deleteFromFavoriteCallback,
-        isVacancyPage,
-    } = props
+    const {vacancyData, deleteFromFavoriteCallback, isVacancyPage} = props
 
     const dispatch = useAppDispatch()
 
-    const salary = vacancyData.payment_to && vacancyData.payment_from ?
-        `з/п ${vacancyData.payment_from}—${vacancyData.payment_to} ${vacancyData.currency}`
-        : vacancyData.payment_from ? `з/п от ${vacancyData.payment_from} ${vacancyData.currency}`
-            : vacancyData.payment_to ? `з/п до ${vacancyData.payment_to} ${vacancyData.currency}`
-                : vacancyData.agreement ? `з/п по договоренности`
-                    : `з/п не указана`
+    const salary = getSalaryString(vacancyData)
 
     const className = isVacancyPage ? `${styles.vacancyPage} ${styles.wrapper}` : styles.wrapper
     const titleOrder = isVacancyPage ? 2 : 3

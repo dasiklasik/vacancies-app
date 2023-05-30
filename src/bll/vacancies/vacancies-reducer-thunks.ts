@@ -1,10 +1,11 @@
-import {createAppAsyncThunk} from "../../utils/createAppAsyncThunk";
 import {API} from "../../api/API";
 import {setIsAppInitialized} from "../app/app-reducer";
 import {checkIsFavorite} from "../../utils/checkIsFavorite";
-import {getFavoriteFromLS} from "../../utils/getFavoriteFromLS";
 import {setVacanciesStatus} from "./vacancies-reducer";
 import {AxiosError} from "axios";
+import { createAppAsyncThunk } from "../store-types";
+import {getIdsArrayByPage} from "../../utils/getIdsArrayByPage";
+import { getFavoriteFromLS } from "../../utils/getFavoriteFromLS";
 
 export const getCatalogues = createAppAsyncThunk('vacancies/getCatalogues',
     async (param = undefined, thunkAPI) => {
@@ -27,13 +28,15 @@ export const getVacancies = createAppAsyncThunk('vacancies/getVacancies',
             localStorage.setItem('favorites', JSON.stringify([]))
         }
 
+        const vacancies = thunkAPI.getState().vacancies
+
         const requestData = {
-            page: thunkAPI.getState().vacancies.pageNumber - 1,
-            keyword: thunkAPI.getState().vacancies.keyword,
-            payment_from: thunkAPI.getState().vacancies.salary.min,
-            payment_to: thunkAPI.getState().vacancies.salary.max,
-            catalogues: thunkAPI.getState().vacancies.cataloguesItem,
-            no_agreement: thunkAPI.getState().vacancies.no_agreement
+            page: vacancies.pageNumber - 1,
+            keyword: vacancies.keyword,
+            payment_from: vacancies.salary.min,
+            payment_to: vacancies.salary.max,
+            catalogues: vacancies.cataloguesItem,
+            no_agreement: vacancies.no_agreement
         }
         const vacanciesAmount = thunkAPI.getState().vacancies.vacanciesAmount
         try {
@@ -57,20 +60,13 @@ export const getVacanciesFromLS = createAppAsyncThunk('vacancies/getVacanciesIdF
         const vacanciesAmount = thunkAPI.getState().vacancies.vacanciesAmount
 
         const pageNumber = thunkAPI.getState().vacancies.pageNumber
-        let startAt = pageNumber - 1
-        let endAt = startAt + 4
 
-        for (let i = 1; i < pageNumber; i++) {
-            startAt += 3
-            endAt += 4
-        }
-
-        const favorites: number[] = getFavoriteFromLS()
+        const favorites: number[] = getIdsArrayByPage(pageNumber)
 
         if (favorites.length === 0) return {vacancies: [], totalCount: 0}
 
         try {
-            const response= await API.getVacanciesByIds(favorites.slice(startAt, endAt), vacanciesAmount)
+            const response= await API.getVacanciesByIds(favorites, vacanciesAmount)
             return {vacancies: response.data.objects, totalCount: favorites.length}
         } catch (err) {
             const error: AxiosError = err as any;

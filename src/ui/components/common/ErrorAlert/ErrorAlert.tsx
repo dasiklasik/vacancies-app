@@ -1,19 +1,23 @@
 import {Alert, Dialog} from '@mantine/core';
 import styles from './ErrorAlert.module.css';
 import React from "react";
+import {setError} from "../../../../bll/app/app-reducer";
+import { useAppDispatch } from '../../../../bll/store';
 
 
 type ErrorAlertPropsType = {
     error: string
-    closeCallback: () => void
 }
 
 export const ErrorAlert = React.memo((props: ErrorAlertPropsType) => {
 
-    const {
-        error,
-        closeCallback,
-    } = props
+    const {error} = props
+
+    const dispatch = useAppDispatch()
+
+    const closeCallback = () => {
+        dispatch(setError(null))
+    }
 
     return (
         <Dialog

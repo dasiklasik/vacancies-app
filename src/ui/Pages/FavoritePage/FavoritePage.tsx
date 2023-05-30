@@ -1,6 +1,5 @@
-import {Center, Container, Flex} from '@mantine/core';
+import {Box, Center, Container, Flex} from '@mantine/core';
 import {useCallback, useEffect} from 'react';
-import {useAppDispatch, useAppSelector} from '../../../bll/store';
 import {setPageNumber} from '../../../bll/vacancies/vacancies-reducer';
 import {Vacancy} from '../../components/Vacancy/Vacancy';
 import {VacancyPagination} from '../../components/VacancyPagination/VacancyPagination';
@@ -8,10 +7,13 @@ import {EmptyFavoritePage} from './EmptyFavoritePage';
 import {CircleLoader} from '../../components/common/Loaders/CircleLoader';
 import {StatusType, VacancyAppType } from '../../../bll/vacancies/vacancies-reducer-types';
 import { getVacanciesFromLS } from '../../../bll/vacancies/vacancies-reducer-thunks';
+import {useNavigate} from "react-router-dom";
+import { useAppDispatch, useAppSelector } from '../../../bll/store';
 
 export const FavoritePage = () => {
 
     const dispatch = useAppDispatch()
+    const navigate = useNavigate()
     const status = useAppSelector<StatusType>(state => state.vacancies.vacanciesEntityStatus)
     const vacancies = useAppSelector<VacancyAppType[]>(state => state.vacancies.vacancies)
 
@@ -30,6 +32,9 @@ export const FavoritePage = () => {
     }, [dispatch])
 
 
+    const navigateToVacancyPage = useCallback((id: number) => {
+        navigate(`/vacancies/${id}`)
+    }, [navigate])
 
     return (
         <>
@@ -37,11 +42,15 @@ export const FavoritePage = () => {
                 : vacancies.length ? <Container size="1200px" p={0}>
                         <Flex direction="column" gap="16px" align="stretch">
                             {vacancies.map(item => {
-                                return <Vacancy
-                                    deleteFromFavoriteCallback={deleteCallback}
-                                    key={item.id}
-                                    vacancyData={item}
-                                />
+                                return  (
+                                    <Box key={item.id} onClick={() => navigateToVacancyPage(item.id)}>
+                                        <Vacancy
+                                            deleteFromFavoriteCallback={deleteCallback}
+                                            key={item.id}
+                                            vacancyData={item}
+                                        />
+                                    </Box>
+                                )
                             })}
                         </Flex>
                         <Center mt="40px">

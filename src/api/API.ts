@@ -1,14 +1,12 @@
 import axios from "axios";
 
-const headers = {
-    'x-secret-key': process.env.REACT_APP_X_SECRET_KEY,
-    'x-api-app-id': process.env.REACT_APP_CLIENT_SECRET,
-}
-
 const instance = axios.create({
     baseURL: 'https://startup-summer-2023-proxy.onrender.com/2.0/',
     withCredentials: true,
-    headers,
+    headers: {
+        'x-secret-key': process.env.REACT_APP_X_SECRET_KEY,
+        'x-api-app-id': process.env.REACT_APP_CLIENT_SECRET,
+    }
 })
 
 instance.interceptors.request.use((config) => {
@@ -28,7 +26,7 @@ export const API = {
             client_secret: process.env.REACT_APP_CLIENT_SECRET,
             hr: 0,
         }
-         return instance.get('oauth2/password/', {params, headers})
+         return instance.get('oauth2/password/', {params})
     },
     refreshToken: (refreshToken: string) => {
         const params = {
@@ -36,7 +34,7 @@ export const API = {
             client_id: process.env.REACT_APP_CLIENT_ID,
             client_secret: process.env.REACT_APP_CLIENT_SECRET,
         }
-        return instance.get('oauth2/refresh_token/', {params, headers})
+        return instance.get('oauth2/refresh_token/', {params})
     },
     fetchVacancies: (requestData: FetchVacanciesRequestDataType, vacanciesAmount: number) => {
         let requestString = `vacancies/?count=${vacanciesAmount}`

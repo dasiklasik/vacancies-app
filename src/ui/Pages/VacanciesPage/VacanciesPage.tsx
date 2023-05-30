@@ -1,7 +1,6 @@
 import {Box, Center, Container, Flex} from '@mantine/core';
 import {SearchField} from '../../components/common/SearchField/SearchField';
 import {FilterBlock} from '../../components/FilterBlock/FilterBlock';
-import {useAppDispatch, useAppSelector} from '../../../bll/store';
 import {useCallback, useEffect, useState} from 'react';
 import {VacancyPagination} from '../../components/VacancyPagination/VacancyPagination';
 import {Vacancy} from '../../components/Vacancy/Vacancy';
@@ -12,6 +11,7 @@ import {getVacancies} from '../../../bll/vacancies/vacancies-reducer-thunks';
 import {StatusType, VacancyAppType} from '../../../bll/vacancies/vacancies-reducer-types';
 import {setFilterValues} from '../../../bll/vacancies/vacancies-reducer';
 import {useNavigate} from "react-router-dom";
+import {useAppDispatch, useAppSelector} from '../../../bll/store';
 
 export const VacanciesPage = () => {
 

@@ -1,8 +1,7 @@
-import React, {useCallback, useEffect} from 'react';
+import React, {useEffect} from 'react';
 import styles from './App.module.css';
 import {HashRouter, Navigate, Route, Routes} from 'react-router-dom';
-import {useAppDispatch, useAppSelector} from '../../../bll/store';
-import {initApp, setError} from '../../../bll/app/app-reducer';
+import {initApp} from '../../../bll/app/app-reducer';
 import {CircleLoader} from '../common/Loaders/CircleLoader';
 import {ErrorAlert} from '../common/ErrorAlert/ErrorAlert';
 import {HeaderContainer} from '../HeaderContainer/HeaderContainer';
@@ -11,6 +10,7 @@ import {FavoritePage} from '../../Pages/FavoritePage/FavoritePage';
 import {VacanciesPage} from '../../Pages/VacanciesPage/VacanciesPage';
 import {VacancyPage} from '../../Pages/VacancyPage/VacancyPage';
 import {Page404} from '../../Pages/Page404/Page404';
+import { useAppDispatch, useAppSelector } from '../../../bll/store';
 
 
 function App() {
@@ -23,16 +23,12 @@ function App() {
         dispatch(initApp())
     }, [])
 
-    const closeErrorAlert = useCallback(() => {
-        dispatch(setError(null))
-    }, [dispatch])
-
     if (!isAppInitialized) return <CircleLoader/>
 
     return (
         <HashRouter>
             <div>
-                {error && <ErrorAlert closeCallback={closeErrorAlert} error={error}/>}
+                {error && <ErrorAlert error={error}/>}
                 <HeaderContainer/>
                 <Box pt={40} pb={44} className={styles.back} mih="100vh">
                     <Container p={0} className={styles.wrapper}>

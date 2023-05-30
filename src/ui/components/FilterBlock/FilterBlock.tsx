@@ -1,10 +1,10 @@
 import {Button, Center, Container, Flex, NumberInput, Paper, Select, Title} from '@mantine/core';
-import {useAppDispatch, useAppSelector} from '../../../bll/store';
 import {CatalogueType} from '../../../api/API';
 import React, {useEffect, KeyboardEvent, useCallback} from 'react';
 import {setFilterValues} from '../../../bll/vacancies/vacancies-reducer';
 import {IconX} from '../../../assets/icons/IconX';
 import styles from './FilterBlock.module.css'
+import { useAppDispatch, useAppSelector } from '../../../bll/store';
 
 type FilterBlockPropsType = {
     minValue: number | ''

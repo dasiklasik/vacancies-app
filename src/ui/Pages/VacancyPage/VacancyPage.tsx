@@ -16,19 +16,25 @@ export const VacancyPage = () => {
 
     const dispatch = useAppDispatch()
 
+    debugger
     const vacancyData = useAppSelector<VacancyAppType>(state => state.vacancies.vacancies
         .filter(item => item.id === id)[0])
 
     useEffect(() => {
+        debugger
         //проверяем, если вакансия в state и запрашиваем, если нет
         if (!vacancyData) {
             dispatch(getOneVacancy(id))
         }
-    }, [vacancyData, dispatch, id])
+    }, [vacancyData])
 
-    let desc = HTMLReactParser(vacancyData?.vacancyRichText)
+        let desc;
+        if (vacancyData) {
+            desc = HTMLReactParser(vacancyData?.vacancyRichText)
+        }
 
 
+debugger
     return (
         <>
             {vacancyData ? <Container size={'1116px'} p={0}>

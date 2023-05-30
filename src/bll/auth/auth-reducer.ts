@@ -1,7 +1,8 @@
 import {createSlice} from "@reduxjs/toolkit";
 import {API} from "../../api/API";
-import {createAppAsyncThunk} from "../../utils/createAppAsyncThunk";
 import {AxiosError} from "axios";
+import { createAppAsyncThunk } from "../store-types";
+import {setError} from "../app/app-reducer";
 
 export const getAccessToken = createAppAsyncThunk('auth/me',
     async (param = undefined, thunkAPI) => {
@@ -21,7 +22,7 @@ export const getAccessToken = createAppAsyncThunk('auth/me',
                 return response.data.access_token
             } catch (err) {
                 const error: AxiosError = err as any;
-                return thunkAPI.rejectWithValue(error)
+                thunkAPI.dispatch(setError(error.message))
             }
 
         } else if ( Number(ttl) < Date.now() / 1000) {
@@ -30,7 +31,7 @@ export const getAccessToken = createAppAsyncThunk('auth/me',
                 return response.data.access_token
             } catch (err) {
                 const error: AxiosError = err as any;
-                return thunkAPI.rejectWithValue(error)
+                thunkAPI.dispatch(setError(error.message))
             }
         }
         return token
