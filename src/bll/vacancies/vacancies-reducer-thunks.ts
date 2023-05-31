@@ -23,11 +23,6 @@ export const getVacancies = createAppAsyncThunk('vacancies/getVacancies',
     async (param = undefined, thunkAPI) => {
         thunkAPI.dispatch(setVacanciesStatus('loading'))
 
-        //проверяем наличие favorites в localstorage и создаем, если нет
-        if (!localStorage.getItem('favorites')) {
-            localStorage.setItem('favorites', JSON.stringify([]))
-        }
-
         const vacancies = thunkAPI.getState().vacancies
 
         const requestData = {
@@ -57,9 +52,9 @@ export const getVacanciesFromLS = createAppAsyncThunk('vacancies/getVacanciesIdF
     async (params = undefined, thunkAPI) => {
         thunkAPI.dispatch(setVacanciesStatus('loading'))
 
-        const vacanciesAmount = thunkAPI.getState().vacancies.vacanciesAmount
-
-        const pageNumber = thunkAPI.getState().vacancies.pageNumber
+        const vacancies = thunkAPI.getState().vacancies
+        const vacanciesAmount = vacancies.vacanciesAmount
+        const pageNumber = vacancies.pageNumber
 
         const favorites: number[] = getIdsArrayByPage(pageNumber)
 

@@ -12,6 +12,14 @@ import {StatusType, VacancyAppType} from '../../../bll/vacancies/vacancies-reduc
 import {setFilterValues} from '../../../bll/vacancies/vacancies-reducer';
 import {useNavigate} from "react-router-dom";
 import {useAppDispatch, useAppSelector} from '../../../bll/store';
+import {checkIsNumber} from "../../../utils/checkIsNumber";
+
+
+export type FilterBlockValuesType = {
+    min: number | ''
+    max: number | ''
+    catalogues: string
+}
 
 export const VacanciesPage = () => {
 
@@ -21,9 +29,11 @@ export const VacanciesPage = () => {
     const status = useAppSelector<StatusType>(state => state.vacancies.vacanciesEntityStatus)
 
     const [inputValue, setInputValue] = useState('')
-    const [minValue, setMinValue] = useState<number | ''>('')
-    const [maxValue, setMaxValue] = useState<number | ''>('')
-    const [selectValue, setSelectValue] = useState('')
+    const [values, setValues] = useState<FilterBlockValuesType>({
+        min: '',
+        max: '',
+        catalogues: '',
+    })
 
     useEffect(() => {
         dispatch(getVacancies())
@@ -35,17 +45,14 @@ export const VacanciesPage = () => {
     }, [dispatch])
 
     const filterVacancies = useCallback(() => {
-        const min = typeof minValue !== 'string' ? minValue : undefined
-        const max = typeof maxValue !== 'string' ? maxValue : undefined
-        dispatch(setFilterValues({min, max, catalogues: +selectValue, keyword: inputValue}))
+        dispatch(setFilterValues({min: checkIsNumber(values.min), max: checkIsNumber(values.max),
+            catalogues: +values.catalogues, keyword: inputValue}))
         dispatch(getVacancies())
-    }, [dispatch, inputValue, maxValue, minValue, selectValue])
+    }, [dispatch, inputValue, values])
 
     const resetValues = useCallback(() => {
         dispatch(setFilterValues({min: undefined, max: undefined, catalogues: 0, keyword: null}))
-        setSelectValue('')
-        setMinValue('')
-        setMaxValue('')
+        setValues({min: '', max: '', catalogues: ''})
         setInputValue('')
         dispatch(getVacancies())
     }, [dispatch])
@@ -59,12 +66,8 @@ export const VacanciesPage = () => {
             <Flex gap="28px" className={styles.flexWrapper}>
                 <Container className={styles.filter} p={0} w={315}>
                     <FilterBlock
-                        maxValue={maxValue}
-                        minValue={minValue}
-                        changeMinValue={setMinValue}
-                        changeMaxValue={setMaxValue}
-                        changeSelectValue={setSelectValue}
-                        selectValue={selectValue}
+                        values={values}
+                        setFilterBlockValues={setValues}
                         submitFilter={filterVacancies}
                         resetValues={resetValues}
                     />

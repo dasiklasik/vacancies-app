@@ -1,6 +1,7 @@
-//функция для проверки, находится ли вакансия в favorite
+import {getFavoriteFromLS} from "./getFavoriteFromLS";
+
 export const checkIsFavorite = (id: number) => {
-    const favorites = localStorage.getItem('favorites')
-    let favoritesArray: number[] = favorites ? JSON.parse(favorites) : []
+    //функция для проверки, находится ли вакансия в favorite
+    let favoritesArray: number[] = getFavoriteFromLS()
     return  favoritesArray.includes(id)
 }

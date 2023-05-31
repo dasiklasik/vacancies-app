@@ -11,11 +11,7 @@ type SearchFieldPropsType = {
 
 export const SearchField = React.memo((props: SearchFieldPropsType) => {
 
-    const {
-        callback,
-        value,
-        onChange,
-    } = props
+    const {callback, value, onChange} = props
 
     const changeInputValue = useCallback((e: ChangeEvent<HTMLInputElement>) => {
         onChange(e.target.value)

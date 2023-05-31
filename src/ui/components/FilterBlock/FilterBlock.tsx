@@ -5,30 +5,18 @@ import {setFilterValues} from '../../../bll/vacancies/vacancies-reducer';
 import {IconX} from '../../../assets/icons/IconX';
 import styles from './FilterBlock.module.css'
 import { useAppDispatch, useAppSelector } from '../../../bll/store';
+import {FilterBlockValuesType} from "../../Pages/VacanciesPage/VacanciesPage";
 
 type FilterBlockPropsType = {
-    minValue: number | ''
-    maxValue: number | ''
-    selectValue: string
-    changeMinValue: (value: number | '') => void
-    changeMaxValue: (value: number | '') => void
-    changeSelectValue: (value: string) => void
+    values: FilterBlockValuesType
+    setFilterBlockValues: (values: FilterBlockValuesType) => void
     submitFilter: () => void
     resetValues: () => void
 }
 
 export const FilterBlock = React.memo((props: FilterBlockPropsType) => {
 
-    const {
-        maxValue,
-        minValue,
-        selectValue,
-        changeMaxValue,
-        changeMinValue,
-        changeSelectValue,
-        submitFilter,
-        resetValues,
-    } = props
+    const {submitFilter, resetValues, setFilterBlockValues, values} = props
 
     const dispatch = useAppDispatch()
     const catalogues = useAppSelector<CatalogueType[]>(state => state.vacancies.catalogues)
@@ -48,6 +36,19 @@ export const FilterBlock = React.memo((props: FilterBlockPropsType) => {
         }
     }, [submitFilter])
 
+    const changeSelectValue = (value: string) => {
+        setFilterBlockValues({...values, catalogues: value})
+    }
+
+    const changeMaxValue = (value: number | '') => {
+        setFilterBlockValues({...values, max: value})
+    }
+
+    const changeMinValue = (value: number | '') => {
+        setFilterBlockValues({...values, min: value})
+    }
+
+
     return (
         <Paper withBorder radius={12} p="20px">
             <Flex justify="space-between" mb={32}>
@@ -60,7 +61,7 @@ export const FilterBlock = React.memo((props: FilterBlockPropsType) => {
             <Container p={0}>
                 <Title mb={8} order={5}>Отрасль</Title>
                 <Select
-                    value={selectValue}
+                    value={values.catalogues}
                     data-elem="industry-select"
                     onChange={changeSelectValue}
                     placeholder="Выберете отрасль"
@@ -72,7 +73,7 @@ export const FilterBlock = React.memo((props: FilterBlockPropsType) => {
                 <NumberInput
                     data-elem="salary-from-input"
                     my={8}
-                    value={minValue}
+                    value={values.min}
                     onChange={changeMinValue}
                     min={0}
                     placeholder="От"
@@ -81,7 +82,7 @@ export const FilterBlock = React.memo((props: FilterBlockPropsType) => {
                 />
                 <NumberInput
                     data-elem="salary-to-input"
-                    value={maxValue}
+                    value={values.max}
                     onChange={changeMaxValue}
                     min={0}
                     placeholder="До"

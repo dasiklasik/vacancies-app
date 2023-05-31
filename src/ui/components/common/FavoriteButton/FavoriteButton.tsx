@@ -10,20 +10,11 @@ type FavoriteButtonPropsType = {
 
 export const FavoriteButton = React.memo((props: FavoriteButtonPropsType) => {
 
-    const {
-        isFavorite,
-        addCallback,
-        deleteCallback,
-        dataElem,
-    } = props
+    const {isFavorite, addCallback, deleteCallback, dataElem} = props
 
     const changeFavorite = (e: MouseEvent<HTMLSpanElement>) => {
         e.stopPropagation()
-        if (isFavorite) {
-            deleteCallback()
-        } else {
-            addCallback()
-        }
+        isFavorite ? deleteCallback() : addCallback()
     }
 
     return (
